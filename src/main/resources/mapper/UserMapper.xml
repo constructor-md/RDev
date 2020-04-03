@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.protectdev.manage.mapper.UserMapper">
+        <resultMap id="User" type="com.protectdev.manage.pojo.User">
+            <id column="user_id" property="userId"></id>
+            <result column="job_id" property="jobId"></result>
+            <result column="name" property="name"></result>
+            <result column="username" property="username"></result>
+            <result column="password" property="password"></result>
+            <result column="permission" property="permission"></result>
+            <result column="phoneNum" property="phoneNum"></result>
+            <result column="login_time" property="loginTime"></result>
+            <result column="ps_modify_time" property="psModifyTime"></result>
+        </resultMap>
+
+
+        <select id="idNameCheck" parameterType="com.protectdev.manage.pojo.User" resultType="com.protectdev.manage.pojo.User" resultMap="User">
+            select *
+            from `user`
+            where job_id = #{jobId} and `name` = #{name}
+        </select>
+
+        <select id="usernameCheck" parameterType="com.protectdev.manage.pojo.User" resultType="com.protectdev.manage.pojo.User" resultMap="User">
+            select *
+            from `user`
+            where username = #{username}
+        </select>
+
+        <update id="register" parameterType="com.protectdev.manage.pojo.User">
+            update `user`
+            set username = #{username} , password = #{password} , ps_modify_time = #{psModifyTime}
+            where job_id = #{jobId} and `name` = #{name}
+        </update>
+
+        <select id="login" parameterType="com.protectdev.manage.pojo.User" resultType="com.protectdev.manage.pojo.User" resultMap="User">
+            select *
+            from `user`
+            where username = #{username} and password = #{password}
+        </select>
+
+        <update id="updateLoginTime" parameterType="com.protectdev.manage.pojo.User">
+            update `user`
+            set login_time = #{loginTime}
+            where job_id = #{jobId} and `name` = #{name}
+        </update>
+
+
+</mapper>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>继电保护装置管理系统--登陆</title>
+
+    <script type="text/javascript" src="JS/index.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+    
+
+</head>
+
+<body>
+    <div id="app">
+        <section class="section">
+            <div id="container">
+                <div id="login_div">
+                    <div id="login_logo">
+                        继电保护装置管理系统
+                    </div>
+                    <div id="login_header">
+                        账号登陆
+                    </div>
+                    <div id="login_body">
+
+                        <form action="/check" method="POST" id="loginCheck" >
+                            <div class="login_form">
+                                <label for="username">账号</label>
+                                <input type="text" id="username" name="username" tabindex="1" required autofocus>
+                                <div class="invalid-feedback">
+                                    请输入账号
+                                </div>
+                            </div>
+                            <button type="submit">账号检测</button>
+                        </form>
+
+                        <div class="login_form">
+                            <label for="password">
+                                请输入密码
+                                <div class="forget-password">
+                                    <a href="#">
+                                        忘记密码
+                                    </a>
+                                </div>
+                            </label>
+                            <form action="">
+                            <input type="password" id="password" name="password" tabindex="2" required>
+                            </form>
+                        </div>
+
+                        <div>
+                            <form action="/phoneCode" id="phoneCode" method="GET" >
+                                <button type="submit">发送验证码</button>
+                            </form>
+                            <div class="invalid-feedback">
+                                请输入验证码
+                            </div>
+                        </div>
+
+                        <div class="login_form">
+                            <input type="text" id="vCode" name="vCode" placeholder="请输入验证码">
+                        </div>
+
+                        <div class="login_form">
+                            <input type="checkbox" id="remember" name="remember">
+                            <label for="remember">记住账号</label>
+                        </div>
+
+                        <div class="login_form">
+                            <button id="login" >登陆</button>
+                        </div>
+
+                    </div>
+                    <div id="createAccount">
+                        没有账号？
+                        <a href="page/register.html">注册账号</a>
+                    </div>
+                    <div id="footer">
+                        Copyright © hz 2020
+                    </div>
+
+                    <!--隐藏的框架，在form表单提交时指向它，防止表单提交时页面跳转 -->
+                    <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
+
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

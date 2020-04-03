@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>继电保护装置管理系统账号注册</title>
+</head>
+<body>
+    <div id="app">
+        <section class="section">
+            <div id="container">
+                <div id="register">
+                    <div id="register-logo">
+                        继电保护装置管理系统
+                    </div>
+                    <div id="register-header">
+                        账号注册
+                    </div>
+                    <div id="register-body">
+                        <form action="/register/check" method="POST">
+
+                            <div class="register-raw">
+                                <label for="jobId">工号</label>
+                                <input type="text" id="jobId" name="jobId" tabindex="1" required autofocus>
+                            </div>
+
+                            <div class="register-raw">
+                                <label for="name">姓名</label>
+                                <input type="text" id="name" name="name" tabindex="1" required autofocus>
+                            </div>
+
+                            <div class="invalid-feedback">
+                                无效工号
+                            </div>
+                            <div class="invalid-feedback">
+                                该工号已被注册
+                            </div>
+
+                            <div class="register-raw">
+                                <label for="username">用户名</label>
+                                <input type="text" id="username" name="username" tabindex="1" required autofocus>
+                            </div>
+                            
+                            <div class="register-raw">
+                                <button type="submit" class="btn">注册检查</button>
+                            </div>
+
+                        </form>
+
+                            <div class="register-raw">
+                                <label for="password">密码</label>
+                                <input type="password" id="password" name="password" tabindex="2" required>
+                            </div>
+
+                            <div class="register-raw">
+                                <label for="confirm">确认密码</label>
+                                <input type="password" id="confirm" name="password-confirm" tabindex="3" required>
+                            </div>
+
+                        <form action="/phoneCode">
+                            <div class="register-raw">
+                                <input type="text" id="vCode" name="vCode" placeholder="请输入验证码">
+                            </div>
+
+                            <div class="register-raw">
+                                <button type="submit">发送验证码</button>
+                            </div>
+                        </form>
+
+                            <div class="register-raw">
+                                <input type="checkbox" id="agree" name="agree">
+                                <label for="agree">
+                                    我同意某某协议
+                                </label>
+                            </div>
+
+                            <div class="register-raw">
+                                <button type="submit" class="btn">注册</button>
+                            </div>
+
+                    </div>
+                    <div class="footer">
+                        Copyright © hz 2020
+                    </div>
+
+                    <a href="../index.html">返回登陆页面</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
