@@ -1,34 +1,39 @@
 
 
-window.onload = function(){
+var loginArea = new Vue({
 
-    var btn = document.getElementById("login");
+    el: "#loginArea",
+    data: {
+        username: '',
+        password: '',
+        seen:true,
+        vCode:''
+    },
+    methods: {
+        loginCheck: function () {
 
-    btn.onclick = function() {
+            axios.post("http://localhost:8081/login/check", "username="+this.username)
+                .then(function (res) {
+                    alert(res.data);
+                    console.log(res);
+                }, function (err) {
+                    alert(err);
+                    console.log(res);
+                })
 
+        },
+        loginSubmit: function () {
+            axios.post("http://localhost:8081/login", "username="+this.username+"&password="+this.password)
+                .then(function (res) {
+                    alert(res.data);
+                    console.log(res);
+                }, function (err) {
+                    alert(err);
+                    console.log(res);
+                })
 
+        }
+        
+    }
 
-
-    var dlform = document.createElement('form');
-    
-
-    dlform.method = 'post';
-    dlform.action = '/login';
-
-
-    var usernameinput = document.getElementById("username");
-    var passwordinput = document.getElementById("password");
-    var vCode = document.getElementById("phoneCode");
-
-
-    document.body.appendChild(dlform);
-    dlform.appendChild(usernameinput);
-    dlform.appendChild(passwordinput);
-    dlform.appendChild(vCode);
-
-    dlform.submit();
-
-    //document.body.removeChild(dlform);
-
-}
-}
+})

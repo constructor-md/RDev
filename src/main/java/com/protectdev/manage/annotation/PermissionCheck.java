@@ -17,5 +17,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface PermissionCheck {
 
-     String[] value();
+     String value();
 }

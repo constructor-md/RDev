@@ -13,7 +13,7 @@ public class TestController {
 
     @RequestMapping("test")
     @ResponseBody
-    @PermissionCheck(value = {"管理员","审批员"})
+    @PermissionCheck(value = "deviceAdd")
     public String test(HttpServletRequest request){
 
         String user =  (String) request.getSession().getAttribute("username");

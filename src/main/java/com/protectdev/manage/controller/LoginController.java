@@ -7,6 +7,7 @@ import com.protectdev.manage.service.intf.LoginService;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,7 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+/**
+ *
+ * 用于处理来自登陆页面的请求
+ *
+ */
 @Controller
 public class LoginController {
 
@@ -82,17 +87,18 @@ public class LoginController {
      * @param request
      * @return
      *
-     *  前端”账号检测“按钮的接收者
+     *  前端”账号检测“的接收者
      * 登陆前执行用户名检查，并根据用户名找到手机号，显示在前端
      *
      */
+    //企图解决跨域
     @RequestMapping("login/check")
     @ResponseBody
     public String loginCheck(HttpServletRequest request){
 
         User user = new User();
         user.setUsername(request.getParameter("username"));
-
+        System.out.println(request.getParameter("username"));
         User usernameCheck = userMapper.usernameCheck(user);
 
         //todo 对象产生过多容易导致内存溢出，应该及时释放对象内存
@@ -131,7 +137,6 @@ public class LoginController {
         //      前端有了IP之后没有验证码发送框，后端有了IP登陆的时候不判断验证码！
         //      这里有个问题，验证码发送的控制器如果仍然可以通过URL直接访问到的话，会有系统漏洞
         if(ip.equals("0:0:0:0:0:0:0:1")){
-
             System.out.println("IP正确");
             session.setAttribute("IP",ip);
         }
@@ -145,7 +150,9 @@ public class LoginController {
     }
 
     //登出，使session失效，并且要消除redis中的相关内容
+    //@ResponseBody使得返回的是Json数据，否则返回的是视图，会报重定向循环异常
     @RequestMapping("logout")
+    @ResponseBody
     public void logout(HttpServletRequest request){
 
         HttpSession session = request.getSession();
@@ -153,7 +160,7 @@ public class LoginController {
         session.invalidate();
 
         redisTemplate.delete(sessionId);
-
+        System.out.println("用户登出");
 
     }
 

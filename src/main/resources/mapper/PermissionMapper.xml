@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.protectdev.manage.mapper.PermissionMapper">
+    <resultMap id="Permission" type="com.protectdev.manage.pojo.Permission">
+        <id column="permission" property="permission"></id>
+
+        <result column="user_get" property="userGet"></result>
+        <result column="user_post" property="userPost"></result>
+        <result column="user_add" property="userAdd"></result>
+        <result column="user_delete" property="userDelete"></result>
+
+        <result column="device_get" property="deviceGet"></result>
+        <result column="device_post" property="devicePost"></result>
+        <result column="device_add" property="deviceAdd"></result>
+        <result column="device_delete" property="deviceDelete"></result>
+
+        <result column="tem_get" property="temGet"></result>
+        <result column="tem_post" property="temPost"></result>
+        <result column="tem_add" property="temAdd"></result>
+        <result column="tem_delete" property="temDelete"></result>
+
+        <result column="soft_get" property="softGet"></result>
+        <result column="soft_post" property="softPost"></result>
+        <result column="soft_add" property="softAdd"></result>
+        <result column="soft_delete" property="softDelete"></result>
+
+        <result column="fault_get" property="faultGet"></result>
+        <result column="fault_post" property="faultPost"></result>
+        <result column="fault_add" property="faultAdd"></result>
+        <result column="fault_delete" property="faultDelete"></result>
+
+        <result column="permission_get" property="permissionGet"></result>
+        <result column="permission_post" property="permissionPost"></result>
+        <result column="permission_add" property="permissionAdd"></result>
+        <result column="permission_delete" property="permissionDelete"></result>
+
+
+
+    </resultMap>
+
+    <select id="getPermission" parameterType="String" resultMap="Permission">
+        select *
+        from permission
+        where permission = #{permission}
+    </select>
+
+
+
+</mapper>
