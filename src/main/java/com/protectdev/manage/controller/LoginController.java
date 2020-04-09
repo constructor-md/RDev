@@ -96,10 +96,12 @@ public class LoginController {
     @ResponseBody
     public String loginCheck(HttpServletRequest request){
 
-        User user = new User();
-        user.setUsername(request.getParameter("username"));
+
+        String username = request.getParameter("username");
+
         System.out.println(request.getParameter("username"));
-        User usernameCheck = userMapper.usernameCheck(user);
+
+        User usernameCheck = userMapper.usernameCheck(username);
 
         //todo 对象产生过多容易导致内存溢出，应该及时释放对象内存
         //检查用户名是否存在

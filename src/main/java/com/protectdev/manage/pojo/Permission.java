@@ -36,6 +36,49 @@ public class Permission {
     private Boolean permissionAdd;
     private Boolean permissionDelete;
 
+    private Boolean examine;
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Permission{");
+        sb.append("permission='").append(permission).append('\'');
+        sb.append(", userGet=").append(userGet);
+        sb.append(", userPost=").append(userPost);
+        sb.append(", userAdd=").append(userAdd);
+        sb.append(", userDelete=").append(userDelete);
+        sb.append(", deviceGet=").append(deviceGet);
+        sb.append(", devicePost=").append(devicePost);
+        sb.append(", deviceAdd=").append(deviceAdd);
+        sb.append(", deviceDelete=").append(deviceDelete);
+        sb.append(", temGet=").append(temGet);
+        sb.append(", temPost=").append(temPost);
+        sb.append(", temAdd=").append(temAdd);
+        sb.append(", temDelete=").append(temDelete);
+        sb.append(", softGet=").append(softGet);
+        sb.append(", softPost=").append(softPost);
+        sb.append(", softAdd=").append(softAdd);
+        sb.append(", softDelete=").append(softDelete);
+        sb.append(", faultGet=").append(faultGet);
+        sb.append(", faultPost=").append(faultPost);
+        sb.append(", faultAdd=").append(faultAdd);
+        sb.append(", faultDelete=").append(faultDelete);
+        sb.append(", permissionGet=").append(permissionGet);
+        sb.append(", permissionPost=").append(permissionPost);
+        sb.append(", permissionAdd=").append(permissionAdd);
+        sb.append(", permissionDelete=").append(permissionDelete);
+        sb.append(", examine=").append(examine);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public Boolean getExamine() {
+        return examine;
+    }
+
     public Boolean getUserGet() {
         return userGet;
     }

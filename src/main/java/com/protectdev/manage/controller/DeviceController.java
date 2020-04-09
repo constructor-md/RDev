@@ -1,7 +1,12 @@
 package com.protectdev.manage.controller;
 
 
+import com.protectdev.manage.annotation.PermissionCheck;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -12,4 +17,15 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class DeviceController {
+
+    @RequestMapping("deviceGet")
+    @ResponseBody
+    @PermissionCheck(value = "deviceGet")
+    public String deviceGet(HttpServletRequest request){
+
+
+        return "device";
+    }
+
+
 }

@@ -43,15 +43,14 @@ public class RegisterController {
     @ResponseBody
     public String registerCheck(HttpServletRequest request){
 
-        User user = new User();
 
         HttpSession session = request.getSession();
 
         //工号可能重复，工号和姓名同时检测
-        user.setJobId(request.getParameter("jobId"));
-        user.setName(request.getParameter("name"));
+        String jobId = request.getParameter("jobId");
+        String name = request.getParameter("name");
 
-        User idNameCheck = userMapper.idNameCheck(user);
+        User idNameCheck = userMapper.idNameCheck(jobId,name);
 
         //检查 工号和姓名组合信息 是否存在
         if (idNameCheck == null){
@@ -64,8 +63,8 @@ public class RegisterController {
         }
 
         //检查用户名是否重复
-        idNameCheck.setUsername(request.getParameter("username"));
-        User usernameCheck = userMapper.usernameCheck(idNameCheck);
+        String username = request.getParameter("username");
+        User usernameCheck = userMapper.usernameCheck(username);
         //用户名已存在
         if (usernameCheck != null){
             return "用户名已存在";
@@ -76,9 +75,7 @@ public class RegisterController {
 
         session.setAttribute("phoneNum",phoneNum);
 
-
         return "允许注册";
-
 
     }
 

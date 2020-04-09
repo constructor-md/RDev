@@ -16,13 +16,13 @@
         </resultMap>
 
 
-        <select id="idNameCheck" parameterType="com.protectdev.manage.pojo.User" resultType="com.protectdev.manage.pojo.User" resultMap="User">
+        <select id="idNameCheck" parameterType="String" resultType="com.protectdev.manage.pojo.User" resultMap="User">
             select *
             from `user`
             where job_id = #{jobId} and `name` = #{name}
         </select>
 
-        <select id="usernameCheck" parameterType="com.protectdev.manage.pojo.User" resultType="com.protectdev.manage.pojo.User" resultMap="User">
+        <select id="usernameCheck" parameterType="String" resultType="com.protectdev.manage.pojo.User" resultMap="User">
             select *
             from `user`
             where username = #{username}

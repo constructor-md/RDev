@@ -1,21 +1,20 @@
 package com.protectdev.manage.service.impl;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.protectdev.manage.mapper.PermissionMapper;
 import com.protectdev.manage.mapper.UserMapper;
+import com.protectdev.manage.pojo.Permission;
 import com.protectdev.manage.pojo.User;
 import com.protectdev.manage.service.intf.LoginService;
-import com.protectdev.manage.util.MessageUtil;
-import com.protectdev.manage.util.RandomStringUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Date;
 
 @Service
@@ -27,6 +26,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Resource
     private RedisTemplate<String,String> redisTemplate;
+
+    @Resource
+    private PermissionMapper permissionMapper;
 
 
     /**
@@ -110,15 +112,56 @@ public class LoginServiceImpl implements LoginService {
         //session中写入用户名和权限信息，用户名用于判断用户是否登录，权限信息记录该用户权限
 
         session.setAttribute("username", login.getUsername());
-        session.setAttribute("permission",login.getPermission());
         session.setAttribute("phoneNum",login.getPhoneNum());
+
+        Permission permission = permissionMapper.getPermission(login.getPermission());
+
+        session.setAttribute("userGet",permission.getUserGet());
+        session.setAttribute("userPost",permission.getUserPost());
+        session.setAttribute("userAdd",permission.getUserAdd());
+        session.setAttribute("userDelete",permission.getUserDelete());
+
+        session.setAttribute("deviceGet",permission.getDeviceGet());
+        session.setAttribute("devicePost",permission.getDeviceGet());
+        session.setAttribute("deviceAdd",permission.getDeviceAdd());
+        session.setAttribute("deviceDelete",permission.getDeviceDelete());
+
+        session.setAttribute("temGet",permission.getTemGet());
+        session.setAttribute("temPost",permission.getTemPost());
+        session.setAttribute("temAdd",permission.getTemAdd());
+        session.setAttribute("temDelete",permission.getTemDelete());
+
+        session.setAttribute("softGet",permission.getSoftGet());
+        session.setAttribute("softPost",permission.getSoftPost());
+        session.setAttribute("softAdd",permission.getSoftAdd());
+        session.setAttribute("softDelete",permission.getSoftDelete());
+
+        session.setAttribute("faultGet",permission.getFaultGet());
+        session.setAttribute("faultPost",permission.getFaultPost());
+        session.setAttribute("faultAdd",permission.getFaultAdd());
+        session.setAttribute("faultDelete",permission.getFaultDelete());
+
+        session.setAttribute("permissionGet",permission.getPermissionGet());
+        session.setAttribute("permissionPost",permission.getPermissionPost());
+        session.setAttribute("permissionAdd",permission.getPermissionAdd());
+        session.setAttribute("permissionDelete",permission.getPermissionDelete());
+
+        session.setAttribute("examine",permission.getExamine());//审批员权限，增删改操作前检查，根据结果加入实表或者待审批表
 
 
         //设置session过期时间为10分钟
         // todo 最好是用户操作的时候重置时间到期之后使session过期
         //session.setMaxInactiveInterval(100);
 
-        return "登陆成功"+'\n'+login.toString();
+        //将登陆后获得的的用户信息转为JSON字符串
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(login);
+        String loginJson = jsonObject.toJSONString();
+
+        //释放内存，todo 可能有线程安全问题！
+        login = null;
+
+        // todo 注意，查询结果中密码的盐值也被传回去了，最好不要
+        return "登陆成功"+'\n'+loginJson;
     }
 
 }
