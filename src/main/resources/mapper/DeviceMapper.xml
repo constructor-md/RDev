@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.protectdev.manage.mapper.DeviceMapper">
+    <resultMap id="Device" type="com.protectdev.manage.pojo.Device">
+        <id column="id" property="id"></id>
+        <result column="dev_id" property="devId"></result>
+        <result column="dev_name" property="devName"></result>
+        <result column="RDev_type" property="RDevType"></result>
+        <result column="pro_name" property="proName"></result>
+        <result column="switch_id" property="switchId"></result>
+        <result column="location" property="location"></result>
+        <result column="dev_fav" property="devFac"></result>
+        <result column="tem_id" property="temId"></result>
+        <result column="soft_id" property="softId"></result>
+        <result column="fault_id" property="faultId"></result>
+        <result column="deadline" property="deadline"></result>
+    </resultMap>
+
+    <select id="getDeviceByDevId" parameterType="String" resultMap="Device">
+        select *
+        from device
+        where dev_id = #{devId}
+    </select>
+
+
+</mapper>

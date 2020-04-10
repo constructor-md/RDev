@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.protectdev.manage.mapper.PermissionMapper">
+    <resultMap id="Permission" type="com.protectdev.manage.pojo.Permission">
+        <id column="permission" property="permission"></id>
+
+        <result column="user_get" property="userGet"></result>
+        <result column="user_post" property="userPost"></result>
+        <result column="user_add" property="userAdd"></result>
+        <result column="user_delete" property="userDelete"></result>
+
+        <result column="device_get" property="deviceGet"></result>
+        <result column="device_post" property="devicePost"></result>
+        <result column="device_add" property="deviceAdd"></result>
+        <result column="device_delete" property="deviceDelete"></result>
+
+        <result column="tem_get" property="temGet"></result>
+        <result column="tem_post" property="temPost"></result>
+        <result column="tem_add" property="temAdd"></result>
+        <result column="tem_delete" property="temDelete"></result>
+
+        <result column="soft_get" property="softGet"></result>
+        <result column="soft_post" property="softPost"></result>
+        <result column="soft_add" property="softAdd"></result>
+        <result column="soft_delete" property="softDelete"></result>
+
+        <result column="fault_get" property="faultGet"></result>
+        <result column="fault_post" property="faultPost"></result>
+        <result column="fault_add" property="faultAdd"></result>
+        <result column="fault_delete" property="faultDelete"></result>
+
+        <result column="permission_get" property="permissionGet"></result>
+        <result column="permission_post" property="permissionPost"></result>
+        <result column="permission_add" property="permissionAdd"></result>
+        <result column="permission_delete" property="permissionDelete"></result>
+        <result column="examine" property="examine"></result>
+
+    </resultMap>
+
+    <select id="getPermission" parameterType="String" resultType="com.protectdev.manage.pojo.Permission" resultMap="Permission">
+        select *
+        from permission
+        where permission = #{permission}
+    </select>
+
+    <select id="getPermissionList" resultMap="Permission">
+        select *
+        from permission
+    </select>
+
+    <update id="updatePermission" parameterType="com.protectdev.manage.pojo.Permission">
+        update permission
+        set permission = #{permission}
+        <if test="userGet != null">,user_get = #{userGet}</if>
+        <if test="userPost != null">,user_post = #{userPost}</if>
+        <if test="userAdd != null">,user_add = #{userAdd}</if>
+        <if test="userDelete != null">,user_delete = #{userDelete}</if>
+
+        <if test="deviceGet != null">,device_get = #{deviceGet}</if>
+        <if test="devicePost != null">,device_post = #{devicePost}</if>
+        <if test="deviceAdd != null">,device_add = #{deviceAdd}</if>
+        <if test="deviceDelete != null">,device_delete = #{deviceDelete}</if>
+
+        <if test="temGet != null">,tem_get = #{temGet}</if>
+        <if test="temPost != null">,tem_Post = #{temPost}</if>
+        <if test="temAdd != null">,tem_add = #{temAdd}</if>
+        <if test="temDelete != null">,tem_delete = #{temDelete}</if>
+
+        <if test="softGet != null">,soft_get = #{softGet}</if>
+        <if test="softPost != null">,soft_Post = #{softPost}</if>
+        <if test="softAdd != null">,soft_add = #{softAdd}</if>
+        <if test="softDelete != null">,soft_delete = #{softDelete}</if>
+
+        <if test="permissionGet != null">,permission_get = #{permissionGet}</if>
+        <if test="permissionPost != null">,permission_Post = #{permissionPost}</if>
+        <if test="permissionAdd != null">,permission_add = #{permissionAdd}</if>
+        <if test="permissionDelete != null">,permission_delete = #{permissionDelete}</if>
+
+        <if test="faultGet != null">,fault_get = #{faultGet}</if>
+        <if test="faultPost != null">,fault_Post = #{faultPost}</if>
+        <if test="faultAdd != null">,fault_add = #{faultAdd}</if>
+        <if test="faultDelete != null">,fault_delete = #{faultDelete}</if>
+
+        <if test="examine != null">,examine = #{examine}</if>
+
+        where permission = #{permission}
+    </update>
+
+    <insert id="addPermission" parameterType="com.protectdev.manage.pojo.Permission">
+        insert into permission( permission,
+                                user_get,user_post,user_add,user_delete,
+                                device_get,device_post,device_add,device_delete,
+                                tem_get,tem_post,tem_add,tem_delete,
+                                soft_get,soft_post,soft_add,soft_delete,
+                                permission_get,permission_post,permission_add,permission_delete,
+                                fault_get,fault_post,fault_add,fault_delete,
+                                examine)
+        values (#{permission},
+                ifnull(#{userGet},false),ifnull(#{userPost},false),ifnull(#{userAdd},false),ifnull(#{userDelete},false),
+                ifnull(#{deviceGet},false),ifnull(#{devicePost},false),ifnull(#{deviceAdd},false),ifnull(#{deviceDelete},false),
+                ifnull(#{temGet},false),ifnull(#{temPost},false),ifnull(#{temAdd},false),ifnull(#{temDelete},false),
+                ifnull(#{softGet},false), ifnull(#{softPost},false),ifnull(#{softAdd},false), ifnull(#{softDelete},false),
+                ifnull(#{permissionGet},false),ifnull(#{permissionPost},false),ifnull(#{permissionAdd},false),ifnull(#{permissionDelete},false),
+                ifnull(#{faultGet},false),ifnull(#{faultPost},false),ifnull(#{faultAdd},false),ifnull(#{faultDelete},false),
+                ifnull(#{examine},false))
+    </insert>
+
+    <delete id="deletePermission" parameterType="String">
+        delete from permission
+        where permission = #{perission}
+    </delete>
+
+
+
+
+</mapper>

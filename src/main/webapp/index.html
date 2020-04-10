@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>继电保护设备管理系统</title>
+  <link href="CSS/index.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="login">
+  <div class="login_m">
+
+    <div class="login_title">继电保护设备管理系统</div>
+
+    <div class="login_boder" id="loginArea">
+
+      <div class="login_padding" id="login_model">
+
+        <h2>用户名</h2>
+        <label>
+          <input type="text" class="txt_input txt_input2" placeholder="请输入用户名" v-model="username" autofocus>
+        </label>
+        <h2>密码</h2>
+
+        <label>
+          <input type="password" class="txt_input" placeholder="请输入密码" v-on:click = "loginCheck" v-model="password">
+        </label>
+
+        <p class="forgot"><a id="iforget" href="#">忘记密码？</a></p>
+
+        <div class="rem_sub">
+          <label>
+            <input type="submit" class="sub_button" value="登陆" v-on:click = "loginSubmit">
+          </label>
+          <a href="#" class="register">注册</a>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!--login_padding  Sign up end-->
+  </div>
+  <!--login_boder end-->
+  </div>
+  <!--login_m end-->
+  <br> <br>
+  <p align="center">@Copyright 华中科技大学电气工程及其自动化1609黄泽</p>
+
+<script src="/JS/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> </script>
+<script src="/JS/index.js"></script>
+
+</body>
+
+</html>
