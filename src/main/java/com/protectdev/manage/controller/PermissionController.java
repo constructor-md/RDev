@@ -88,8 +88,8 @@ public class PermissionController {
     @PermissionCheck("permissionAdd")
     public String permissionAdd(@RequestBody Permission permission){
 
-        //前端负责将权限默认为false，对象新增是提供默认值
-        if (permission.getPermission() != null || permission.getPermission().equals("")){
+        //前端负责将权限默认为false，对象新增是提供默认值 todo 考虑使用URL直接传回参数的情况，前端不能直接把值设置为false
+        if (permission.getPermission() == null || permission.getPermission().equals("")){
             return "角色名不可为空";
         }
         if (permissionMapper.getPermission(permission.getPermission()) != null){
@@ -98,6 +98,7 @@ public class PermissionController {
 
         int addPermission = permissionMapper.addPermission(permission);
 
+        // todo 新增后返回新的列表
         if (addPermission != 0){
             return "新增角色权限成功";
         }
@@ -119,6 +120,7 @@ public class PermissionController {
 
         int permissionDelete = permissionMapper.deletePermission(permission.getPermission());
 
+        // todo 删除后返回新的列表
         if (permissionDelete != 0){
             return "成功删除该角色";
         }

@@ -47,4 +47,37 @@
         </update>
 
 
+        <select id="getUser" parameterType="com.protectdev.manage.pojo.User" resultMap="User">
+            select *
+            from `user`
+            where <if test="jobId != null">job_id = #{jobId} </if>
+                  <if test="jobId != null and name != null">and</if>
+                  <if test="name != null"> name = #{name} </if>
+                  <if test="username!=null and (jobId != null or name != null)"> and </if>
+                  <if test="username != null">username = #{username}</if>
+        </select>
+
+        <update id="updateUser" parameterType="com.protectdev.manage.pojo.User">
+            update `user`
+            set
+                <if test="jobId != null">job_id = #{jobId}</if>
+                <if test="name != null">,name = #{name}</if>
+                <if test="username != null">,username = #{username}</if>
+                <if test="password != null">,password = #{password}</if>
+                <if test="permission != null">,permission = #{permission}</if>
+                <if test="phoneNum != null">,phoneNum = #{phoneNum}</if>
+            where user_id = #{userId}
+        </update>
+
+        <insert id="addUser" parameterType="com.protectdev.manage.pojo.User">
+            insert into `user`(job_id, name, permission, phoneNum)
+            VALUES (#{jobId},#{name},#{permission},#{phoneNum})
+
+        </insert>
+
+        <delete id="deleteUser" parameterType="int">
+            delete from `user`
+            where user_id = #{userId}
+
+        </delete>
 </mapper>

@@ -98,13 +98,13 @@
                                 fault_get,fault_post,fault_add,fault_delete,
                                 examine)
         values (#{permission},
-                #{userGet},#{userPost},#{userAdd},#{userDelete},
-                #{deviceGet},#{devicePost},#{deviceAdd},#{deviceDelete},
-                #{temGet},#{temPost},#{temAdd},#{temDelete},
-                #{softGet}, #{softPost},#{softAdd}, #{softDelete},
-                #{permissionGet},#{permissionPost},#{permissionAdd},#{permissionDelete},
-                #{faultGet},#{faultPost},#{faultAdd},#{faultDelete},
-                #{examine})
+                ifnull(#{userGet},false),ifnull(#{userPost},false),ifnull(#{userAdd},false),ifnull(#{userDelete},false),
+                ifnull(#{deviceGet},false),ifnull(#{devicePost},false),ifnull(#{deviceAdd},false),ifnull(#{deviceDelete},false),
+                ifnull(#{temGet},false),ifnull(#{temPost},false),ifnull(#{temAdd},false),ifnull(#{temDelete},false),
+                ifnull(#{softGet},false), ifnull(#{softPost},false),ifnull(#{softAdd},false), ifnull(#{softDelete},false),
+                ifnull(#{permissionGet},false),ifnull(#{permissionPost},false),ifnull(#{permissionAdd},false),ifnull(#{permissionDelete},false),
+                ifnull(#{faultGet},false),ifnull(#{faultPost},false),ifnull(#{faultAdd},false),ifnull(#{faultDelete},false),
+                ifnull(#{examine},false))
     </insert>
 
     <delete id="deletePermission" parameterType="String">
