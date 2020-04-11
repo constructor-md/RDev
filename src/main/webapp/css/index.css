@@ -81,7 +81,6 @@ input:focus {
   -moz-transition: border linear 0.2s, -moz-box-shadow linear 0.2s;
   -webkit-transition: border linear 0.2s, -webkit-box-shadow linear 0.2s;
   outline: none;
-  border-color: rgba(173, 173, 173.75);
   box-shadow: 0 0 8px rgba(173, 173, 173, 0.5);
   -moz-box-shadow: 0 0 8px rgba(173, 173, 173, 0.5);
   -webkit-box-shadow: 0 0 8px rgba(173, 173, 173, 3);
