@@ -1,59 +1,94 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-  <title>继电保护设备管理系统</title>
-  <link href="CSS/index.css" rel="stylesheet" type="text/css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>继电保护设备管理系统-登陆</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"> </script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="CSS/index.css">
 </head>
 
-<body class="login">
-  <div class="login_m">
+<body>
+    <div id="app">
+        <div style="display:flex;justify-content: center;margin-top: 120px;">
+            <el-card style="width: 400px;">
+                <div slot="header" align="center" id="title">
+                    <span>继电保护设备管理系统-登陆</span>
+                </div>
+                <table>
+                    <tr>
+                        <td>
+                            <p>用户名</p>
+                        </td>
+                        <td>
+                            <el-input v-model="user.username" placeholder="请输入用户名"></el-input>
+                        </td>
+                        <td>
+                            <el-button type="primary">账号检查</el-button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>密码</p>
+                        </td>
+                        <td>
+                            <el-input type="password" v-model="user.password" placeholder="请输入密码"></el-input>
+                            <!-- @keydown.enter.native="doLogin"当按下enter键的时候也会执行doLogin方法-->
+                        </td>
+                        <td style="text-align: center;">
+                            <a href="#">忘记密码?</a>
 
-    <div class="login_title">继电保护设备管理系统</div>
+                        </td>
+                    </tr>
+                    <tr>
 
-    <div class="login_boder" id="loginArea">
+                    </tr>
+                    <tr>
+                        <td style="width: 50px;">验证码</td>
+                        <td>
+                            <el-input v-model="user.vCode" placeholder="请输入验证码"></el-input>
+                        </td>
+                        <td>
+                            <el-button @click="login">发送验证码</el-button>
+                        </td>
+                    </tr>
+                    <table>
+                        <tr>
+                            <td style="width: 220px;"></td>
+                            <td>
+                                <a href="#">没有账号？点击注册</a>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <el-button style="width: 150px" type="primary" @click="doLogin">登录</el-button>
 
-      <div class="login_padding" id="login_model">
 
-        <h2>用户名</h2>
-        <label>
-          <input type="text" class="txt_input txt_input2" placeholder="请输入用户名" v-model="username" autofocus>
-        </label>
-        <h2>密码</h2>
+                </table>
 
-        <label>
-          <input type="password" class="txt_input" placeholder="请输入密码" v-on:click = "loginCheck" v-model="password">
-        </label>
+            </el-card>
 
-        <p class="forgot"><a id="iforget" href="#">忘记密码？</a></p>
-
-        <div class="rem_sub">
-          <label>
-            <input type="submit" class="sub_button" value="登陆" v-on:click = "loginSubmit">
-          </label>
-          <a href="#" class="register">注册</a>
         </div>
-      </div>
 
     </div>
-
-
-    <!--login_padding  Sign up end-->
-  </div>
-  <!--login_boder end-->
-  </div>
-  <!--login_m end-->
-  <br> <br>
-  <p align="center">@Copyright 华中科技大学电气工程及其自动化1609黄泽</p>
-
-<script src="/JS/vue.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"> </script>
-<script src="/JS/index.js"></script>
-
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                user: {
+                    username: '',
+                    password: '',
+                    vCode: ''
+                }
+            }
+        })
+    </script>
 </body>
 
 </html>
