@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
@@ -11,15 +12,173 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="../CSS/home.css">
 
 </head>
+
 <body>
     <div id="app">
+        <el-container>
+            <el-header style="text-align: right; font-size: 12px;background: rgb(99, 94, 94);">
+                <table style="margin-top: 10px;" id="headTable">
+                    <tr>
+                        <td>
+                            继电保护设备管理系统
+                        </td>
+                        <td width="900px">
+                        </td>
+                        <td>
+                            
+                            <i class="el-icon-user" style="margin-top: 10px;"></i>
+                            <el-dropdown>
+                                <span class="el-dropdown-link">
+                                  <span>{{user.username}}</span><i class="el-icon-arrow-down el-icon--right"></i>
+                                </span>
+                                <el-dropdown-menu slot="dropdown" id="userDropdawn">
+                                  <el-dropdown-item disabled>姓名：{{user.name}}</el-dropdown-item>
+                                  <el-dropdown-item disabled>权限：{{user.role}}</el-dropdown-item>
+                                  <el-dropdown-item><a href="#">修改密码</a></el-dropdown-item>
+                                  <el-dropdown-item ><a href="#">修改手机号</a></el-dropdown-item>
+                                  <el-dropdown-item divided><a href="#">退出账号</a></el-dropdown-item>
+                                </el-dropdown-menu>
+                              </el-dropdown>
+                            
+                            
+                            
+                            
+                        </td>
+                    </tr>
+                </table>
 
-        
+            </el-header>
 
+
+            <el-container style="height: 1000px; border: 1px solid #eee">
+
+                <el-aside style="width: 200px;">
+                    <el-menu>
+                        <el-menu-item index="1">
+                            <p>用户管理</p>
+                        </el-menu-item>
+
+                        <el-menu-item index="2">
+                            <p>权限管理</p>
+                        </el-menu-item>
+
+                        <el-menu-item index="3">
+                            <p>设备审批</p>
+                        </el-menu-item>
+
+                        <el-menu-item index="4">
+                            <p>设备管理</p>
+                        </el-menu-item>
+
+                        <el-menu-item index="5">
+                            <p>设备故障</p>
+                        </el-menu-item>
+
+                        <el-menu-item index="6">
+                            <p> 设备超期</p>
+                        </el-menu-item>
+                    </el-menu>
+                </el-aside>
+                <el-main v-if="userManage">
+                    <table id="search">
+                        <tr>
+                            <td>
+                                <el-input placeholder="工号"></el-input>
+                            </td>
+                            <td>
+                                <el-input placeholder="姓名"></el-input>
+                            </td>
+                            <td>
+                                <el-input placeholder="用户名"></el-input>
+                            </td>
+                            <td>
+                                <el-button type="primary" icon="el-icon-search">搜索</el-button>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <template v-if="result" id="resultTable">
+                        <el-table :data="tableData" style="width: 100%;">
+                            <el-table-column prop="jobId" label="工号" width="180">
+                            </el-table-column>
+                            <el-table-column prop="name" label="姓名" width="180">
+                            </el-table-column>
+                            <el-table-column prop="username" label="用户名">
+                            </el-table-column>
+                            <el-table-column prop="permission" label="权限">
+                            </el-table-column>
+                            <el-table-column prop="phoneNum" label="手机号">
+                            </el-table-column>
+                            <el-table-column prop="loginTime" label="上次登录时间">
+                            </el-table-column>
+                            <el-table-column >
+                                <template slot-scope="scope">
+                                    <i class="el-icon-edit"></i>
+                                    <a href="#">修改</a>
+                                    <i class="el-icon-delete"></i>
+                                    <a href="#">删除</a>
+                                </template>
+                            </el-table-column>
+
+
+                        </el-table>
+                    </template>
+
+                    </table>
+                    <p v-else="result" id="noResult">no result</p>
+
+                </el-main>
+
+            </el-container>
+
+
+
+        </el-container>
 
     </div>
-    
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                user: {
+                    name: '暖树',
+                    username: 'admin',
+                    role: '管理员'
+                },
+                userManage: true,
+                result: true,
+                tableData: [
+                    {
+                        jobId: '233',
+                        name: '暖树',
+                        username: 'admin',
+                        permission: '管理员',
+                        phoneNum: '13098983361',
+                        loginTime:'2020-4-11'
+                    },
+                    {
+                        jobId: '239',
+                        name: '张三',
+                        username: 'rest',
+                        permission: '普通用户',
+                        phoneNum: '13000000000',
+                        loginTime:'2020-4-11'
+                    },
+                    {
+                        jobId: '240',
+                        name: '李四',
+                        username: 'test',
+                        permission: '审批员',
+                        phoneNum: '17700000000',
+                        loginTime:'2020-4-11'
+                    }
+                ]
+            }
+        })
+    </script>
 </body>
+
 </html>
