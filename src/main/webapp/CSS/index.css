@@ -87,21 +87,6 @@ input:focus {
   border: 1px solid #6192c8;
 }
 
-input.sub_button {
-  float: right;
-  width: 122px;
-  height: 32px;
-  background: url(../images/site_bg.png?t=xxx) no-repeat -153px -850px;
-  border: none;
-  color: #fff;
-  padding-bottom: 2px;
-  font-size: 14px;
-  font-weight: bold;
-}
 
-input.sub_button:hover {
-  background-position: -153px -882px;
-  cursor: pointer;
-}
 
 
