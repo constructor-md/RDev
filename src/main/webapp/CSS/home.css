@@ -9,11 +9,15 @@ span{
     font: 10px/180%  Arial, Helvetica, Verdana;
 
 }
-.el-menu{
-    width: 180px;
-    height: 50px;
+.el-table td,.el-table-th{
     text-align: center;
     
+}
+.el-menu{
+    width: 200px;
+    height: 80px;
+    text-align: center;
+
 }
 .el-main #search{
     display:flex;
@@ -30,10 +34,10 @@ span{
 .el-header {
     background-color: #B3C0D1;
     color: #333;
-    line-height: 60px;
+    line-height: 50px;
   }
 .el-aside {
-    color: #333;
+    overflow: hidden;
     background-color: #fff;
   }
 
@@ -45,6 +49,7 @@ span{
 p{
     font: 20px/180%  Arial, Helvetica, Verdana;
 }
+
 #resultTable{
     margin-top: 20px;
     font: 20px/180%  Arial, Helvetica, Verdana;
@@ -65,3 +70,8 @@ A:hover {
     text-decoration: none;
     color: #206fd5;
   }
+
+#import{
+    text-align: center;
+    /* height: 40px; */
+}

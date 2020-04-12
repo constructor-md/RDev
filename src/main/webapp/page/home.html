@@ -13,6 +13,7 @@
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <link rel="stylesheet" href="../CSS/home.css">
+    
 
 </head>
 
@@ -42,9 +43,7 @@
                                   <el-dropdown-item divided><a href="#">退出账号</a></el-dropdown-item>
                                 </el-dropdown-menu>
                               </el-dropdown>
-                            
-                            
-                            
+                                                      
                             
                         </td>
                     </tr>
@@ -57,28 +56,28 @@
 
                 <el-aside style="width: 200px;">
                     <el-menu>
-                        <el-menu-item index="1">
+                        <el-menu-item  @click="doUserManage">
                             <p>用户管理</p>
                         </el-menu-item>
 
-                        <el-menu-item index="2">
+                        <el-menu-item  @click="doPermissionManage">
                             <p>权限管理</p>
                         </el-menu-item>
 
-                        <el-menu-item index="3">
+                        <el-menu-item  @click="doExamManage">
                             <p>设备审批</p>
                         </el-menu-item>
 
-                        <el-menu-item index="4">
+                        <el-menu-item  @click="doDeviceManage">
                             <p>设备管理</p>
                         </el-menu-item>
 
-                        <el-menu-item index="5">
+                        <el-menu-item  @click="doFaultManage">
                             <p>设备故障</p>
                         </el-menu-item>
 
-                        <el-menu-item index="6">
-                            <p> 设备超期</p>
+                        <el-menu-item  @click="doDeadlineManage">
+                            <p>临近到期设备</p>
                         </el-menu-item>
                     </el-menu>
                 </el-aside>
@@ -100,27 +99,98 @@
                         </tr>
                     </table>
 
-                    <template v-if="result" id="resultTable">
-                        <el-table :data="tableData" style="width: 100%;">
-                            <el-table-column prop="jobId" label="工号" width="180">
+                    <template  id="resultTable">
+                        <el-table :data="userData" style="width: 100%;">
+                            <el-table-column prop="jobId" label="工号" width="180" align="center">
                             </el-table-column>
-                            <el-table-column prop="name" label="姓名" width="180">
+                            <el-table-column prop="name" label="姓名" width="180" align="center">
                             </el-table-column>
-                            <el-table-column prop="username" label="用户名">
+                            <el-table-column prop="username" label="用户名" align="center">
                             </el-table-column>
-                            <el-table-column prop="permission" label="权限">
+                            <el-table-column prop="permission" label="权限" align="center">
                             </el-table-column>
-                            <el-table-column prop="phoneNum" label="手机号">
+                            <el-table-column prop="phoneNum" label="手机号" align="center">
                             </el-table-column>
-                            <el-table-column prop="loginTime" label="上次登录时间">
+                            <el-table-column prop="loginTime" label="上次登录时间" align="center">
                             </el-table-column>
-                            <el-table-column >
-                                <template slot-scope="scope">
+                            <el-table-column width="120" align="center">
+
                                     <i class="el-icon-edit"></i>
                                     <a href="#">修改</a>
                                     <i class="el-icon-delete"></i>
                                     <a href="#">删除</a>
-                                </template>
+
+                            </el-table-column>
+
+                        </el-table>
+                    </template>
+                </el-main>
+
+                <el-main v-if="permissionManage">
+                    <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
+                        <p style="margin-top: 10px;">权限信息管理</p>
+                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+
+                    </div>
+                    <template  id="resultTable">
+                        <el-table :data="permissionData" style="width: 100%;">
+                            <el-table-column prop="permission" label="权限角色" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="userGet" label="用户获取" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="userPost" label="用户修改" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="userAdd" label="用户新增" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="userDelete" label="用户删除" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="permissionGet" label="权限获取" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="permissionPost" label="权限修改" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="permissionAdd" label="权限新增" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="permissionDelete" label="权限删除" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deviceGet" label="设备获取" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="devicePost" label="设备修改" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deviceAdd" label="设备新增" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deviceDelete" label="设备删除" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="temGet" label="模板获取" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="temPost" label="模板修改" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="temAdd" label="模板新增" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="temDelete" label="模板删除" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="softGet" label="软件获取" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="softPost" label="软件修改" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="softAdd" label="软件新增" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="softDelete" label="软件删除" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="faultGet" label="故障获取" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="faultPost" label="故障修改" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="faultAdd" label="故障新增" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="faultDelete" label="故障删除" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column prop="exam" label="审批" width="70" align="center">
+                            </el-table-column>
+                            <el-table-column width="120" align="center">
+                                    <i class="el-icon-edit"></i>
+                                    <a href="#">修改</a>
+                                    <i class="el-icon-delete"></i>
+                                    <a href="#">删除</a>
                             </el-table-column>
 
 
@@ -128,57 +198,284 @@
                     </template>
 
                     </table>
-                    <p v-else="result" id="noResult">no result</p>
 
                 </el-main>
 
+                <el-main v-if="examManage">
+                    <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
+                        <p style="margin-top: 10px;">设备信息审批</p>
+                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+
+                    </div>
+                            
+
+                    <template  id="resultTable">
+                        <el-table :data="deviceExamData" style="width: 100%;">
+                            <el-table-column prop="deviceId" label="设备编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deviceName" label="设备名称"  align="center">
+                            </el-table-column>
+                            <el-table-column prop="RDevtype" label="保护类型" align="center">
+                            </el-table-column>
+                            <el-table-column prop="proName" label="保护目标" align="center">
+                            </el-table-column>
+                            <el-table-column prop="switchId" label="开关编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="devFac" label="制造厂家" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deadline" label="使用期限" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deadline" label="请求操作" align="center">
+                            </el-table-column>
+                            <el-table-column width="120" align="center">
+                                    <i class="el-icon-edit"></i>
+                                    <a href="#">修改</a>
+                                    <i class="el-icon-delete"></i>
+                                    <a href="#">删除</a>
+                            </el-table-column>
+
+                        </el-table>
+                    </template>
+
+                    <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px; margin-top: 20px;">
+                        <p style="margin-top: 10px;">故障信息审批</p>
+                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+                    </div>
+                            
+
+                    <template  id="resultTable">
+                        <el-table :data="faultExamData" style="width: 100%;">
+                            <el-table-column prop="deviceId" label="设备编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deviceName" label="设备名称"  align="center">
+                            </el-table-column>
+                            <el-table-column prop="faultDesc" label="故障描述" align="center">
+                            </el-table-column>
+                            <el-table-column prop="devFac" label="制造厂家" align="center">
+                            </el-table-column>
+                            <el-table-column prop="upUser" label="上传用户" align="center">
+                            </el-table-column>
+                            <el-table-column prop="upTime" label="上传时间" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deadline" label="请求操作" align="center">
+                            </el-table-column>
+                            <el-table-column width="120" align="center">
+                                    <i class="el-icon-edit"></i>
+                                    <a href="#">修改</a>
+                                    <i class="el-icon-delete"></i>
+                                    <a href="#">删除</a>
+                            </el-table-column>
+
+                        </el-table>
+                    </template>
+
+                    <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px; margin-top: 20px;">
+                        <p style="margin-top: 10px;">软件信息审批</p>
+                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+                    </div>
+                            
+
+                    <template  id="resultTable">
+                        <el-table :data="softExamData" style="width: 100%;">
+                            <el-table-column prop="softId" label="软件编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="softName" label="软件名称"  align="center">
+                            </el-table-column>
+                            <el-table-column prop="softVersion" label="软件版本" align="center">
+                            </el-table-column>
+                            <el-table-column prop="softFac" label="软件厂家" align="center">
+                            </el-table-column>
+                            <el-table-column prop="devId" label="设备编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="devName" label="设备名称" align="center">
+                            </el-table-column>
+                            <el-table-column prop="devFac" label="制造厂家" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deadline" label="请求操作" align="center">
+                            </el-table-column>
+                            <el-table-column width="120" align="center">
+                                    <i class="el-icon-edit"></i>
+                                    <a href="#">修改</a>
+                                    <i class="el-icon-delete"></i>
+                                    <a href="#">删除</a>
+                            </el-table-column>
+
+                        </el-table>
+                    </template>
+
+                    <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px; margin-top: 20px;">
+                        <p style="margin-top: 10px;">模板信息审批</p>
+                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+                    </div>
+                            
+
+                    <template  id="resultTable">
+                        <el-table :data="deviceExamData" style="width: 100%;">
+                            <el-table-column prop="Id" label="设备编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deviceName" label="设备名"  align="center">
+                            </el-table-column>
+                            <el-table-column prop="RDevtype" label="保护类型" align="center">
+                            </el-table-column>
+                            <el-table-column prop="proName" label="保护目标" align="center">
+                            </el-table-column>
+                            <el-table-column prop="switchId" label="开关编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="devFac" label="制造厂家" align="center">
+                            </el-table-column>
+                            <el-table-column prop="temId" label="模板参数" align="center">
+                            </el-table-column>
+                            <el-table-column prop="softId" label="软件信息" align="center">
+                            </el-table-column>
+                            <el-table-column prop="faultId" label="故障" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deadline" label="使用期限" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deadline" label="请求操作" align="center">
+                            </el-table-column>
+                            <el-table-column width="120" align="center">
+                                    <i class="el-icon-edit"></i>
+                                    <a href="#">修改</a>
+                                    <i class="el-icon-delete"></i>
+                                    <a href="#">删除</a>
+                            </el-table-column>
+
+                        </el-table>
+                    </template>
+                </el-main>
+
+                <el-main v-if="deviceManage">
+                    <table id="search">
+                        <tr>
+                            <td>
+                                <el-input placeholder="设备编号"></el-input>
+                            </td>
+                            <td>
+                                <el-input placeholder="设备名"></el-input>
+                            </td>
+                            <td>
+                                <el-input placeholder="制造厂家"></el-input>
+                            </td>
+                            <td>
+                                <el-input placeholder="位置描述"></el-input>
+                            </td>
+                            <td>
+                                <el-button type="primary" icon="el-icon-search">搜索</el-button>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <template  id="resultTable">
+                        <el-table :data="deviceData" style="width: 100%;">
+                            <el-table-column prop="deviceId" label="设备编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deviceName" label="设备名"  align="center">
+                            </el-table-column>
+                            <el-table-column prop="RDevtype" label="保护类型" align="center">
+                            </el-table-column>
+                            <el-table-column prop="proName" label="被保护设备" align="center">
+                            </el-table-column>
+                            <el-table-column prop="switchId" label="开关编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="devFac" label="制造厂家" align="center">
+                            </el-table-column>
+                            <el-table-column prop="temId" label="模板参数" align="center">
+                            </el-table-column>
+                            <el-table-column prop="softId" label="软件信息" align="center">
+                            </el-table-column>
+                            <el-table-column prop="faultId" label="故障" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deadline" label="使用期限" align="center">
+                            </el-table-column>
+                            <el-table-column width="120" align="center">
+                                    <i class="el-icon-edit"></i>
+                                    <a href="#">修改</a>
+                                    <i class="el-icon-delete"></i>
+                                    <a href="#">删除</a>
+                            </el-table-column>
+
+                        </el-table>
+                    </template>
+                </el-main>
+
+                <el-main v-if="faultManage">
+                    <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
+                        <p style="margin-top: 10px;">故障信息</p>
+                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+
+                    </div>
+                    <template  id="resultTable">
+                        <el-table :data="faultData" style="width: 100%;">
+                            <el-table-column prop="deviceId" label="设备编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deviceName" label="设备名称"  align="center">
+                            </el-table-column>
+                            <el-table-column prop="faultDesc" label="故障描述" align="center">
+                            </el-table-column>
+                            <el-table-column prop="devFac" label="制造厂家" align="center">
+                            </el-table-column>
+                            <el-table-column prop="upUser" label="上传用户" align="center">
+                            </el-table-column>
+                            <el-table-column prop="upTime" label="上传时间" align="center">
+                            </el-table-column>
+                            <el-table-column width="120" align="center">
+                                    <i class="el-icon-edit"></i>
+                                    <a href="#">修改</a>
+                                    <i class="el-icon-delete"></i>
+                                    <a href="#">删除</a>
+                            </el-table-column>
+
+                        </el-table>
+                    </template>
+
+                    </table>
+
+                </el-main>
+                <el-main v-if="deadlineManage">
+                    
+                    <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
+                        <p style="margin-top: 10px;">临近到期设备信息</p>
+                        <el-button type="primary" icon="el-icon-refresh"  id="import">获取</el-button>
+
+                    </div>
+                    <template  id="resultTable">
+                        <el-table :data="deadlineDeviceData" style="width: 100%;">
+                            <el-table-column prop="deviceId" label="设备编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deviceName" label="设备名"  align="center">
+                            </el-table-column>
+                            <el-table-column prop="RDevtype" label="保护类型" align="center">
+                            </el-table-column>
+                            <el-table-column prop="proName" label="被保护设备" align="center">
+                            </el-table-column>
+                            <el-table-column prop="switchId" label="开关编号" align="center">
+                            </el-table-column>
+                            <el-table-column prop="devFac" label="制造厂家" align="center">
+                            </el-table-column>
+                            <el-table-column prop="temId" label="模板参数" align="center">
+                            </el-table-column>
+                            <el-table-column prop="softId" label="软件信息" align="center">
+                            </el-table-column>
+                            <el-table-column prop="faultId" label="故障" align="center">
+                            </el-table-column>
+                            <el-table-column prop="deadline" label="使用期限" align="center">
+                            </el-table-column>
+                            <el-table-column width="120" align="center">
+                                    <i class="el-icon-edit"></i>
+                                    <a href="#">修改</a>
+                                    <i class="el-icon-delete"></i>
+                                    <a href="#">删除</a>
+                            </el-table-column>
+
+                        </el-table>
+                    </template>
+                </el-main>
             </el-container>
-
-
 
         </el-container>
 
     </div>
-    <script>
-        var vm = new Vue({
-            el: '#app',
-            data: {
-                user: {
-                    name: '暖树',
-                    username: 'admin',
-                    role: '管理员'
-                },
-                userManage: true,
-                result: true,
-                tableData: [
-                    {
-                        jobId: '233',
-                        name: '暖树',
-                        username: 'admin',
-                        permission: '管理员',
-                        phoneNum: '13098983361',
-                        loginTime:'2020-4-11'
-                    },
-                    {
-                        jobId: '239',
-                        name: '张三',
-                        username: 'rest',
-                        permission: '普通用户',
-                        phoneNum: '13000000000',
-                        loginTime:'2020-4-11'
-                    },
-                    {
-                        jobId: '240',
-                        name: '李四',
-                        username: 'test',
-                        permission: '审批员',
-                        phoneNum: '17700000000',
-                        loginTime:'2020-4-11'
-                    }
-                ]
-            }
-        })
-    </script>
+    <script src="../JS/home.js"></script>
 </body>
 
 </html>
