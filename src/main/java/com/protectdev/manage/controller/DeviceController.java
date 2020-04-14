@@ -38,18 +38,12 @@ public class DeviceController {
     @RequestMapping("device/get")
     @ResponseBody
     @PermissionCheck(value = "deviceGet")
-    public String deviceGet(HttpServletRequest request){
-
-        //根据devId/name/location查询一组设备
-        Device device = new Device();
-        device.setDevId(request.getParameter("devId"));
-        device.setLocation(request.getParameter("location"));
-        device.setDevName(request.getParameter("devName"));
-
-        int page = Integer.parseInt(request.getParameter("page"));
+    public String deviceGet(@RequestBody Device device,HttpServletRequest request){
 
 
-        List<Device> devices = deviceMapper.getDevice(device,page);
+        //int page = Integer.parseInt(request.getParameter("page"));
+
+        List<Device> devices = deviceMapper.getDevice(device);
 
         if (devices.isEmpty()){
             return "找不到设备";

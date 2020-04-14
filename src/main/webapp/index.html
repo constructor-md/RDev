@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>继电保护设备管理系统-登陆</title>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    
     <script src="https://unpkg.com/axios/dist/axios.min.js"> </script>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
@@ -23,18 +24,19 @@
                     <span>继电保护设备管理系统-登陆</span>
                 </div>
                 <table>
-                    <tr>
-                        <td>
+                    <tr key="username">
+                        <td width="40px">
                             <p>用户名</p>
                         </td>
                         <td>
-                            <el-input v-model="user.username" placeholder="请输入用户名"></el-input>
+                            <el-input v-model="user.username" placeholder="请输入用户名" autofocus></el-input>
                         </td>
                         <td>
-                            <el-button type="primary">账号检查</el-button>
+                            <el-button type="primary" @click.native="usernameCheck" @keyup.enter.native="usernameCheck">账号检查</el-button>
                         </td>
                     </tr>
-                    <tr>
+                    
+                    <tr v-if="psInput" key="password">
                         <td>
                             <p>密码</p>
                         </td>
@@ -44,31 +46,32 @@
                         </td>
                         <td style="text-align: center;">
                             <a href="#">忘记密码?</a>
-
                         </td>
                     </tr>
-                    <tr>
-
-                    </tr>
-                    <tr>
+                    
+                    <tr v-if="vCodeInput" key="vCode">
                         <td style="width: 50px;">验证码</td>
                         <td>
                             <el-input v-model="user.vCode" placeholder="请输入验证码"></el-input>
                         </td>
                         <td>
-                            <el-button @click="login">发送验证码</el-button>
+                            <el-button @click.native="sendvCode">发送验证码</el-button>
                         </td>
                     </tr>
+                </table>
+                    <p style="color: red;">{{usernameMsg}}</p>
+                    <p style="color: red;">{{passwordMsg}}</p>
+                    <p style="color: red;">{{vCodeMsg}}</p>
                     <table>
                         <tr>
                             <td style="width: 220px;"></td>
                             <td>
-                                <a href="#">没有账号？点击注册</a>
+                                <a href="http://localhost:8081/page/register.html">没有账号？点击注册</a>
                             </td>
                         </tr>
                     </table>
                     
-                    <el-button style="width: 150px;margin-left: 100px;" type="primary" @click="doLogin">登录</el-button>
+                    <el-button v-if="loginBtn" style="width: 150px;margin-left: 100px;" type="primary" @click.native="doLogin">登录</el-button>
 
 
                 </table>
@@ -79,18 +82,8 @@
 
     </div>
 
-    <script>
-        var vm = new Vue({
-            el: '#app',
-            data: {
-                user: {
-                    username: '',
-                    password: '',
-                    vCode: ''
-                }
-            }
-        })
-    </script>
+    <script src="JS/index.js"></script>
+    
 </body>
 
 </html>

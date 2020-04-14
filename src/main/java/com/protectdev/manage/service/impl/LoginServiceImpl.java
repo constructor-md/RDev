@@ -63,7 +63,7 @@ public class LoginServiceImpl implements LoginService {
         if (session.getAttribute("IP") == null){
 
                 if (request.getParameter("vCode") == null){
-                    return "请填写验证码";
+                    return "{\"status\":\"vNull\",\"desc\":\"请填写验证码\"}";
                 }
 
                 //取得redis中发送信息前记录的验证码，与填写的vCode进行比较
@@ -75,7 +75,7 @@ public class LoginServiceImpl implements LoginService {
                 if (!request.getParameter("vCode").equals(vCode)) {
                     //检查完毕，清除验证码记录
                     redisTemplate.delete(sessionId);
-                    return "验证码错误";
+                    return "{\"status\":\"vNo\",\"desc\":\"验证码错误\"}";
                 }
 
                 redisTemplate.delete(sessionId);
@@ -86,7 +86,7 @@ public class LoginServiceImpl implements LoginService {
 
 
         if (login == null){
-            return "密码错误";
+            return "{\"status\":\"psNo\",\"desc\":\"密码错误\"}";
         }
         //检查两个月内是否有登陆记录
         Date loginTime = new Date(System.currentTimeMillis());
@@ -100,7 +100,7 @@ public class LoginServiceImpl implements LoginService {
             //System.out.println(nMs);
             if (nDay >= 60){
                 //todo 账号冻结
-                return "您的账号两个月未登陆，已被冻结，请联系管理员解冻";
+                return "{\"status\":\"fz\",\"desc\":\"您的账号两个月未登陆，已被冻结，请联系管理员解冻\"}";
             }
         }
 
@@ -153,6 +153,9 @@ public class LoginServiceImpl implements LoginService {
         // todo 最好是用户操作的时候重置时间到期之后使session过期
         //session.setMaxInactiveInterval(100);
 
+        // todo 用户登录有些信息不需要返回 登陆成功后不用返回用户信息，用户信息写入session等待其他页面获取
+        login.setPassword(null);
+
         //将登陆后获得的的用户信息转为JSON字符串
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(login);
         String loginJson = jsonObject.toJSONString();
@@ -160,8 +163,7 @@ public class LoginServiceImpl implements LoginService {
         //释放内存，todo 可能有线程安全问题！
         login = null;
 
-        // todo 注意，查询结果中密码的盐值也被传回去了，最好不要
-        return "登陆成功"+'\n'+loginJson;
+        return "{\"status\":\"ok\"}";
     }
 
 }

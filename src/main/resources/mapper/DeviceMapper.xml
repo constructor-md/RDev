@@ -18,10 +18,23 @@
         <result column="deadline" property="deadline"></result>
     </resultMap>
 
-    <select id="getDeviceByDevId" parameterType="String" resultMap="Device">
+    <select id="getDeviceById" parameterType="String" resultType="com.protectdev.manage.pojo.Device" resultMap="Device">
         select *
         from device
         where dev_id = #{devId}
+    </select>
+
+    <select id="getDevice" resultType="com.protectdev.manage.pojo.Device" resultMap="Device">
+        select *
+        from device
+        where
+              <if test="devId != null"> dev_id = #{devId}</if>
+        <if test="devName != null and devId != null">and</if>
+              <if test="devName != null"> dev_name = #{devName} </if>
+        <if test="(devId != null or devName != null) and devFac != null "> and </if>
+              <if test="devFac != null"> dev_fac = #{devFac} </if>
+        <if test="(devId != null or devName != null or devFac != null) and location != null"> and </if>
+              <if test="location != null"> location like concat('%',#{location},'%')</if>
     </select>
 
 

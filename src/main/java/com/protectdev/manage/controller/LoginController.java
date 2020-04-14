@@ -62,20 +62,18 @@ public class LoginController {
         if (session.getAttribute("passFault") == null){
             session.setAttribute("passFault" , 0);
         }
+        int passFault;
 
-        if (loginState.equals("密码错误")){
+        if (loginState.equals("{\"status\":\"psNo\",\"desc\":\"密码错误\"}")){
 
-            int passFault = (int)session.getAttribute("passFault");
+            passFault = (int)session.getAttribute("passFault");
             passFault++;
             session.setAttribute("passFault" , passFault);
-            if (passFault >= 5){
+        }
 
-                //半小时后session失效，passFault清零
-                return "密码错误五次及以上，半小时内禁止登陆";
-            }
-
-            return loginState;
-
+        if ((int)session.getAttribute("passFault") >= 5){
+            //半小时后session失效，passFault自动清零
+            return "{\"status\":\"psNo\",\"desc\":\"密码错误五次以上，半小时内禁止登陆\"}";
         }
         // todo 返回密码正确后应该对session中的密码错误次数清零，否则session失效的半小时内可能登陆成功后又密码失败的话会没那么多次
 
@@ -106,7 +104,7 @@ public class LoginController {
         //todo 对象产生过多容易导致内存溢出，应该及时释放对象内存
         //检查用户名是否存在
         if (usernameCheck == null){
-            return "用户名错误/该用户未注册";
+            return "{\"status\":\"用户名错误/该用户未注册\"}";
         }
         String phoneNum = usernameCheck.getPhoneNum();
 
@@ -138,9 +136,13 @@ public class LoginController {
         //      JS有被篡改的可能，IP硬编码应该写在后端，但是前端只负责进行是否填写验证码的判断，验证还是由后端做
         //      前端有了IP之后没有验证码发送框，后端有了IP登陆的时候不判断验证码！
         //      这里有个问题，验证码发送的控制器如果仍然可以通过URL直接访问到的话，会有系统漏洞
-        if(ip.equals("0:0:0:0:0:0:0:1")){
+        if(ip.equals("0:0:0:0:0:0::1")){
             System.out.println("IP正确");
             session.setAttribute("IP",ip);
+
+            usernameCheck = null;
+            return "{\"status\":\"ok\",\"IP\":\"yes\"}";
+
         }
 
 
@@ -148,7 +150,7 @@ public class LoginController {
 
         //释放内存
         usernameCheck = null;
-        return phoneNum;
+        return "{\"phoneNum\":\""+phoneNum+"\",\"status\":\"ok\",\"IP\":\"no\"}";
     }
 
     //登出，使session失效，并且要消除redis中的相关内容
