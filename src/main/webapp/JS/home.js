@@ -100,6 +100,11 @@ var vm = new Vue({
         //     }
         // ],
     },
+
+    mounted:function(){
+        this.getUserInfo;
+    },
+
     methods:{
         
         doUserManage:function(){
@@ -162,5 +167,15 @@ var vm = new Vue({
             this.faultManage= false,
             this.deadlineManage= true
         },
+
+        getUserInfo:function(){
+
+            let that = this;
+
+            axios.get("http://localhost:8081/home/userInfo")
+
+        },
+
+
     }
 })

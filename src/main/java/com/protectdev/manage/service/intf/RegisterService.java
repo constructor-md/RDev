@@ -5,6 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface RegisterService {
 
-    String registerCheck(HttpServletRequest request);
+    String register(HttpServletRequest request);
 
 }

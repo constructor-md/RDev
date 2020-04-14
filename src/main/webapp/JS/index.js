@@ -31,7 +31,7 @@ var vm = new Vue({
                 function(res){
                 if(res.data.status == "ok"){
                     that.usernameMsg = '';
-                    that.user.phoneNum = res.data.phoneNum
+                    that.user.phoneNum = res.data.phoneNum;
                     that.psInput = true;
                     that.loginBtn = true;
                 }else(
@@ -92,7 +92,7 @@ var vm = new Vue({
                     that.vCodeMsg = "已向您的手机："+this.user.phoneNum+"发送验证码";
                 }
                 if(res.data.status == "sendNo"){
-                    that.vCode = "发送失败";
+                    that.vCodeMsg = "发送失败";
                 }
                 
             },

@@ -31,7 +31,7 @@ public class RegisterController {
     @ResponseBody
     public String register(HttpServletRequest request){
 
-        String registerState = registerService.registerCheck(request);
+        String registerState = registerService.register(request);
 
         return registerState;
 
@@ -54,12 +54,12 @@ public class RegisterController {
 
         //检查 工号和姓名组合信息 是否存在
         if (idNameCheck == null){
-            return "您的数据不在数据库中，请与管理员联系";
+            return "{\"status\":\"null\",\"desc\":\"您的数据不在数据库中，请与管理员联系\"}";
         }
 
         //检查用户是否已注册
         if (idNameCheck.getUsername() != null){
-            return "用户已存在,注册失败";
+            return "{\"status\":\"userExist\",\"desc\":\"用户已存在，注册失败\"}";
         }
 
         //检查用户名是否重复
@@ -67,15 +67,18 @@ public class RegisterController {
         User usernameCheck = userMapper.usernameCheck(username);
         //用户名已存在
         if (usernameCheck != null){
-            return "用户名已存在";
+            return "{\"status\":\"usernameExist\",\"desc\":\"用户名已存在\"}";
         }
 
         String phoneNum = idNameCheck.getPhoneNum();
         //电话号码写入session
 
         session.setAttribute("phoneNum",phoneNum);
+        session.setAttribute("register","ok");
+        session.setAttribute("jobId",idNameCheck.getJobId());
+        session.setAttribute("name",idNameCheck.getName());
 
-        return "允许注册";
+        return "{\"status\":\"ok\"}";
 
     }
 

@@ -2,6 +2,7 @@ package com.protectdev.manage.mapper;
 
 import com.protectdev.manage.pojo.User;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -25,7 +26,7 @@ public interface UserMapper {
     //检查账号名是否存在
     User usernameCheck(String username);
     //用户注册相关
-    int register(User user);
+    int register(String jobId,String name,String username, String password, Date psModifyTime);
 
     //用户登陆相关
     User login(User user);

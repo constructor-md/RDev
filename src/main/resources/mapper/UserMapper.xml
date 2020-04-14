@@ -28,7 +28,7 @@
             where username = #{username}
         </select>
 
-        <update id="register" parameterType="com.protectdev.manage.pojo.User">
+        <update id="register">
             update `user`
             set username = #{username} , password = #{password} , ps_modify_time = #{psModifyTime}
             where job_id = #{jobId} and `name` = #{name}

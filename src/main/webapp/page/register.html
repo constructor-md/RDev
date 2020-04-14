@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,75 +14,80 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <link rel="stylesheet" href="../CSS/register.css">
 </head>
+
 <body>
     <div id="app">
         <div style="display:flex;justify-content: center;margin-top: 90px;">
-        <el-card style="width: 500px;" align="center" id="title">
-            <div slot="header">继电保护设备管理系统-注册</div>
-            <table>
-                <tr>
-                    <td>
-                        <p>工号</p>
-                    </td>
-                    <td>
-                        <el-input v-model="register.jobId" placeholder="请输入您的工号"></el-input>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>姓名</p>
-                    </td>
-                    <td>
-                        <el-input v-model="register.name" placeholder="请输入您的姓名"></el-input>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>用户名</p>
-                    </td>
-                    <td>
-                        <el-input v-model="register.username" placeholder="请输入用户名"></el-input>
-                    </td>
-                </tr>
-                
-            </table>
-            <table>
-                <tr>
-                    <td style="width: 80px;"></td>
-                    <td>
-                        <el-button>注册检查</el-button>
-                    </td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <td style="width: 36px;">
-                        <p>密码</p>
-                    </td>
-                    <td>
-                        <el-input v-model="register.password" placeholder="请输入密码"></el-input>
-                    </td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <td>
-                        <p>验证码</p>
-                    </td>
-                    <td>
-                        <el-input v-model="register.vCode" placeholder="请输入验证码"></el-input>
-                    </td>
-                    <td>
-                        <el-button >发送验证码</el-button>
-                    </td>
-                    
-                </tr>
-            </table>
-            <el-button type="primary" style="width: 150px">注册</el-button>
-        </el-card>
-    </div>
+            <el-card style="width: 500px;" align="center" id="title">
+                <div slot="header">继电保护设备管理系统-注册</div>
+                <table>
+                    <tr>
+                        <td>
+                            <p>工号</p>
+                        </td>
+                        <td>
+                            <el-input v-model="register.jobId" placeholder="请输入您的工号" autofocus></el-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>姓名</p>
+                        </td>
+                        <td>
+                            <el-input v-model="register.name" placeholder="请输入您的姓名"></el-input>
+                        </td>
+                    </tr>
+                    <p style="color: red;">{{userCheck}}</p>
+                    <tr>
+                        <td>
+                            <p>用户名</p>
+                        </td>
+                        <td>
+                            <el-input v-model="register.username" placeholder="请输入用户名"></el-input>
+                        </td>
+                    </tr>
+
+                </table>
+                <p style="color:red;">{{usernameCheck}}</p>
+                <table>
+                    <tr>
+                        <td style="width: 80px;"></td>
+                        <td>
+                            <el-button @click="registerCheck">注册检查</el-button>
+                        </td>
+                    </tr>
+                </table>
+                <table v-if="psInput">
+                    <tr>
+                        <td style="width: 36px;">
+                            <p>密码</p>
+                        </td>
+                        <td>
+                            <el-input v-model="register.password" placeholder="请输入密码"></el-input>
+                        </td>
+                    </tr>
+                </table>
+                <table v-if="vcInput">
+                    <tr>
+                        <td>
+                            <p>验证码</p>
+                        </td>
+                        <td>
+                            <el-input v-model="register.vCode" placeholder="请输入验证码"></el-input>
+                        </td>
+                        <td>
+                            <el-button @click="sendvCode">发送验证码</el-button>
+                        </td>
+
+                    </tr>
+                </table>
+                <p style="color: red;">{{vCodeMsg}}</p>
+                <el-button type="primary" style="width: 150px" v-if="resBtn" @click="register">注册</el-button>
+            </el-card>
+        </div>
     </div>
 
     <script src="../JS/register.js"></script>
 </body>
+
 </html>
