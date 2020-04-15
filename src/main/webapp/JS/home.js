@@ -2,11 +2,7 @@
 var vm = new Vue({
     el: '#app',
     data: {
-        user: {
-            name: '暖树',
-            username: 'admin',
-            role: '管理员'
-        },
+        
             userManage: false,
             permissionManage: false,
             examManage: false,
@@ -16,32 +12,18 @@ var vm = new Vue({
             faultManage: false,
             deadlineManage: false,
 
-        userData: [
-            {
-                jobId: '233',
-                name: '暖树',
-                username: 'admin',
-                permission: '管理员',
-                phoneNum: '13900000000',
-                loginTime: '2020-4-11'
+        userInfo: {
+                name: '',
+                username: '',
+                role: '',
             },
-            {
-                jobId: '239',
-                name: '张三',
-                username: 'rest',
-                permission: '普通用户',
-                phoneNum: '13000000000',
-                loginTime: '2020-4-11'
-            },
-            {
-                jobId: '240',
-                name: '李四',
-                username: 'test',
-                permission: '审批员',
-                phoneNum: '17700000000',
-                loginTime: '2020-4-11'
-            }
-        ],
+        userSearchInfo:{
+            jobId:null,
+            name:null,
+            username:null,
+        },
+
+        userData: null,
         permissionData:[
             {
             permission:'管理员',
@@ -102,7 +84,7 @@ var vm = new Vue({
     },
 
     mounted:function(){
-        this.getUserInfo;
+      this.getUserInfo();  
     },
 
     methods:{
@@ -173,8 +155,67 @@ var vm = new Vue({
             let that = this;
 
             axios.get("http://localhost:8081/home/userInfo")
+            .then(
+                function(res){
+                    console.log(res);
+                    that.userInfo.name = res.data.name;
+                    that.userInfo.username = res.data.username;
+                    that.userInfo.role = res.data.role;
+
+                },
+                function(err){
+                    console.log(err)
+                }
+            )
 
         },
+
+        searchUser:function(){
+
+            let that = this;
+
+            axios.post("http://localhost:8081/user/get",{
+                jobId : that.userSearchInfo.jobId,
+                name: that.userSearchInfo.name,
+                username:that.userSearchInfo.username
+            })
+            .then(
+                function(res){
+                    console.log(res);
+                    that.userData = res.data;
+   
+                    that.userSearchInfo.jobId = null;
+                    that.userSearchInfo.name = null;
+                    that.userSearchInfo.username = null;
+                },
+                function(err){
+                    console.log(err);
+                },
+            )
+
+        },
+
+        test:function(){
+            alert("初始化");
+        },
+
+        logout:function(){
+
+            let location = window.location;
+
+            axios.get("http://localhost:8081/logout")
+            .then(
+                function(res){
+                    if(res.data.status == "ok"){
+                        location.replace("http://localhost:8081")
+                    }
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+        }
 
 
     }

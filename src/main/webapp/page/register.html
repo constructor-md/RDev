@@ -37,7 +37,7 @@
                             <el-input v-model="register.name" placeholder="请输入您的姓名"></el-input>
                         </td>
                     </tr>
-                    <p style="color: red;">{{userCheck}}</p>
+                    <span style="color: red;">{{userCheck}}</span>
                     <tr>
                         <td>
                             <p>用户名</p>
@@ -48,12 +48,12 @@
                     </tr>
 
                 </table>
-                <p style="color:red;">{{usernameCheck}}</p>
+                <span style="color:red;">{{usernameCheck}}</span>
                 <table>
                     <tr>
                         <td style="width: 80px;"></td>
                         <td>
-                            <el-button @click="registerCheck">注册检查</el-button>
+                            <el-button @click.native="registerCheck" v-if="checkBtn">注册检查</el-button>
                         </td>
                     </tr>
                 </table>
@@ -63,7 +63,7 @@
                             <p>密码</p>
                         </td>
                         <td>
-                            <el-input v-model="register.password" placeholder="请输入密码"></el-input>
+                            <el-input type="password" v-model="register.password" placeholder="请输入密码"></el-input>
                         </td>
                     </tr>
                 </table>
@@ -82,7 +82,7 @@
                     </tr>
                 </table>
                 <p style="color: red;">{{vCodeMsg}}</p>
-                <el-button type="primary" style="width: 150px" v-if="resBtn" @click="register">注册</el-button>
+                <el-button type="primary" style="width: 150px" v-if="resBtn" @click.native="doRegister">注册</el-button>
             </el-card>
         </div>
     </div>

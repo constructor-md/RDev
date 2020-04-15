@@ -1,6 +1,8 @@
 package com.protectdev.manage.pojo;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 public class Device {
@@ -16,6 +18,7 @@ public class Device {
     private int softId;
     private int temId;
     private int faultId;
+    @JSONField(format="yyyy-MM-dd")
     private Date deadline;
 
     public int getId() {

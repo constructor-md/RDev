@@ -57,8 +57,6 @@ public class RegisterServiceImpl implements RegisterService {
         //注册密码md5加密
         String password = DigestUtils.md5DigestAsHex(request.getParameter("password").getBytes());
 
-        //登记密码修改时间
-        Date date = new Date(System.currentTimeMillis());
         // todo 格式化日期存储
         //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy年mm月dd日");
 
@@ -66,7 +64,7 @@ public class RegisterServiceImpl implements RegisterService {
         String name = (String) request.getSession().getAttribute("name");
 
         //返回值是修改的行数
-        int register = userMapper.register(jobId,name,username,password,date);
+        int register = userMapper.register(jobId,name,username,password);
 
         if (register == 1){
             return "{\"status\":\"ok\"}";

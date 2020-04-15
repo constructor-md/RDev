@@ -33,14 +33,14 @@
                             <i class="el-icon-user" style="margin-top: 10px;"></i>
                             <el-dropdown>
                                 <span class="el-dropdown-link">
-                                  <span>{{user.username}}</span><i class="el-icon-arrow-down el-icon--right"></i>
+                                  <span>{{userInfo.username}}</span><i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
                                 <el-dropdown-menu slot="dropdown" id="userDropdawn">
-                                  <el-dropdown-item disabled>姓名：{{user.name}}</el-dropdown-item>
-                                  <el-dropdown-item disabled>权限：{{user.role}}</el-dropdown-item>
+                                  <el-dropdown-item disabled>姓名：{{userInfo.name}}</el-dropdown-item>
+                                  <el-dropdown-item disabled>权限：{{userInfo.role}}</el-dropdown-item>
                                   <el-dropdown-item><a href="#">修改密码</a></el-dropdown-item>
                                   <el-dropdown-item ><a href="#">修改手机号</a></el-dropdown-item>
-                                  <el-dropdown-item divided><a href="#">退出账号</a></el-dropdown-item>
+                                  <el-dropdown-item divided><a @click="logout">退出账号</a></el-dropdown-item>
                                 </el-dropdown-menu>
                               </el-dropdown>
                                                       
@@ -85,25 +85,25 @@
                     <table id="search">
                         <tr>
                             <td>
-                                <el-input placeholder="工号"></el-input>
+                                <el-input placeholder="工号" v-model="userSearchInfo.jobId"></el-input>
                             </td>
                             <td>
-                                <el-input placeholder="姓名"></el-input>
+                                <el-input placeholder="姓名" v-model="userSearchInfo.name"></el-input>
                             </td>
                             <td>
-                                <el-input placeholder="用户名"></el-input>
+                                <el-input placeholder="用户名" v-model="userSearchInfo.username"></el-input>
                             </td>
                             <td>
-                                <el-button type="primary" icon="el-icon-search">搜索</el-button>
+                                <el-button type="primary" icon="el-icon-search" @click.native="searchUser">搜索</el-button>
                             </td>
                         </tr>
                     </table>
 
                     <template  id="resultTable">
                         <el-table :data="userData" style="width: 100%;">
-                            <el-table-column prop="jobId" label="工号" width="180" align="center">
+                            <el-table-column prop="jobId" label="工号" align="center">
                             </el-table-column>
-                            <el-table-column prop="name" label="姓名" width="180" align="center">
+                            <el-table-column prop="name" label="姓名" align="center">
                             </el-table-column>
                             <el-table-column prop="username" label="用户名" align="center">
                             </el-table-column>
@@ -431,6 +431,7 @@
                     </table>
 
                 </el-main>
+
                 <el-main v-if="deadlineManage">
                     
                     <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
+
 @Service
 public class LoginServiceImpl implements LoginService {
 
@@ -94,7 +95,6 @@ public class LoginServiceImpl implements LoginService {
         if (login.getLoginTime() != null){
 
             Date oldLoginTime = login.getLoginTime();
-            Long nMs = loginTime.getTime() - oldLoginTime.getTime();
             // todo 数据库中没有存时分秒 最长可能延后24h
             int nDay = (int) ((loginTime.getTime() - oldLoginTime.getTime())/(1000*60*60*24));
             //System.out.println(nMs);
@@ -105,14 +105,19 @@ public class LoginServiceImpl implements LoginService {
         }
 
         //登记登陆时间
-        login.setLoginTime(loginTime);
         userMapper.updateLoginTime(login);
 
         //登陆成功后
         //session中写入用户名和权限信息，用户名用于判断用户是否登录，权限信息记录该用户权限
 
+        //方便发回给前端的用户信息
         session.setAttribute("username", login.getUsername());
         session.setAttribute("phoneNum",login.getPhoneNum());
+        session.setAttribute("name",login.getName());
+        session.setAttribute("permission",login.getPermission());
+
+
+        //在服务端使用的权限信息
 
         Permission permission = permissionMapper.getPermission(login.getPermission());
 
@@ -154,11 +159,7 @@ public class LoginServiceImpl implements LoginService {
         //session.setMaxInactiveInterval(100);
 
         // todo 用户登录有些信息不需要返回 登陆成功后不用返回用户信息，用户信息写入session等待其他页面获取
-        login.setPassword(null);
 
-        //将登陆后获得的的用户信息转为JSON字符串
-        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(login);
-        String loginJson = jsonObject.toJSONString();
 
         //释放内存，todo 可能有线程安全问题！
         login = null;

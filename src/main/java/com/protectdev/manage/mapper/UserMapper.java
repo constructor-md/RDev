@@ -26,7 +26,7 @@ public interface UserMapper {
     //检查账号名是否存在
     User usernameCheck(String username);
     //用户注册相关
-    int register(String jobId,String name,String username, String password, Date psModifyTime);
+    int register(String jobId,String name,String username, String password);
 
     //用户登陆相关
     User login(User user);

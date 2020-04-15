@@ -98,3 +98,7 @@ input.sub_button:hover {
   background-position: -153px -882px;
   cursor: pointer;
 }
+
+p{
+  font-size: 2px;
+}

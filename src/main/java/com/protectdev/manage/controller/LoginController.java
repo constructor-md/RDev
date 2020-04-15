@@ -1,21 +1,21 @@
 package com.protectdev.manage.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.protectdev.manage.mapper.UserMapper;
 import com.protectdev.manage.pojo.User;
 import com.protectdev.manage.service.intf.LoginService;
-
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -136,7 +136,7 @@ public class LoginController {
         //      JS有被篡改的可能，IP硬编码应该写在后端，但是前端只负责进行是否填写验证码的判断，验证还是由后端做
         //      前端有了IP之后没有验证码发送框，后端有了IP登陆的时候不判断验证码！
         //      这里有个问题，验证码发送的控制器如果仍然可以通过URL直接访问到的话，会有系统漏洞
-        if(ip.equals("0:0:0:0:0:0::1")){
+        if(ip.equals("0:0:0:0:0:0:0:1")){
             System.out.println("IP正确");
             session.setAttribute("IP",ip);
 
@@ -150,14 +150,24 @@ public class LoginController {
 
         //释放内存
         usernameCheck = null;
-        return "{\"phoneNum\":\""+phoneNum+"\",\"status\":\"ok\",\"IP\":\"no\"}";
+
+        Map<String,String> state = new ConcurrentHashMap();
+
+        state.put("status","ok");
+        state.put("phoneNum",phoneNum);
+        state.put("IP","no");
+
+        String stateJson = JSONObject.toJSON(state).toString();
+
+
+        return stateJson;
     }
 
     //登出，使session失效，并且要消除redis中的相关内容
     //@ResponseBody使得返回的是Json数据，否则返回的是视图，会报重定向循环异常
     @RequestMapping("logout")
     @ResponseBody
-    public void logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request){
 
         HttpSession session = request.getSession();
         String sessionId = request.getRequestedSessionId();
@@ -165,6 +175,8 @@ public class LoginController {
 
         redisTemplate.delete(sessionId);
         System.out.println("用户登出");
+
+        return "{\"status\":\"ok\"}";
 
     }
 

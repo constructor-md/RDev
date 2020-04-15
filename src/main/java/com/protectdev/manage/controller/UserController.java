@@ -2,6 +2,7 @@ package com.protectdev.manage.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+
 import com.protectdev.manage.annotation.PermissionCheck;
 import com.protectdev.manage.mapper.PermissionMapper;
 import com.protectdev.manage.mapper.UserMapper;
@@ -40,7 +41,15 @@ public class UserController {
 
         List<User> userList = userMapper.getUser(user);
 
+        System.out.println(userList.get(0).toString());
+
+        user = null;
+
         String userGet = JSONObject.toJSON(userList).toString();
+
+        System.out.println(userList);
+
+        System.out.println(userGet);
 
         return userGet;
 

@@ -3,6 +3,7 @@ package com.protectdev.manage.controller;
 
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.protectdev.manage.mapper.UserMapper;
 import com.protectdev.manage.pojo.User;
 import com.protectdev.manage.service.intf.RegisterService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Controller
@@ -78,7 +81,14 @@ public class RegisterController {
         session.setAttribute("jobId",idNameCheck.getJobId());
         session.setAttribute("name",idNameCheck.getName());
 
-        return "{\"status\":\"ok\"}";
+        Map<String,String> state = new ConcurrentHashMap();
+
+        state.put("status","ok");
+        state.put("phoneNum",phoneNum);
+
+        String stateJson = JSONObject.toJSON(state).toString();
+
+        return stateJson;
 
     }
 

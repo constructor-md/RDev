@@ -11,7 +11,7 @@
             <result column="password" property="password"></result>
             <result column="permission" property="permission"></result>
             <result column="phoneNum" property="phoneNum"></result>
-            <result column="login_time" property="loginTime"></result>
+            <result column="login_time" property="loginTime" ></result>
             <result column="ps_modify_time" property="psModifyTime"></result>
         </resultMap>
 
@@ -30,7 +30,7 @@
 
         <update id="register">
             update `user`
-            set username = #{username} , password = #{password} , ps_modify_time = #{psModifyTime}
+            set username = #{username} , password = #{password} , ps_modify_time = now()
             where job_id = #{jobId} and `name` = #{name}
         </update>
 
@@ -40,15 +40,15 @@
             where username = #{username} and password = #{password}
         </select>
 
-        <update id="updateLoginTime" parameterType="com.protectdev.manage.pojo.User">
+        <update id="updateLoginTime" parameterType="com.protectdev.manage.pojo.User" >
             update `user`
-            set login_time = #{loginTime}
+            set login_time = now()
             where job_id = #{jobId} and `name` = #{name}
         </update>
 
 
         <select id="getUser" parameterType="com.protectdev.manage.pojo.User" resultMap="User">
-            select *
+            select user_id,job_id,name,username,phoneNum,permission,login_time
             from `user`
             where <if test="jobId != null">job_id = #{jobId} </if>
                   <if test="jobId != null and name != null">and</if>
