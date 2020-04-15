@@ -195,8 +195,43 @@ var vm = new Vue({
 
         },
 
-        test:function(){
-            alert("初始化");
+        postUserInfo(){
+
+        },
+
+        deleteUser:function(row){
+
+            let that = this;
+            let rowq = row;
+
+            axios.post("http://localhost:8081/user/delete","userId="+row.userId)
+            .then(
+                function(res){
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'删除成功',
+                            type:'success'
+                        });
+
+                        rowq = null;
+
+                    }
+                    if(res.data.status == "err"){
+                        that.$message.error('删除失败');
+                    }
+                },
+                function(err){
+                    console.log(res);
+                    that.$message.error('操作失败，服务器错误');
+                }
+            )
+
+        },
+
+
+
+        test:function(row){
+            console.log(row)
         },
 
         logout:function(){

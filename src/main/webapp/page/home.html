@@ -13,7 +13,7 @@
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <link rel="stylesheet" href="../CSS/home.css">
-    
+
 
 </head>
 
@@ -29,22 +29,22 @@
                         <td width="900px">
                         </td>
                         <td>
-                            
+
                             <i class="el-icon-user" style="margin-top: 10px;"></i>
                             <el-dropdown>
                                 <span class="el-dropdown-link">
-                                  <span>{{userInfo.username}}</span><i class="el-icon-arrow-down el-icon--right"></i>
+                                    <span>{{userInfo.username}}</span><i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
                                 <el-dropdown-menu slot="dropdown" id="userDropdawn">
-                                  <el-dropdown-item disabled>姓名：{{userInfo.name}}</el-dropdown-item>
-                                  <el-dropdown-item disabled>权限：{{userInfo.role}}</el-dropdown-item>
-                                  <el-dropdown-item><a href="#">修改密码</a></el-dropdown-item>
-                                  <el-dropdown-item ><a href="#">修改手机号</a></el-dropdown-item>
-                                  <el-dropdown-item divided><a @click="logout">退出账号</a></el-dropdown-item>
+                                    <el-dropdown-item disabled>姓名：{{userInfo.name}}</el-dropdown-item>
+                                    <el-dropdown-item disabled>权限：{{userInfo.role}}</el-dropdown-item>
+                                    <el-dropdown-item><a href="#">修改密码</a></el-dropdown-item>
+                                    <el-dropdown-item><a href="#">修改手机号</a></el-dropdown-item>
+                                    <el-dropdown-item divided><a @click="logout">退出账号</a></el-dropdown-item>
                                 </el-dropdown-menu>
-                              </el-dropdown>
-                                                      
-                            
+                            </el-dropdown>
+
+
                         </td>
                     </tr>
                 </table>
@@ -56,27 +56,27 @@
 
                 <el-aside style="width: 200px;">
                     <el-menu>
-                        <el-menu-item  @click="doUserManage">
+                        <el-menu-item @click="doUserManage">
                             <p>用户管理</p>
                         </el-menu-item>
 
-                        <el-menu-item  @click="doPermissionManage">
+                        <el-menu-item @click="doPermissionManage">
                             <p>权限管理</p>
                         </el-menu-item>
 
-                        <el-menu-item  @click="doExamManage">
+                        <el-menu-item @click="doExamManage">
                             <p>设备审批</p>
                         </el-menu-item>
 
-                        <el-menu-item  @click="doDeviceManage">
+                        <el-menu-item @click="doDeviceManage">
                             <p>设备管理</p>
                         </el-menu-item>
 
-                        <el-menu-item  @click="doFaultManage">
+                        <el-menu-item @click="doFaultManage">
                             <p>设备故障</p>
                         </el-menu-item>
 
-                        <el-menu-item  @click="doDeadlineManage">
+                        <el-menu-item @click="doDeadlineManage">
                             <p>临近到期设备</p>
                         </el-menu-item>
                     </el-menu>
@@ -94,12 +94,13 @@
                                 <el-input placeholder="用户名" v-model="userSearchInfo.username"></el-input>
                             </td>
                             <td>
-                                <el-button type="primary" icon="el-icon-search" @click.native="searchUser">搜索</el-button>
+                                <el-button type="primary" icon="el-icon-search" @click.native="searchUser">搜索
+                                </el-button>
                             </td>
                         </tr>
                     </table>
 
-                    <template  id="resultTable">
+                    <template id="resultTable">
                         <el-table :data="userData" style="width: 100%;">
                             <el-table-column prop="jobId" label="工号" align="center">
                             </el-table-column>
@@ -113,13 +114,17 @@
                             </el-table-column>
                             <el-table-column prop="loginTime" label="上次登录时间" align="center">
                             </el-table-column>
-                            <el-table-column width="120" align="center">
-
+                            <el-table-column align="center" label="操作">
+                                <div slot-scope="scope">
                                     <i class="el-icon-edit"></i>
-                                    <a href="#">修改</a>
-                                    <i class="el-icon-delete"></i>
-                                    <a href="#">删除</a>
+                                    <a @click="test(scope.row)">修改</a>
+                                    
+                                    <el-popconfirm @onConfirm="deleteUser(scope.row)" title="删除后不可恢复，确认删除？"></el-popconfirm>
+                                        <i class="el-icon-delete"></i>
+                                        <a slot="reference">删除</a>
+                                    </el-popconfirm>
 
+                                </div>
                             </el-table-column>
 
                         </el-table>
@@ -129,10 +134,10 @@
                 <el-main v-if="permissionManage">
                     <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
                         <p style="margin-top: 10px;">权限信息管理</p>
-                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+                        <el-button type="primary" icon="el-icon-refresh" id="import">导入</el-button>
 
                     </div>
-                    <template  id="resultTable">
+                    <template id="resultTable">
                         <el-table :data="permissionData" style="width: 100%;">
                             <el-table-column prop="permission" label="权限角色" width="100" align="center">
                             </el-table-column>
@@ -186,11 +191,11 @@
                             </el-table-column>
                             <el-table-column prop="exam" label="审批" width="70" align="center">
                             </el-table-column>
-                            <el-table-column width="120" align="center">
-                                    <i class="el-icon-edit"></i>
-                                    <a href="#">修改</a>
-                                    <i class="el-icon-delete"></i>
-                                    <a href="#">删除</a>
+                            <el-table-column align="center">
+                                <i class="el-icon-edit"></i>
+                                <a href="#">修改</a>
+                                <i class="el-icon-delete"></i>
+                                <a href="#">删除</a>
                             </el-table-column>
 
 
@@ -204,16 +209,16 @@
                 <el-main v-if="examManage">
                     <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
                         <p style="margin-top: 10px;">设备信息审批</p>
-                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+                        <el-button type="primary" icon="el-icon-refresh" id="import">导入</el-button>
 
                     </div>
-                            
 
-                    <template  id="resultTable">
+
+                    <template id="resultTable">
                         <el-table :data="deviceExamData" style="width: 100%;">
                             <el-table-column prop="deviceId" label="设备编号" align="center">
                             </el-table-column>
-                            <el-table-column prop="deviceName" label="设备名称"  align="center">
+                            <el-table-column prop="deviceName" label="设备名称" align="center">
                             </el-table-column>
                             <el-table-column prop="RDevtype" label="保护类型" align="center">
                             </el-table-column>
@@ -227,27 +232,28 @@
                             </el-table-column>
                             <el-table-column prop="deadline" label="请求操作" align="center">
                             </el-table-column>
-                            <el-table-column width="120" align="center">
-                                    <i class="el-icon-edit"></i>
-                                    <a href="#">修改</a>
-                                    <i class="el-icon-delete"></i>
-                                    <a href="#">删除</a>
+                            <el-table-column align="center">
+                                <i class="el-icon-edit"></i>
+                                <a href="#">修改</a>
+                                <i class="el-icon-delete"></i>
+                                <a href="#">删除</a>
                             </el-table-column>
 
                         </el-table>
                     </template>
 
-                    <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px; margin-top: 20px;">
+                    <div
+                        style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px; margin-top: 20px;">
                         <p style="margin-top: 10px;">故障信息审批</p>
-                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+                        <el-button type="primary" icon="el-icon-refresh" id="import">导入</el-button>
                     </div>
-                            
 
-                    <template  id="resultTable">
+
+                    <template id="resultTable">
                         <el-table :data="faultExamData" style="width: 100%;">
                             <el-table-column prop="deviceId" label="设备编号" align="center">
                             </el-table-column>
-                            <el-table-column prop="deviceName" label="设备名称"  align="center">
+                            <el-table-column prop="deviceName" label="设备名称" align="center">
                             </el-table-column>
                             <el-table-column prop="faultDesc" label="故障描述" align="center">
                             </el-table-column>
@@ -260,26 +266,27 @@
                             <el-table-column prop="deadline" label="请求操作" align="center">
                             </el-table-column>
                             <el-table-column width="120" align="center">
-                                    <i class="el-icon-edit"></i>
-                                    <a href="#">修改</a>
-                                    <i class="el-icon-delete"></i>
-                                    <a href="#">删除</a>
+                                <i class="el-icon-edit"></i>
+                                <a href="#">修改</a>
+                                <i class="el-icon-delete"></i>
+                                <a href="#">删除</a>
                             </el-table-column>
 
                         </el-table>
                     </template>
 
-                    <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px; margin-top: 20px;">
+                    <div
+                        style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px; margin-top: 20px;">
                         <p style="margin-top: 10px;">软件信息审批</p>
-                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+                        <el-button type="primary" icon="el-icon-refresh" id="import">导入</el-button>
                     </div>
-                            
 
-                    <template  id="resultTable">
+
+                    <template id="resultTable">
                         <el-table :data="softExamData" style="width: 100%;">
                             <el-table-column prop="softId" label="软件编号" align="center">
                             </el-table-column>
-                            <el-table-column prop="softName" label="软件名称"  align="center">
+                            <el-table-column prop="softName" label="软件名称" align="center">
                             </el-table-column>
                             <el-table-column prop="softVersion" label="软件版本" align="center">
                             </el-table-column>
@@ -293,27 +300,28 @@
                             </el-table-column>
                             <el-table-column prop="deadline" label="请求操作" align="center">
                             </el-table-column>
-                            <el-table-column width="120" align="center">
-                                    <i class="el-icon-edit"></i>
-                                    <a href="#">修改</a>
-                                    <i class="el-icon-delete"></i>
-                                    <a href="#">删除</a>
+                            <el-table-column align="center">
+                                <i class="el-icon-edit"></i>
+                                <a href="#">修改</a>
+                                <i class="el-icon-delete"></i>
+                                <a href="#">删除</a>
                             </el-table-column>
 
                         </el-table>
                     </template>
 
-                    <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px; margin-top: 20px;">
+                    <div
+                        style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px; margin-top: 20px;">
                         <p style="margin-top: 10px;">模板信息审批</p>
-                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+                        <el-button type="primary" icon="el-icon-refresh" id="import">导入</el-button>
                     </div>
-                            
 
-                    <template  id="resultTable">
+
+                    <template id="resultTable">
                         <el-table :data="deviceExamData" style="width: 100%;">
                             <el-table-column prop="Id" label="设备编号" align="center">
                             </el-table-column>
-                            <el-table-column prop="deviceName" label="设备名"  align="center">
+                            <el-table-column prop="deviceName" label="设备名" align="center">
                             </el-table-column>
                             <el-table-column prop="RDevtype" label="保护类型" align="center">
                             </el-table-column>
@@ -333,11 +341,11 @@
                             </el-table-column>
                             <el-table-column prop="deadline" label="请求操作" align="center">
                             </el-table-column>
-                            <el-table-column width="120" align="center">
-                                    <i class="el-icon-edit"></i>
-                                    <a href="#">修改</a>
-                                    <i class="el-icon-delete"></i>
-                                    <a href="#">删除</a>
+                            <el-table-column align="center">
+                                <i class="el-icon-edit"></i>
+                                <a href="#">修改</a>
+                                <i class="el-icon-delete"></i>
+                                <a href="#">删除</a>
                             </el-table-column>
 
                         </el-table>
@@ -365,11 +373,11 @@
                         </tr>
                     </table>
 
-                    <template  id="resultTable">
+                    <template id="resultTable">
                         <el-table :data="deviceData" style="width: 100%;">
                             <el-table-column prop="deviceId" label="设备编号" align="center">
                             </el-table-column>
-                            <el-table-column prop="deviceName" label="设备名"  align="center">
+                            <el-table-column prop="deviceName" label="设备名" align="center">
                             </el-table-column>
                             <el-table-column prop="RDevtype" label="保护类型" align="center">
                             </el-table-column>
@@ -387,11 +395,11 @@
                             </el-table-column>
                             <el-table-column prop="deadline" label="使用期限" align="center">
                             </el-table-column>
-                            <el-table-column width="120" align="center">
-                                    <i class="el-icon-edit"></i>
-                                    <a href="#">修改</a>
-                                    <i class="el-icon-delete"></i>
-                                    <a href="#">删除</a>
+                            <el-table-column align="center">
+                                <i class="el-icon-edit"></i>
+                                <a href="#">修改</a>
+                                <i class="el-icon-delete"></i>
+                                <a href="#">删除</a>
                             </el-table-column>
 
                         </el-table>
@@ -401,14 +409,14 @@
                 <el-main v-if="faultManage">
                     <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
                         <p style="margin-top: 10px;">故障信息</p>
-                        <el-button type="primary" icon="el-icon-refresh"  id="import">导入</el-button>
+                        <el-button type="primary" icon="el-icon-refresh" id="import">导入</el-button>
 
                     </div>
-                    <template  id="resultTable">
+                    <template id="resultTable">
                         <el-table :data="faultData" style="width: 100%;">
                             <el-table-column prop="deviceId" label="设备编号" align="center">
                             </el-table-column>
-                            <el-table-column prop="deviceName" label="设备名称"  align="center">
+                            <el-table-column prop="deviceName" label="设备名称" align="center">
                             </el-table-column>
                             <el-table-column prop="faultDesc" label="故障描述" align="center">
                             </el-table-column>
@@ -418,11 +426,11 @@
                             </el-table-column>
                             <el-table-column prop="upTime" label="上传时间" align="center">
                             </el-table-column>
-                            <el-table-column width="120" align="center">
-                                    <i class="el-icon-edit"></i>
-                                    <a href="#">修改</a>
-                                    <i class="el-icon-delete"></i>
-                                    <a href="#">删除</a>
+                            <el-table-column align="center">
+                                <i class="el-icon-edit"></i>
+                                <a href="#">修改</a>
+                                <i class="el-icon-delete"></i>
+                                <a href="#">删除</a>
                             </el-table-column>
 
                         </el-table>
@@ -433,17 +441,17 @@
                 </el-main>
 
                 <el-main v-if="deadlineManage">
-                    
+
                     <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
                         <p style="margin-top: 10px;">临近到期设备信息</p>
-                        <el-button type="primary" icon="el-icon-refresh"  id="import">获取</el-button>
+                        <el-button type="primary" icon="el-icon-refresh" id="import">获取</el-button>
 
                     </div>
-                    <template  id="resultTable">
+                    <template id="resultTable">
                         <el-table :data="deadlineDeviceData" style="width: 100%;">
                             <el-table-column prop="deviceId" label="设备编号" align="center">
                             </el-table-column>
-                            <el-table-column prop="deviceName" label="设备名"  align="center">
+                            <el-table-column prop="deviceName" label="设备名" align="center">
                             </el-table-column>
                             <el-table-column prop="RDevtype" label="保护类型" align="center">
                             </el-table-column>
@@ -461,11 +469,11 @@
                             </el-table-column>
                             <el-table-column prop="deadline" label="使用期限" align="center">
                             </el-table-column>
-                            <el-table-column width="120" align="center">
-                                    <i class="el-icon-edit"></i>
-                                    <a href="#">修改</a>
-                                    <i class="el-icon-delete"></i>
-                                    <a href="#">删除</a>
+                            <el-table-column align="center">
+                                <i class="el-icon-edit"></i>
+                                <a href="#">修改</a>
+                                <i class="el-icon-delete"></i>
+                                <a href="#">删除</a>
                             </el-table-column>
 
                         </el-table>

@@ -62,8 +62,6 @@
             set
                 <if test="jobId != null">job_id = #{jobId}</if>
                 <if test="name != null">,name = #{name}</if>
-                <if test="username != null">,username = #{username}</if>
-                <if test="password != null">,password = #{password}</if>
                 <if test="permission != null">,permission = #{permission}</if>
                 <if test="phoneNum != null">,phoneNum = #{phoneNum}</if>
             where user_id = #{userId}

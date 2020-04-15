@@ -65,10 +65,10 @@ public class UserController {
 
 
         if (userPost != 0){
-            return "用户信息修改成功";
+            return "{\"status\":\"ok\"}";
         }
 
-        return "用户信息修改失败";
+        return "{\"status\":\"err\"}";
 
     }
 
@@ -117,10 +117,10 @@ public class UserController {
         int userDelete = userMapper.deleteUser(Integer.parseInt(request.getParameter("userId")));
 
         if (userDelete != 0){
-            return "成功删除该用户";
+            return "{\"status\":\"ok\"}";
         }
 
-        return "删除用户失败/id不存在";
+        return "{\"status\":\"err\"}";
     }
 
 }
