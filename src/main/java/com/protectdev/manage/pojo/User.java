@@ -2,6 +2,7 @@ package com.protectdev.manage.pojo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -15,10 +16,10 @@ public class User {
     private String password;
     private String permission;
     private String phoneNum;
-
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date loginTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date psModifyTime;
 

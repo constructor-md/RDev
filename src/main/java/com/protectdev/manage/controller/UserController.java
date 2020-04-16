@@ -61,6 +61,9 @@ public class UserController {
     @PermissionCheck("userPost")
     public String userPost(@RequestBody User user){
 
+
+        System.out.println(user.getLoginTime());
+
         int userPost = userMapper.updateUser(user);
 
 
@@ -80,32 +83,31 @@ public class UserController {
 
         if (user.getJobId() == null || user.getJobId().equals("")){
 
-            return "工号不可为空";
+            return "{\"status\":\"jobIdNull\"}";
         }
         if (user.getName() == null || user.getName().equals("")){
 
-            return "姓名不可为空";
+            return "{\"status\":\"nameNull\"}";
         }
         if (user.getPhoneNum() == null || !Check.isPhoneNum(user.getPhoneNum())){
 
-            return "手机号为空或格式不正确";
+            return "{\"status\":\"phoneNumErr\"}";
 
         }
         if (user.getPermission() == null){
-            return "未给用户添加权限角色";
+            return "{\"status\":\"permissionEmpty\"}";
         }
         if (permissionMapper.getPermission(user.getPermission()) == null){
-            return "权限角色不存在";
+            return "{\"status\":\"permissionNull\"}";
         }
 
         int userAdd = userMapper.addUser(user);
 
         if (userAdd != 0){
-            return "用户新增成功";
+            return "{\"status\":\"ok\"}";
         }
 
-        return "用户新增失败";
-
+        return "{\"status\":\"err\"}";
 
     }
 

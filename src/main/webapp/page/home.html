@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>继电保护设备管理系统-主页</title>
 
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -81,6 +81,7 @@
                         </el-menu-item>
                     </el-menu>
                 </el-aside>
+
                 <el-main v-if="userManage">
                     <table id="search">
                         <tr>
@@ -94,40 +95,112 @@
                                 <el-input placeholder="用户名" v-model="userSearchInfo.username"></el-input>
                             </td>
                             <td>
-                                <el-button type="primary" icon="el-icon-search" @click.native="searchUser">搜索
+                                <el-button type="primary" icon="el-icon-search" @click.native="searchUser"
+                                    style="color: white;">搜索
                                 </el-button>
                             </td>
                         </tr>
                     </table>
 
                     <template id="resultTable">
-                        <el-table :data="userData" style="width: 100%;">
+                        <el-table :data="userData" style="width: 100%;" key="userManage">
                             <el-table-column prop="jobId" label="工号" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.jobId" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.jobId}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="name" label="姓名" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.name" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.name}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="username" label="用户名" align="center">
+                                <template slot-scope="{row}">
+                                    <span class="table-cell">{{row.username}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="permission" label="权限" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.permission" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.permission}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="phoneNum" label="手机号" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.phoneNum" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.phoneNum}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="loginTime" label="上次登录时间" align="center">
+                                <template slot-scope="{row}">
+                                    <el-date-picker value-format="yyyy-MM-dd" type="datetime" v-if="row.edit"
+                                        v-model="row.loginTime" type="date" placeholder='请输入时间' style="width: 140px;">
+                                    </el-date-picker>
+                                    <span class="table-cell" v-if="!row.edit">{{row.loginTime}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column align="center" label="操作">
                                 <div slot-scope="scope">
-                                    <i class="el-icon-edit"></i>
-                                    <a @click="test(scope.row)">修改</a>
-                                    
-                                    <el-popconfirm @onConfirm="deleteUser(scope.row)" title="删除后不可恢复，确认删除？"></el-popconfirm>
-                                        <i class="el-icon-delete"></i>
-                                        <a slot="reference">删除</a>
-                                    </el-popconfirm>
+                                    <!-- 删除 -->
+                                    <div v-if="!scope.row.edit">
 
+                                        <el-button @click.native="scope.row.edit = true" type="text" slot="reference"
+                                            icon="el-icon-edit" circle></el-button>
+                                        <el-popover width="160" v-model="scope.row.visible">
+                                            <p style="font-size: 15px;">确定删除吗？</p>
+                                            <div style="text-align: right; margin: 0" style="font-size: 15px;">
+                                                <el-button size="mini" type="text" @click="scope.row.visible = false">
+                                                    <span style="color: #58595b;" class="cancel">取消</span></el-button>
+                                                <el-button type="danger" size="mini"
+                                                    @click="deleteUser(scope.row,scope.$index)">确定</el-button>
+                                            </div>
+                                            <el-button type="text" slot="reference" icon="el-icon-delete" circle>
+                                            </el-button>
+                                        </el-popover>
+                                    </div>
+                                    <!-- 编辑 -->
+                                    <div v-if="scope.row.edit">
+                                        <el-button @click.native="updateUser(scope.row)" type="text"
+                                            icon="el-icon-finished" circle></el-button>
+                                        <el-button @click.native="scope.row.edit = false" type="text"
+                                            icon="el-icon-close" circle></el-button>
+                                    </div>
                                 </div>
                             </el-table-column>
 
                         </el-table>
+
+                        <div style="display: flex;justify-content: space-around;margin-top: 10px;"
+                            v-if="userAddInfoShow">
+
+                            <span style="color: #58595b; margin-top: 10px;">工号：</span>
+                            <el-input v-model="userAddInfo.jobId" placeholder="请输入工号" style="width: 180px;"></el-input>
+                            <span style="color: #58595b; margin-top: 10px;">姓名：</span>
+                            <el-input v-model="userAddInfo.name" placeholder="请输入姓名" align="center"
+                                style="width: 180px;"></el-input>
+                            <span style="color: #58595b; margin-top: 10px;">权限：</span>
+                            <el-input v-model="userAddInfo.permission" placeholder="请输入权限角色" align="center"
+                                style="width: 180px;"></el-input>
+                            <span style="color: #58595b; margin-top: 10px;">手机号：</span>
+                            <el-input v-model="userAddInfo.phoneNum" placeholder="请输入手机号" align="center"
+                                style="width: 180px;"></el-input>
+
+
+                        </div>
+
+                        <div style="display: flex;justify-content: center;">
+
+                            <el-button type="primary" icon="el-icon-finished" size="small" style="margin-top: 10px;"
+                                v-if="userAddInfoShow" @click="addUser">提交</el-button>
+                            <el-button type="text" icon="el-icon-close" size="small" style="margin-top: 10px;"
+                                v-if="userAddInfoShow" @click="addUserClose"><span style="color: #58595b;"
+                                    class="cancel">取消</span></el-button>
+                            <el-button type="primary" icon="el-icon-plus" size="small" style="margin-top: 10px;"
+                                v-if="!userAddInfoShow" @click="userAddInfoShow=true">Add</el-button>
+
+                        </div>
                     </template>
                 </el-main>
 
@@ -137,72 +210,245 @@
                         <el-button type="primary" icon="el-icon-refresh" id="import">导入</el-button>
 
                     </div>
+
                     <template id="resultTable">
-                        <el-table :data="permissionData" style="width: 100%;">
-                            <el-table-column prop="permission" label="权限角色" width="100" align="center">
+                        <el-table :data="permissionData" style="width: 100%;" key="permissionTable">
+
+                            <el-table-column type="expand">
+                                <template slot-scope="props">
+                                    <el-form label-position="left" inline class="demo-table-expand">
+                                        <el-form-item label="权限获取">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.permissionGet">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.permissionGet">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="权限修改">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.permissionPost">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.permissionPost">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="权限新增">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.permissionAdd">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.permissionAdd">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="权限删除">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.permissionDelete">有</span>
+                                                <span style="color: #58595b;"
+                                                    v-if="!props.row.permissiondelete">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="设备获取">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.deviceGet">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.deviceGet">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="设备修改">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.devicePost">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.devicePost">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="设备新增">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.deviceAdd">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.deviceAdd">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="设备删除">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.deviceDelete">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.deviceDelete">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="模板获取">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.temGet">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.temGet">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="模板修改">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.temPost">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.temPost">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="模板新增">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.temAdd">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.temAdd">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="模板删除">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.temDelete">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.temDelete">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="软件获取">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.softGet">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.softGet">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="软件修改">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.softPost">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.softPost">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="软件新增">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.softAdd">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.softAdd">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="软件删除">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.softDelete">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.softDelete">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="故障获取">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.faultGet">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.faultGet">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="故障修改">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.faultPost">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.faultPost">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="故障新增">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.faultAdd">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.faultAdd">无</span>
+                                            </span>
+                                        </el-form-item>
+                                        <el-form-item label="故障删除">
+
+                                            <span v-if="!props.row.edit">
+                                                <span style="color: #58595b;" v-if="props.row.faultDelete">有</span>
+                                                <span style="color: #58595b;" v-if="!props.row.faultDelete">无</span>
+                                            </span>
+                                        </el-form-item>
+                                </template>
+                                </el-form>
                             </el-table-column>
-                            <el-table-column prop="userGet" label="用户获取" width="100" align="center">
+
+                            <el-table-column prop="permission" label="权限角色" align="center">
+                                <template slot-scope="{scope}">
+
+                                    <span v-if="!scope.row.edit">
+                                        <span style="color: #58595b;">{{scope.row.permission}}</span>
+                                    </span>
+                                </template>
                             </el-table-column>
-                            <el-table-column prop="userPost" label="用户修改" width="100" align="center">
+                            <el-table-column prop="exam" label="审批" align="center">
+                                <div slot-scope="{scope}">
+
+                                    <span v-if="!scope.row.edit">
+                                        <span style="color: #58595b;" v-if="scope.row.exam">有</span>
+                                        <span style="color: #58595b;" v-if="!scope.row.exam">无</span>
+                                    </span>
+                                </div>
                             </el-table-column>
-                            <el-table-column prop="userAdd" label="用户新增" width="100" align="center">
+                            <el-table-column prop="userGet" label="用户获取" align="center">
+                                <div slot-scope="{scope}">
+
+                                    <span v-if="!scope.row.edit">
+                                        <span style="color: #58595b;" v-if="scope.row.userGet">有</span>
+                                        <span style="color: #58595b;" v-if="!scope.row.userGet">无</span>
+                                    </span>
+                                </div>
                             </el-table-column>
-                            <el-table-column prop="userDelete" label="用户删除" width="100" align="center">
+                            <el-table-column prop="userPost" label="用户修改" align="center">
+                                <div slot-scope="{scope}">
+
+                                    <span v-if="!scope.row.edit">
+                                        <span style="color: #58595b;" v-if="scope.row.userPost">有</span>
+                                        <span style="color: #58595b;" v-if="!scope.row.userPost">无</span>
+                                    </span>
+                                </div>
+
                             </el-table-column>
-                            <el-table-column prop="permissionGet" label="权限获取" width="100" align="center">
+                            <el-table-column prop="userAdd" label="用户新增" align="center">
+                                <div slot-scope="{scope}">
+
+                                    <span v-if="!scope.row.edit">
+                                        <span style="color: #58595b;" v-if="scope.row.userAdd">有</span>
+                                        <span style="color: #58595b;" v-if="!scope.row.userAdd">无</span>
+                                    </span>
+                                </div>
+
                             </el-table-column>
-                            <el-table-column prop="permissionPost" label="权限修改" width="100" align="center">
+                            <el-table-column prop="userDelete" label="用户删除" align="center">
+                                <div slot-scope="{scope}">
+
+                                    <span v-if="!scope.row.edit">
+                                        <span style="color: #58595b;" v-if="scope.row.userDelete">有</span>
+                                        <span style="color: #58595b;" v-if="!scope.row.userDelete">无</span>
+                                    </span>
+                                </div>
                             </el-table-column>
-                            <el-table-column prop="permissionAdd" label="权限新增" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="permissionDelete" label="权限删除" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="deviceGet" label="设备获取" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="devicePost" label="设备修改" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="deviceAdd" label="设备新增" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="deviceDelete" label="设备删除" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="temGet" label="模板获取" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="temPost" label="模板修改" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="temAdd" label="模板新增" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="temDelete" label="模板删除" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="softGet" label="软件获取" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="softPost" label="软件修改" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="softAdd" label="软件新增" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="softDelete" label="软件删除" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="faultGet" label="故障获取" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="faultPost" label="故障修改" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="faultAdd" label="故障新增" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="faultDelete" label="故障删除" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="exam" label="审批" width="70" align="center">
-                            </el-table-column>
-                            <el-table-column align="center">
-                                <i class="el-icon-edit"></i>
-                                <a href="#">修改</a>
-                                <i class="el-icon-delete"></i>
-                                <a href="#">删除</a>
+
+                            <el-table-column align="center" label="操作">
+                                <div slot-scope="scope">
+                                    <!-- 删除 -->
+                                    <div v-if="!scope.row.edit">
+                                        <el-button @click.native="scope.row.edit = true" type="text" slot="reference"
+                                            icon="el-icon-edit" circle></el-button>
+                                        <el-popover width="160" v-model="scope.row.visible">
+                                            <p style="font-size: 15px;">确定删除吗？</p>
+                                            <div style="text-align: right; margin: 0" style="font-size: 15px;">
+                                                <el-button size="mini" type="text" @click="scope.row.visible = false">
+                                                    <span style="color: #58595b;" class="cancel">取消</span></el-button>
+                                                <el-button type="danger" size="mini"
+                                                    @click="deleteUser(scope.row,scope.$index)">确定</el-button>
+                                            </div>
+                                            <el-button type="text" slot="reference" icon="el-icon-delete" circle>
+                                            </el-button>
+                                        </el-popover>
+                                    </div>
+                                    <!-- 编辑 -->
+                                    <div v-if="scope.row.edit">
+                                        <el-button @click.native="updatePermission(scope.row)" type="text"
+                                            icon="el-icon-finished" circle></el-button>
+                                        <el-button @click.native="scope.row.edit = false" type="text"
+                                            icon="el-icon-close" circle></el-button>
+                                    </div>
+                                </div>
                             </el-table-column>
 
 
                         </el-table>
                     </template>
-
-                    </table>
 
                 </el-main>
 
@@ -215,7 +461,7 @@
 
 
                     <template id="resultTable">
-                        <el-table :data="deviceExamData" style="width: 100%;">
+                        <el-table :data="deviceExamData" style="width: 100%;" key="deviceExamManage">
                             <el-table-column prop="deviceId" label="设备编号" align="center">
                             </el-table-column>
                             <el-table-column prop="deviceName" label="设备名称" align="center">
@@ -250,7 +496,7 @@
 
 
                     <template id="resultTable">
-                        <el-table :data="faultExamData" style="width: 100%;">
+                        <el-table :data="faultExamData" style="width: 100%;" key="faultExamManage">
                             <el-table-column prop="deviceId" label="设备编号" align="center">
                             </el-table-column>
                             <el-table-column prop="deviceName" label="设备名称" align="center">
@@ -283,7 +529,7 @@
 
 
                     <template id="resultTable">
-                        <el-table :data="softExamData" style="width: 100%;">
+                        <el-table :data="softExamData" style="width: 100%;" key="softExamManage">
                             <el-table-column prop="softId" label="软件编号" align="center">
                             </el-table-column>
                             <el-table-column prop="softName" label="软件名称" align="center">
@@ -318,7 +564,7 @@
 
 
                     <template id="resultTable">
-                        <el-table :data="deviceExamData" style="width: 100%;">
+                        <el-table :data="temExamData" style="width: 100%;" key="temExamManage">
                             <el-table-column prop="Id" label="设备编号" align="center">
                             </el-table-column>
                             <el-table-column prop="deviceName" label="设备名" align="center">
@@ -374,7 +620,7 @@
                     </table>
 
                     <template id="resultTable">
-                        <el-table :data="deviceData" style="width: 100%;">
+                        <el-table :data="deviceData" style="width: 100%;" key="deviceManage">
                             <el-table-column prop="deviceId" label="设备编号" align="center">
                             </el-table-column>
                             <el-table-column prop="deviceName" label="设备名" align="center">
@@ -413,7 +659,7 @@
 
                     </div>
                     <template id="resultTable">
-                        <el-table :data="faultData" style="width: 100%;">
+                        <el-table :data="faultData" style="width: 100%;" key="faultManage">
                             <el-table-column prop="deviceId" label="设备编号" align="center">
                             </el-table-column>
                             <el-table-column prop="deviceName" label="设备名称" align="center">
@@ -448,7 +694,7 @@
 
                     </div>
                     <template id="resultTable">
-                        <el-table :data="deadlineDeviceData" style="width: 100%;">
+                        <el-table :data="deadlineDeviceData" style="width: 100%;" key="deadlineManage">
                             <el-table-column prop="deviceId" label="设备编号" align="center">
                             </el-table-column>
                             <el-table-column prop="deviceName" label="设备名" align="center">

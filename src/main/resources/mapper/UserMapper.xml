@@ -64,6 +64,8 @@
                 <if test="name != null">,name = #{name}</if>
                 <if test="permission != null">,permission = #{permission}</if>
                 <if test="phoneNum != null">,phoneNum = #{phoneNum}</if>
+                <if test="loginTime != null">,login_time = #{loginTime}</if>
+
             where user_id = #{userId}
         </update>
 

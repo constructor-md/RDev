@@ -11,6 +11,7 @@ var vm = new Vue({
             softManage: false,
             faultManage: false,
             deadlineManage: false,
+            userAddInfoShow:false,
 
         userInfo: {
                 name: '',
@@ -23,17 +24,60 @@ var vm = new Vue({
             username:null,
         },
 
-        userData: null,
+        userAddInfo:{
+            jobId:null,
+            name:null,
+            phoneNum:null,
+            permission:null,
+
+        },
+// null
+        userData:[
+            {
+                jobId:'233',
+                name:'暖树',
+                username:'admin',
+                visible:false,
+                edit:false,
+                loginTime:'2020-04-22 17:06:05'
+            },
+            {
+                jobId:'233',
+                name:'灵均',
+                username:'normal',
+                visible:false,
+                edit:false,
+                loginTime:'2020-04-22'
+
+            }
+        ] ,
         permissionData:[
             {
             permission:'管理员',
-            userGet:'yes',
-            userPost:'no',
-            userAdd:'yes',
-            userDelete:'no',
-
-
-            }
+            userGet:true,
+            userPost:false,
+            userAdd:true,
+            userDelete:false,
+            deviceGet:true,
+            devicePost:false,
+            deviceAdd:true,
+            deviceDelete:false,
+            temGet:true,
+            temPost:false,
+            temAdd:true,
+            temDelete:false,
+            softGet:true,
+            softPost:false,
+            softAdd:true,
+            softDelete:false,
+            faultGet:true,
+            faultPost:false,
+            faultAdd:true,
+            faultDelete:false,
+            exam:true,
+            visible:false,
+            edit:false
+            },
         ],
         // deviceData:[
         //     {
@@ -100,14 +144,14 @@ var vm = new Vue({
             this.deadlineManage= false
         },
         doPermissionManage:function(){
-            this.userManage= false,
-            this.permissionManage= true,
+            this.userManage= false,            
             this.examManage= false,
             this.deviceManage= false,
             this.temManage= false,
             this.softManage= false,
             this.faultManage= false,
-            this.deadlineManage= false
+            this.deadlineManage= false,
+            this.permissionManage= true
         },
         doDeviceManage:function(){
             this.userManage= false,
@@ -195,25 +239,20 @@ var vm = new Vue({
 
         },
 
-        postUserInfo(){
-
-        },
-
-        deleteUser:function(row){
+        deleteUser:function(row,index){
 
             let that = this;
-            let rowq = row;
-
+            row.visible = false;
             axios.post("http://localhost:8081/user/delete","userId="+row.userId)
             .then(
                 function(res){
                     if(res.data.status == "ok"){
+                        //删除当前行
+                        that.userData.splice(index,1);
                         that.$message({
                             message:'删除成功',
                             type:'success'
                         });
-
-                        rowq = null;
 
                     }
                     if(res.data.status == "err"){
@@ -229,9 +268,121 @@ var vm = new Vue({
         },
 
 
-
-        test:function(row){
+        updateUser:function(row){
             console.log(row)
+
+            let that = this;
+            let rowIn = false;
+
+            axios.post("http://localhost:8081/user/post",{
+                userId:row.userId,
+                jobId:row.jobId,
+                name:row.name,
+                permission:row.permission,
+                phoneNum:row.phoneNum,
+                loginTime:row.loginTime
+                
+            }).then(
+                function(res){
+
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'修改成功',
+                            type:'success',
+                        });
+                        rowIn = false;
+                    }
+                    if(res.data.status == "err"){
+                        that.$message.error('修改失败');
+                    }
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+            if(!rowIn){
+                row.edit = false;
+            }
+
+
+        },
+
+        addUser:function(){
+
+            let that = this;
+
+            axios.post("http://localhost:8081",{
+                jobId:that.userAddInfo.jobId,
+                name:that.userAddInfo.name,
+                permission:that.userAddInfo.permission,
+                phoneNum:that.userAddInfo.phoneNum,
+            })
+            .then(
+                function(res){
+
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'新增用户信息成功',
+                            type:'success',
+                        })
+                        that.userAddInfoShow = false;
+                    }
+                    if(res.data.status == "jobIdNull"){
+                        that.$message({
+                            message:'工号不可为空',
+                            type:'error',
+                        })
+                    }
+                    if(res.data.status == "nameNull"){
+                        that.$message({
+                            message:'用户名不可为空',
+                            type:'error',
+                        })
+                    }
+                    if(res.data.status == "permissionNull"){
+                        that.$message({
+                            message:'权限角色不存在',
+                            type:'error',
+                        })
+                    }
+                    if(res.data.status == "permissionEmpty"){
+                        that.$message({
+                            message:'权限角色不可为空',
+                            type:'error',
+                        })
+                    }
+                    if(res.data.status == "phoneNumErr"){
+                        that.$message({
+                            message:'手机号格式错误',
+                            type:'error',
+                        })
+                    }
+                    if(res.data.status == "err"){
+                        that.$message({
+                            message:'用户信息新增失败',
+                            type:'error',
+                        })
+                    }
+
+                    
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+        },
+
+        addUserClose:function(){
+
+            this.userAddInfoShow = false;
+            this.userAddInfo.jobId = null;
+            this.userAddInfo.name = null;
+            this.userAddInfo.permission = null;
+            this.userAddInfo.phoneNum = null;
+
         },
 
         logout:function(){

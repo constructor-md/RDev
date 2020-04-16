@@ -9,6 +9,11 @@ span{
     font: 10px/180%  Arial, Helvetica, Verdana;
 
 }
+
+.table-cell{
+    color: #58595b;;
+    font: 13px/180%  Arial, Helvetica, Verdana;
+}
 .el-table td,.el-table-th{
     text-align: center;
     
@@ -40,6 +45,33 @@ span{
     overflow: hidden;
     background-color: #fff;
   }
+
+.el-button{
+    text-decoration: none;
+    color: #58595b;
+}
+
+.cancel:hover{
+    color: #206fd5;
+}
+.edit-cell{
+    border: 1px solid #cad2db;
+    /* background: url(txt_input_bg.gif) no-repeat; */
+    padding: 0 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    line-height: 36px;
+
+    font-size: 14px;
+    color: #717171;
+    font-family: Arial;
+
+    width: 80px;
+}
+.el-date-picker span{
+    color: #000;
+}
 
 #headTable td {
     padding-left: 20px;
@@ -76,3 +108,13 @@ A:hover {
     /* height: 40px; */
 }
 
+.demo-table-expand {
+    font-size: 0;
+}
+.demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+    width: 50%;
+}
