@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.protectdev.manage.mapper.SoftwareMapper">
+    <resultMap id="Software" type="com.protectdev.manage.pojo.Software">
+        <id column="id" property="id"></id>
+        <result column="soft_id" property="softId"></result>
+        <result column="soft_name" property="softName"></result>
+        <result column="soft_fac" property="softFac"></result>
+        <result column="soft_ver" property="softVer"></result>
+        <result column="dev_id" property="devId"></result>
+    </resultMap>
+
+    <select id="getSoftById" parameterType="int" resultMap="Software">
+        select *
+        from software
+        where id = #{id}
+    </select>
+
+
+</mapper>

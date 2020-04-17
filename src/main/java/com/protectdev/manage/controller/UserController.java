@@ -85,6 +85,7 @@ public class UserController {
 
             return "{\"status\":\"nameNull\"}";
         }
+        // todo 手机号格式正则检查
         if (user.getPhoneNum() == null || !Check.isPhoneNum(user.getPhoneNum())){
 
             return "{\"status\":\"phoneNumErr\"}";

@@ -13,6 +13,10 @@ var vm = new Vue({
             deadlineManage: false,
             userAddInfoShow:false,
             permissionAddInfoShow:false,
+            softDialogTableVisible:false,
+            temDialogTableVisible:false,
+            faultDialogTableVisible:false,
+
 
         userInfo: {
                 name: '',
@@ -140,11 +144,13 @@ var vm = new Vue({
 
             }
         ],
-        // softData:[
-        //     {
-
-        //     }
-        // ],
+        softData:{
+            id:null,
+            softId:'xxccc',
+            softName:'great',
+            softFac:'南瑞继保',
+            softVer:'2.1.2.0',
+        },
         // temData:[
         //     {
 
@@ -558,12 +564,20 @@ var vm = new Vue({
         searchDevice:function(){
 
             let that = this;
-
+            console.log(this.deviceSearchInfo);
             axios.post("http://localhost:8081/device/get",this.deviceSearchInfo)
             .then(
+
                 function(res){
+                    console.log(res.data);
                     that.deviceData = res.data;
-                    that.deviceSearchInfo = null;
+                    that.deviceSearchInfo.devId = null;
+                    that.deviceSearchInfo.devName = null;
+                    that.deviceSearchInfo.devFac = null;
+                    that.deviceSearchInfo.location = null;
+
+                    // 根据返回值的外键id立即查找值附在展开行中 需要获取函数返回值，或者在另一个函数中对元素赋值。
+
                 },
                 function(err){
                     console.log(err);
@@ -572,6 +586,18 @@ var vm = new Vue({
 
         },
 
+
+        getSoftById:function(id){
+
+        },
+
+        getFaultById:function(id){
+
+        },
+
+        getTemById:function(id){
+
+        },
 
         logout:function(){
 

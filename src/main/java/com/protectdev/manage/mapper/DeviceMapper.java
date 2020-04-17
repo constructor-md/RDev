@@ -17,6 +17,7 @@ public interface DeviceMapper {
      */
 
     Device getDeviceById(int Id);
+
     List<Device> getDevice(Device device);
 
     /* 前端将修改过后的完整设备对象传回，包含设备主键ID
