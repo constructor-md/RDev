@@ -23,8 +23,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class PermissionAspect {
 
-
-
     @Pointcut("@annotation(com.protectdev.manage.annotation.PermissionCheck)")
     private void PermissionPointCut(){}
 

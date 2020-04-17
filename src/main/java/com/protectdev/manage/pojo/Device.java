@@ -2,6 +2,7 @@ package com.protectdev.manage.pojo;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
@@ -18,6 +19,7 @@ public class Device {
     private int softId;
     private int temId;
     private int faultId;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     @JSONField(format="yyyy-MM-dd")
     private Date deadline;
 

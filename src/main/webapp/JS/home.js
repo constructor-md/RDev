@@ -12,6 +12,7 @@ var vm = new Vue({
             faultManage: false,
             deadlineManage: false,
             userAddInfoShow:false,
+            permissionAddInfoShow:false,
 
         userInfo: {
                 name: '',
@@ -51,6 +52,14 @@ var vm = new Vue({
 
             }
         ] ,
+
+        deviceSearchInfo:{
+            devId:null,
+            devName:null,
+            devFac:null,
+            location:null
+        },
+
         permissionData:[
             {
             permission:'管理员',
@@ -74,17 +83,53 @@ var vm = new Vue({
             faultPost:false,
             faultAdd:true,
             faultDelete:false,
-            exam:true,
+            examine:true,
             visible:false,
             edit:false
             },
         ],
-        // deviceData:[
-        //     {
-        //         deviceId:'cd57x633',
-        //         devName:''
-        //     }
-        // ],
+
+        permissionOptions:[
+            {
+                label:'有',
+                value:true,
+            },
+            {
+                label:'无',
+                value:false
+            }
+        ],
+
+        permissionAddData:{
+            permission:null,
+            userGet:null,
+            userPost:null,
+            userAdd:null,
+            userDelete:null,
+            deviceGet:null,
+            devicePost:null,
+            deviceAdd:null,
+            deviceDelete:null,
+            temGet:null,
+            temPost:null,
+            temAdd:null,
+            temDelete:null,
+            softGet:null,
+            softPost:null,
+            softAdd:null,
+            softDelete:null,
+            faultGet:null,
+            faultPost:null,
+            faultAdd:null,
+            faultDelete:null,
+            examine:null,
+        },
+        deviceData:[
+            {
+                devId:'cd57x633',
+                devName:''
+            }
+        ],
         deadlineDeviceData:[
             {
 
@@ -274,15 +319,7 @@ var vm = new Vue({
             let that = this;
             let rowIn = false;
 
-            axios.post("http://localhost:8081/user/post",{
-                userId:row.userId,
-                jobId:row.jobId,
-                name:row.name,
-                permission:row.permission,
-                phoneNum:row.phoneNum,
-                loginTime:row.loginTime
-                
-            }).then(
+            axios.post("http://localhost:8081/user/post",row).then(
                 function(res){
 
                     if(res.data.status == "ok"){
@@ -384,6 +421,157 @@ var vm = new Vue({
             this.userAddInfo.phoneNum = null;
 
         },
+
+        importPermissionInfo:function(){
+            
+            let that = this;
+
+            axios.post("http://localhost:8081/permission/get")
+            .then(
+                function(res){
+
+                    that.permissionData = res.data;
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+        },
+
+        updatePermission:function(row){
+            console.log(row)
+
+            let that = this;
+            let rowIn = false;
+
+            axios.post("http://localhost:8081/permission/post",row).then(
+                function(res){
+
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'修改成功',
+                            type:'success',
+                        });
+                        rowIn = false;
+                    }
+                    if(res.data.status == "err"){
+                        that.$message.error('修改失败');
+                    }
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+            if(!rowIn){
+                row.edit = false;
+            }
+
+
+        },
+
+        addPermission:function(){
+            let that = this;
+            console.log(this.permissionAddData)
+            axios.post("http://localhost:8081/permission/add",this.permissionAddData)
+            .then(
+                function(res){
+                    console.log(res.data)
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'新增成功',
+                            type:'success'
+                        });
+                        that.permissionAddInfoShow=false;
+                    }
+                    if(res.data.status == "null"){
+                        that.$message({
+                            message:'权限角色不可为空',
+                            type:'error'
+                        });
+                    }
+                    if(res.data.status == "repeat"){
+                        that.$message({
+                            message:'该角色已存在',
+                            type:'error'
+                        });
+                    }
+                    if(res.data.status == "err"){
+                        that.$message({
+                            message:'新增失败',
+                            type:'error'
+                        });
+                    }
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+        },
+
+        addPermissionClose:function(){
+            this.permissionAddInfoShow = false;
+            // 参数置空
+        },
+
+        deletePermission:function(row,index){
+
+            let that = this;
+            row.visible = false;
+
+            axios.post("http://localhost:8081/permission/delete","permission="+row.permission)
+            .then(
+                function(res){
+
+                    if(res.data.status == "ok"){
+                        //删除当前行
+                        that.permissionData.splice(index,1);
+                        that.$message({
+                            message:'删除成功',
+                            type:'success'
+                        });
+                    }
+                    if(res.data.status == "null"){
+                        that.$message({
+                            message:'该角色不存在',
+                            type:'warning'
+                        });
+                    }
+                    if(res.data.status == "err"){
+                        that.$message({
+                            message:'删除失败',
+                            type:'error'
+                        });
+                    }
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+        },
+
+        searchDevice:function(){
+
+            let that = this;
+
+            axios.post("http://localhost:8081/device/get",this.deviceSearchInfo)
+            .then(
+                function(res){
+                    that.deviceData = res.data;
+                    that.deviceSearchInfo = null;
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+        },
+
 
         logout:function(){
 

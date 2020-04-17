@@ -29,8 +29,6 @@ public class DeviceController {
 
 
     /**
-     *
-     * @param request
      * @return
      *
      *
@@ -38,16 +36,9 @@ public class DeviceController {
     @RequestMapping("device/get")
     @ResponseBody
     @PermissionCheck(value = "deviceGet")
-    public String deviceGet(@RequestBody Device device,HttpServletRequest request){
-
-
-        //int page = Integer.parseInt(request.getParameter("page"));
+    public String deviceGet(@RequestBody Device device){
 
         List<Device> devices = deviceMapper.getDevice(device);
-
-        if (devices.isEmpty()){
-            return "找不到设备";
-        }
 
         String deviceJson = JSONObject.toJSON(devices).toString();
 

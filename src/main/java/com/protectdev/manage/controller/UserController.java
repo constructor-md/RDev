@@ -47,10 +47,6 @@ public class UserController {
 
         String userGet = JSONObject.toJSON(userList).toString();
 
-        System.out.println(userList);
-
-        System.out.println(userGet);
-
         return userGet;
 
     }

@@ -207,7 +207,7 @@
                 <el-main v-if="permissionManage">
                     <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
                         <p style="margin-top: 10px;">权限信息管理</p>
-                        <el-button type="primary" icon="el-icon-refresh" id="import">导入</el-button>
+                        <el-button @click.native="importPermissionInfo" type="primary" icon="el-icon-refresh" id="import">导入</el-button>
 
                     </div>
 
@@ -218,28 +218,52 @@
                                 <template slot-scope="props">
                                     <el-form label-position="left" inline class="demo-table-expand">
                                         <el-form-item label="权限获取">
-
+                                            <el-select v-model="props.row.permissionGet" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.permissionGet">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.permissionGet">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="权限修改">
-
+                                            <el-select v-model="props.row.permissionPost" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.permissionPost">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.permissionPost">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="权限新增">
-
+                                            <el-select v-model="props.row.permissionAdd" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.permissionAdd">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.permissionAdd">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="权限删除">
-
+                                            <el-select v-model="props.row.permissionDelete" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.permissionDelete">有</span>
                                                 <span style="color: #58595b;"
@@ -247,112 +271,208 @@
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="设备获取">
-
+                                            <el-select v-model="props.row.deviceGet" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.deviceGet">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.deviceGet">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="设备修改">
-
+                                            <el-select v-model="props.row.devicePost" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.devicePost">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.devicePost">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="设备新增">
-
+                                            <el-select v-model="props.row.deviceAdd" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.deviceAdd">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.deviceAdd">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="设备删除">
-
+                                            <el-select v-model="props.row.deviceDelete" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.deviceDelete">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.deviceDelete">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="模板获取">
-
+                                            <el-select v-model="props.row.temGet" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.temGet">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.temGet">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="模板修改">
-
+                                            <el-select v-model="props.row.temPost" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.temPost">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.temPost">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="模板新增">
-
+                                            <el-select v-model="props.row.temAdd" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.temAdd">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.temAdd">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="模板删除">
-
+                                            <el-select v-model="props.row.temDelete" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.temDelete">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.temDelete">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="软件获取">
-
+                                            <el-select v-model="props.row.softGet" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.softGet">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.softGet">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="软件修改">
-
+                                            <el-select v-model="props.row.softPost" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.softPost">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.softPost">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="软件新增">
-
+                                            <el-select v-model="props.row.softAdd" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.softAdd">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.softAdd">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="软件删除">
-
+                                            <el-select v-model="props.row.softDelete" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.softDelete">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.softDelete">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="故障获取">
-
+                                            <el-select v-model="props.row.faultGet" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.faultGet">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.faultGet">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="故障修改">
-
+                                            <el-select v-model="props.row.faultPost" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.faultPost">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.faultPost">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="故障新增">
-
+                                            <el-select v-model="props.row.faultAdd" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.faultAdd">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.faultAdd">无</span>
                                             </span>
                                         </el-form-item>
                                         <el-form-item label="故障删除">
-
+                                            <el-select v-model="props.row.faultDelete" placeholder="选择权限" v-if="props.row.edit">
+                                                <el-option v-for="item in permissionOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                                </el-option>
+                                              </el-select>
                                             <span v-if="!props.row.edit">
                                                 <span style="color: #58595b;" v-if="props.row.faultDelete">有</span>
                                                 <span style="color: #58595b;" v-if="!props.row.faultDelete">无</span>
@@ -363,25 +483,34 @@
                             </el-table-column>
 
                             <el-table-column prop="permission" label="权限角色" align="center">
-                                <template slot-scope="{scope}">
-
-                                    <span v-if="!scope.row.edit">
+                                <div slot-scope="scope">
                                         <span style="color: #58595b;">{{scope.row.permission}}</span>
-                                    </span>
-                                </template>
+                                </div>
                             </el-table-column>
-                            <el-table-column prop="exam" label="审批" align="center">
-                                <div slot-scope="{scope}">
-
+                            <el-table-column prop="examine" label="审批" align="center">
+                                <div slot-scope="scope">
+                                    <el-select v-model="scope.row.examine" placeholder="选择权限" v-if="scope.row.edit">
+                                      <el-option v-for="item in permissionOptions"
+                                      :key="item.value"
+                                      :label="item.label"
+                                      :value="item.value">
+                                      </el-option>
+                                    </el-select>
                                     <span v-if="!scope.row.edit">
-                                        <span style="color: #58595b;" v-if="scope.row.exam">有</span>
-                                        <span style="color: #58595b;" v-if="!scope.row.exam">无</span>
+                                        <span style="color: #58595b;" v-if="scope.row.examine">有</span>
+                                        <span style="color: #58595b;" v-if="!scope.row.examine">无</span>
                                     </span>
                                 </div>
                             </el-table-column>
                             <el-table-column prop="userGet" label="用户获取" align="center">
-                                <div slot-scope="{scope}">
-
+                                <div slot-scope="scope">
+                                    <el-select v-model="scope.row.userGet" placeholder="选择权限" v-if="scope.row.edit">
+                                        <el-option v-for="item in permissionOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                        </el-option>
+                                      </el-select>
                                     <span v-if="!scope.row.edit">
                                         <span style="color: #58595b;" v-if="scope.row.userGet">有</span>
                                         <span style="color: #58595b;" v-if="!scope.row.userGet">无</span>
@@ -389,8 +518,14 @@
                                 </div>
                             </el-table-column>
                             <el-table-column prop="userPost" label="用户修改" align="center">
-                                <div slot-scope="{scope}">
-
+                                <div slot-scope="scope">
+                                    <el-select v-model="scope.row.userPost" placeholder="选择权限" v-if="scope.row.edit">
+                                        <el-option v-for="item in permissionOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                        </el-option>
+                                      </el-select>
                                     <span v-if="!scope.row.edit">
                                         <span style="color: #58595b;" v-if="scope.row.userPost">有</span>
                                         <span style="color: #58595b;" v-if="!scope.row.userPost">无</span>
@@ -399,8 +534,14 @@
 
                             </el-table-column>
                             <el-table-column prop="userAdd" label="用户新增" align="center">
-                                <div slot-scope="{scope}">
-
+                                <div slot-scope="scope">
+                                    <el-select v-model="scope.row.userAdd" placeholder="选择权限" v-if="scope.row.edit">
+                                        <el-option v-for="item in permissionOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                        </el-option>
+                                      </el-select>
                                     <span v-if="!scope.row.edit">
                                         <span style="color: #58595b;" v-if="scope.row.userAdd">有</span>
                                         <span style="color: #58595b;" v-if="!scope.row.userAdd">无</span>
@@ -409,8 +550,14 @@
 
                             </el-table-column>
                             <el-table-column prop="userDelete" label="用户删除" align="center">
-                                <div slot-scope="{scope}">
-
+                                <div slot-scope="scope">
+                                    <el-select v-model="scope.row.userDelete" placeholder="选择权限" v-if="scope.row.edit">
+                                        <el-option v-for="item in permissionOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                        </el-option>
+                                      </el-select>
                                     <span v-if="!scope.row.edit">
                                         <span style="color: #58595b;" v-if="scope.row.userDelete">有</span>
                                         <span style="color: #58595b;" v-if="!scope.row.userDelete">无</span>
@@ -430,7 +577,7 @@
                                                 <el-button size="mini" type="text" @click="scope.row.visible = false">
                                                     <span style="color: #58595b;" class="cancel">取消</span></el-button>
                                                 <el-button type="danger" size="mini"
-                                                    @click="deleteUser(scope.row,scope.$index)">确定</el-button>
+                                                    @click="deletePermission(scope.row,scope.$index)">确定</el-button>
                                             </div>
                                             <el-button type="text" slot="reference" icon="el-icon-delete" circle>
                                             </el-button>
@@ -448,6 +595,237 @@
 
 
                         </el-table>
+
+                        <div v-if="permissionAddInfoShow">
+                            <div style="display: flex;justify-content: center;margin-top: 10px;">
+                            <span style="color: #58595b; margin-top: 10px;">权限角色：</span>
+                            <el-input v-model="permissionAddData.permission" placeholder="请输入权限角色" style="width: 180px;"></el-input>
+                        </div>
+                        <div style="display: flex;margin-top: 10px;">
+                            <div style="margin-left: 20px;">
+                                <i class="el-icon-info" style="color: #ce471e;"></i>
+                                <span style="color: #ce471e;">不选默认为无</span>
+                            </div>
+                            
+                        </div>
+                        
+                        <div style="display: flex;justify-content: space-around;margin-top: 10px; ">
+                            <span style="color: #58595b; margin-top: 10px;">用户获取：</span>
+                            <el-select v-model="permissionAddData.userGet" placeholder="选择权限"  style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">用户修改：</span>
+                            <el-select v-model="permissionAddData.userPost" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">用户新增：</span>
+                              <el-select v-model="permissionAddData.userAdd" placeholder="选择权限" style="width: 120px;">
+                                  <el-option v-for="item in permissionOptions"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                  </el-option>
+                                </el-select>
+                                <span style="color: #58595b; margin-top: 10px;">用户删除：</span>
+                            <el-select v-model="permissionAddData.userDelete" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                        </div>
+                        <div style="display: flex;justify-content: space-around;margin-top: 10px; ">
+                            <span style="color: #58595b; margin-top: 10px;">权限获取：</span>
+                            <el-select v-model="permissionAddData.permissionGet" placeholder="选择权限"  style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">权限修改：</span>
+                            <el-select v-model="permissionAddData.permissionPost" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">权限新增：</span>
+                              <el-select v-model="permissionAddData.permissionAdd" placeholder="选择权限" style="width: 120px;">
+                                  <el-option v-for="item in permissionOptions"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                  </el-option>
+                                </el-select>
+                                <span style="color: #58595b; margin-top: 10px;">用户删除：</span>
+                            <el-select v-model="permissionAddData.permissionDelete" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                        </div>
+                        <div style="display: flex;justify-content: space-around;margin-top: 10px; ">
+                            <span style="color: #58595b; margin-top: 10px;">设备获取：</span>
+                            <el-select v-model="permissionAddData.deviceGet" placeholder="选择权限"  style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">设备修改：</span>
+                            <el-select v-model="permissionAddData.devicePost" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">设备新增：</span>
+                              <el-select v-model="permissionAddData.deviceAdd" placeholder="选择权限" style="width: 120px;">
+                                  <el-option v-for="item in permissionOptions"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                  </el-option>
+                                </el-select>
+                                <span style="color: #58595b; margin-top: 10px;">设备删除：</span>
+                            <el-select v-model="permissionAddData.deviceDelete" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                        </div>
+                        <div style="display: flex;justify-content: space-around;margin-top: 10px; ">
+                            <span style="color: #58595b; margin-top: 10px;">模板获取：</span>
+                            <el-select v-model="permissionAddData.temGet" placeholder="选择权限"  style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">模板修改：</span>
+                            <el-select v-model="permissionAddData.temPost" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">模板新增：</span>
+                              <el-select v-model="permissionAddData.temAdd" placeholder="选择权限" style="width: 120px;">
+                                  <el-option v-for="item in permissionOptions"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                  </el-option>
+                                </el-select>
+                                <span style="color: #58595b; margin-top: 10px;">模板删除：</span>
+                            <el-select v-model="permissionAddData.temDelete" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                        </div>
+                        <div style="display: flex;justify-content: space-around;margin-top: 10px; ">
+                            <span style="color: #58595b; margin-top: 10px;">软件获取：</span>
+                            <el-select v-model="permissionAddData.softGet" placeholder="选择权限"  style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">软件修改：</span>
+                            <el-select v-model="permissionAddData.softPost" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">软件新增：</span>
+                              <el-select v-model="permissionAddData.softAdd" placeholder="选择权限" style="width: 120px;">
+                                  <el-option v-for="item in permissionOptions"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                  </el-option>
+                                </el-select>
+                                <span style="color: #58595b; margin-top: 10px;">软件删除：</span>
+                            <el-select v-model="permissionAddData.softDelete" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                        </div>
+                        <div style="display: flex;justify-content: space-around;margin-top: 10px; ">
+                            <span style="color: #58595b; margin-top: 10px;">故障获取：</span>
+                            <el-select v-model="permissionAddData.faultGet" placeholder="选择权限"  style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">故障修改：</span>
+                            <el-select v-model="permissionAddData.faultPost" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                              <span style="color: #58595b; margin-top: 10px;">故障新增：</span>
+                              <el-select v-model="permissionAddData.faultAdd" placeholder="选择权限" style="width: 120px;">
+                                  <el-option v-for="item in permissionOptions"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                  </el-option>
+                                </el-select>
+                                <span style="color: #58595b; margin-top: 10px;">故障删除：</span>
+                            <el-select v-model="permissionAddData.faultDelete" placeholder="选择权限" style="width: 120px;">
+                                <el-option v-for="item in permissionOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                              </el-select>
+                        </div>
+                        </div>
+
+                        <div style="display: flex;justify-content: center;">
+
+                            <el-button type="primary" icon="el-icon-finished" size="small" style="margin-top: 10px;"
+                                v-if="permissionAddInfoShow" @click="addPermission">提交</el-button>
+                            <el-button type="text" icon="el-icon-close" size="small" style="margin-top: 10px;"
+                                v-if="permissionAddInfoShow" @click="addPermissionClose"><span style="color: #58595b;"
+                                    class="cancel">取消</span></el-button>
+                            <el-button type="primary" icon="el-icon-plus" size="small" style="margin-top: 10px;"
+                                v-if="!permissionAddInfoShow" @click="permissionAddInfoShow=true">Add</el-button>
+
+                        </div>
                     </template>
 
                 </el-main>
@@ -602,28 +980,28 @@
                     <table id="search">
                         <tr>
                             <td>
-                                <el-input placeholder="设备编号"></el-input>
+                                <el-input placeholder="设备编号" v-model="deviceSearchInfo.devId"></el-input>
                             </td>
                             <td>
-                                <el-input placeholder="设备名"></el-input>
+                                <el-input placeholder="设备名" v-model="deviceSearchInfo.devName"></el-input>
                             </td>
                             <td>
-                                <el-input placeholder="制造厂家"></el-input>
+                                <el-input placeholder="制造厂家" v-model="deviceSearchInfo.devFac"></el-input>
                             </td>
                             <td>
-                                <el-input placeholder="位置描述"></el-input>
+                                <el-input placeholder="位置描述" v-model="deviceSearchInfo.location"></el-input>
                             </td>
                             <td>
-                                <el-button type="primary" icon="el-icon-search">搜索</el-button>
+                                <el-button type="primary" icon="el-icon-search" @click.native="searchDevice">搜索</el-button>
                             </td>
                         </tr>
                     </table>
 
-                    <template id="resultTable">
+                    <template id="resultTable">s
                         <el-table :data="deviceData" style="width: 100%;" key="deviceManage">
-                            <el-table-column prop="deviceId" label="设备编号" align="center">
+                            <el-table-column prop="devId" label="设备编号" align="center">
                             </el-table-column>
-                            <el-table-column prop="deviceName" label="设备名" align="center">
+                            <el-table-column prop="devName" label="设备名" align="center">
                             </el-table-column>
                             <el-table-column prop="RDevtype" label="保护类型" align="center">
                             </el-table-column>

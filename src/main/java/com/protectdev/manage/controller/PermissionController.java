@@ -50,6 +50,7 @@ public class PermissionController {
         String permissionListJson = JSONObject.toJSON(permissionList).toString();
 
         return permissionListJson;
+
     }
 
     /**
@@ -71,16 +72,10 @@ public class PermissionController {
 
         if (updatePermission != 0){
 
-        //查询修改后的信息并返回
-        permission = permissionMapper.getPermission(permission.getPermission());
-
-        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(permission);
-        String permissionJson = jsonObject.toJSONString();
-
-        return  "角色信息修改成功:"+"/t"+permissionJson;
+            return  "{\"status\":\"ok\"}";
         }
 
-        return "角色信息修改失败";
+        return "{\"status\":\"err\"}";
     }
 
     @RequestMapping("permission/add")
@@ -88,44 +83,45 @@ public class PermissionController {
     @PermissionCheck("permissionAdd")
     public String permissionAdd(@RequestBody Permission permission){
 
+        System.out.println(permission.toString());
         //前端负责将权限默认为false，对象新增是提供默认值 todo 考虑使用URL直接传回参数的情况，前端不能直接把值设置为false
         if (permission.getPermission() == null || permission.getPermission().equals("")){
-            return "角色名不可为空";
+            return "{\"status\":\"null\"}";
         }
         if (permissionMapper.getPermission(permission.getPermission()) != null){
-            return "该角色名字重复";
+            return "{\"status\":\"repeat\"}";
         }
 
         int addPermission = permissionMapper.addPermission(permission);
 
         // todo 新增后返回新的列表
         if (addPermission != 0){
-            return "新增角色权限成功";
+            return "{\"status\":\"ok\"}";
         }
 
-        return "新增角色权限失败";
+        return "{\"status\":\"err\"}";
 
     }
 
     @RequestMapping("permission/delete")
     @ResponseBody
     @PermissionCheck("permissionDelete")
-    public String permissionDelete(@RequestBody Permission permission){
+    public String permissionDelete(HttpServletRequest request){
 
-        Permission exist = permissionMapper.getPermission(permission.getPermission());
+        Permission exist = permissionMapper.getPermission(request.getParameter("permission"));
 
         if (exist == null){
-            return "该角色不存在";
+            return "{\"status\":\"null\"}";
         }
 
-        int permissionDelete = permissionMapper.deletePermission(permission.getPermission());
+        int permissionDelete = permissionMapper.deletePermission(request.getParameter("permission"));
 
         // todo 删除后返回新的列表
         if (permissionDelete != 0){
-            return "成功删除该角色";
+            return "{\"status\":\"ok\"}";
         }
 
-        return "删除该角色失败";
+        return "{\"status\":\"err\"}";
 
     }
 

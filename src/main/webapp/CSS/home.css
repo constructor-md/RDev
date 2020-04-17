@@ -9,7 +9,9 @@ span{
     font: 10px/180%  Arial, Helvetica, Verdana;
 
 }
-
+.el-select-dropdown__item span{
+    color: #58595b;
+}
 .table-cell{
     color: #58595b;;
     font: 13px/180%  Arial, Helvetica, Verdana;
@@ -73,6 +75,14 @@ span{
     color: #000;
 }
 
+.el-select{
+    color: #58595b;
+    width: 80px;
+}
+.el-scrollbar{
+    color: #58595b;
+}
+
 #headTable td {
     padding-left: 20px;
     font: 20px/180%  Arial, Helvetica, Verdana;
@@ -110,11 +120,13 @@ A:hover {
 
 .demo-table-expand {
     font-size: 0;
-}
-.demo-table-expand label {
+  }
+  .demo-table-expand label {
     width: 90px;
     color: #99a9bf;
-}
-.demo-table-expand .el-form-item {
-    width: 50%;
-}
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 25%;
+  }
