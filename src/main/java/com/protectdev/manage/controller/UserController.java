@@ -32,6 +32,7 @@ public class UserController {
     @Resource
     private PermissionMapper permissionMapper;
 
+
     @RequestMapping("user/get")
     @ResponseBody
     @PermissionCheck("userGet")

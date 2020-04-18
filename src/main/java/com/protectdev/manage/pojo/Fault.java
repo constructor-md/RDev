@@ -1,5 +1,8 @@
 package com.protectdev.manage.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Fault {
@@ -8,6 +11,9 @@ public class Fault {
     private String faultDesc;
     private int devId;
     private int upUserId;
+
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date upTime;
 
     @Override

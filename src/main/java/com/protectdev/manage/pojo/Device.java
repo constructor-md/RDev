@@ -11,7 +11,7 @@ public class Device {
     private int id;
     private String devId;
     private String devName;
-    private String RDevType;
+    private String rDevType;
     private String proName;
     private String switchId;
     private String location;
@@ -22,6 +22,25 @@ public class Device {
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     @JSONField(format="yyyy-MM-dd")
     private Date deadline;
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Device{");
+        sb.append("id=").append(id);
+        sb.append(", devId='").append(devId).append('\'');
+        sb.append(", devName='").append(devName).append('\'');
+        sb.append(", rDevType='").append(rDevType).append('\'');
+        sb.append(", proName='").append(proName).append('\'');
+        sb.append(", switchId='").append(switchId).append('\'');
+        sb.append(", location='").append(location).append('\'');
+        sb.append(", devFac='").append(devFac).append('\'');
+        sb.append(", softId=").append(softId);
+        sb.append(", temId=").append(temId);
+        sb.append(", faultId=").append(faultId);
+        sb.append(", deadline=").append(deadline);
+        sb.append('}');
+        return sb.toString();
+    }
 
     public int getId() {
         return id;
@@ -47,12 +66,12 @@ public class Device {
         this.devName = devName;
     }
 
-    public String getRDevType() {
-        return RDevType;
+    public String getrDevType() {
+        return rDevType;
     }
 
-    public void setRDevType(String RDevType) {
-        this.RDevType = RDevType;
+    public void setrDevType(String rDevType) {
+        this.rDevType = rDevType;
     }
 
     public String getProName() {

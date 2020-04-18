@@ -187,7 +187,6 @@
                             <el-input v-model="userAddInfo.phoneNum" placeholder="请输入手机号" align="center"
                                 style="width: 180px;"></el-input>
 
-
                         </div>
 
                         <div style="display: flex;justify-content: center;">
@@ -942,68 +941,197 @@
                     <template id="resultTable">
                         <el-table :data="deviceData" style="width: 100%;" key="deviceManage">
                             <el-table-column prop="devId" label="设备编号" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.devId" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.devId}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="devName" label="设备名" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.devName" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.devName}}</span>
+                                </template>
                             </el-table-column>
-                            <el-table-column prop="RDevtype" label="保护类型" align="center">
+                            <el-table-column prop="rDevType" label="保护类型" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.rDevType" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.rDevType}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="proName" label="被保护设备" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.proName" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.proName}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="switchId" label="开关编号" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.switchId" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.switchId}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="devFac" label="制造厂家" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.devFac" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.devFac}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="location" label="位置描述" align="center">
+                                <template slot-scope="{row}">
+                                    <input class="edit-cell" v-model="row.location" v-if="row.edit">
+                                    <span class="table-cell" v-if="!row.edit">{{row.location}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column label="模板参数" align="center">
+
                             </el-table-column>
                             <el-table-column label="软件信息" align="center">
-                                <el-button type="text" @click="softDialogTableVisible = true">
-                                    <span style="color: #58595b;" class="cancel">展开</span>
-                                </el-button>
+
+                                <div slot-scope="scope">
+                                    <el-button type="text" @click="getSoftById(scope.row)" v-if="softInfoNotNull">
+                                        <span style="color: #58595b;" class="cancel">获取</span>
+                                    </el-button>
+
+                                </div>
                             </el-table-column>
                             <el-table-column label="故障" align="center">
+                                <div slot-scope="scope">
+                                    <el-button type="text" @click="getFaultById(scope.row)" v-if="faultInfoNotNull">
+                                        <span style="color: #58595b;" class="cancel">获取</span>
+                                    </el-button>
+                                </div>
                             </el-table-column>
                             <el-table-column prop="deadline" label="使用期限" align="center">
+                                <template slot-scope="{row}">
+                                    <el-date-picker value-format="yyyy-MM-dd" type="datetime" v-if="row.edit"
+                                        v-model="row.deadline" type="date" placeholder='请输入时间' style="width: 140px;">
+                                    </el-date-picker>
+                                    <span class="table-cell" v-if="!row.edit">{{row.deadline}}</span>
+                                </template>
                             </el-table-column>
-                            <el-table-column align="center">
-                                <i class="el-icon-edit"></i>
-                                <a href="#">修改</a>
-                                <i class="el-icon-delete"></i>
-                                <a href="#">删除</a>
+                            <el-table-column align="center" width="100px" label="操作">
+                                <div slot-scope="scope">
+                                    <!-- 删除 -->
+                                    <div v-if="!scope.row.edit">
+                                        <el-button @click.native="scope.row.edit = true" type="text" slot="reference"
+                                            icon="el-icon-edit" circle></el-button>
+                                        <el-popover width="160" v-model="scope.row.visible">
+                                            <p style="font-size: 15px;">确定删除吗？</p>
+                                            <div style="text-align: right; margin: 0" style="font-size: 15px;">
+                                                <el-button size="mini" type="text" @click="scope.row.visible = false">
+                                                    <span style="color: #58595b;" class="cancel">取消</span></el-button>
+                                                <el-button type="danger" size="mini"
+                                                    @click="deleteDevice(scope.row,scope.$index)">确定</el-button>
+                                            </div>
+                                            <el-button type="text" slot="reference" icon="el-icon-delete" circle>
+                                            </el-button>
+                                        </el-popover>
+                                    </div>
+                                    <!-- 编辑 -->
+                                    <div v-if="scope.row.edit">
+                                        <el-button @click.native="updateDevice(scope.row)" type="text"
+                                            icon="el-icon-finished" circle></el-button>
+                                        <el-button @click.native="scope.row.edit = false" type="text"
+                                            icon="el-icon-close" circle></el-button>
+                                    </div>
+                                </div>
                             </el-table-column>
 
                         </el-table>
+                        
+                        <div style="display: flex;justify-content: space-between;margin-top: 10px;"
+                            v-if="deviceAddInfoShow">
+                            <span style="color: #58595b; margin-top: 10px;">设备编号：</span>
+                            <el-input v-model="deviceAddInfo.devId" placeholder="设备编号"
+                            style="width: 130px;"></el-input>
+                            <span style="color: #58595b; margin-top: 10px;">设备名称：</span>
+                            <el-input v-model="deviceAddInfo.devName" placeholder="设备名称"
+                            style="width: 130px;"></el-input>
+                            <span style="color: #58595b; margin-top: 10px;">保护类型：</span>
+                            <el-input v-model="deviceAddInfo.RDevtype" placeholder="保护类型"
+                            style="width: 130px;"></el-input>
+                            <span style="color: #58595b; margin-top: 10px;">被保护设备：</span>
+                            <el-input v-model="deviceAddInfo.proName" placeholder="被保护设备"
+                            style="width: 130px;"></el-input>
+                        </div>
+                        <div style="display: flex;justify-content: space-between;margin-top: 10px;"
+                            v-if="deviceAddInfoShow">
+                            <span style="color: #58595b; margin-top: 10px;">开关编号：</span>
+                            <el-input v-model="deviceAddInfo.switchId" placeholder="开关编号"
+                            style="width: 130px;"></el-input>
+                            <span style="color: #58595b; margin-top: 10px;">制造厂家：</span>
+                            <el-input v-model="deviceAddInfo.devFac" placeholder="设备名称"
+                            style="width: 130px;"></el-input>
+                            <span style="color: #58595b; margin-top: 10px;">位置描述：</span>
+                            <el-input v-model="deviceAddInfo.location" placeholder="位置描述"
+                            style="width: 130px;"></el-input>
+                            <span style="color: #58595b; margin-top: 10px;">使用期限：</span>
+                            <el-date-picker value-format="yyyy-MM-dd" type="datetime" style="width: 130px;"
+                                    v-model="deviceAddInfo.deadline" type="date" placeholder='使用期限'>
+                            </el-date-picker>
+                        </div>
+
+                        <div style="display: flex;justify-content: center;">
+
+                            <el-button type="primary" icon="el-icon-finished" size="small" style="margin-top: 10px;"
+                                v-if="deviceAddInfoShow" @click="addDevice">提交</el-button>
+                            <el-button type="text" icon="el-icon-close" size="small" style="margin-top: 10px;"
+                                v-if="deviceAddInfoShow" @click="addDeviceClose"><span style="color: #58595b;"
+                                    class="cancel">取消</span></el-button>
+                            <el-button type="primary" icon="el-icon-plus" size="small" style="margin-top: 10px;"
+                                v-if="!deviceAddInfoShow" @click="deviceAddInfoShow=true">Add</el-button>
+
+                        </div>
                     </template>
                 </el-main>
 
-                <el-dialog title="软件信息" :visible.sync="softDialogTableVisible" @close="softDialogTableVisible=false" >
+                <el-dialog title="软件信息" :visible.sync="softDialogTableVisible" @close="closeSoftDialogTableVisible">
                     <el-form :model="softData">
-                      <el-form-item label="软件编号">
-                        <span style="color: #58595b;" class="cancel">{{softData.softId}}</span>
-                      </el-form-item>
-                      <el-form-item label="软件名称">
-                        <span style="color: #58595b;" class="cancel">{{softData.softName}}</span>
-                      </el-form-item>
-                      <el-form-item label="软件厂家">
-                        <span style="color: #58595b;" class="cancel">{{softData.softFac}}</span>
-                    </el-form-item>
-                    <el-form-item label="软件版本号">
-                        <span style="color: #58595b;" class="cancel">{{softData.softVer}}</span>
-                    </el-form-item>
+                        <el-form-item label="软件编号">
+                            <span style="color: #58595b;" class="cancel">{{softData.softId}}</span>
+                        </el-form-item>
+                        <el-form-item label="软件名称">
+                            <span style="color: #58595b;" class="cancel">{{softData.softName}}</span>
+                        </el-form-item>
+                        <el-form-item label="软件厂家">
+                            <span style="color: #58595b;" class="cancel">{{softData.softFac}}</span>
+                        </el-form-item>
+                        <el-form-item label="软件版本号">
+                            <span style="color: #58595b;" class="cancel">{{softData.softVer}}</span>
+                        </el-form-item>
                     </el-form>
                 </el-dialog>
-                <el-dialog title="模板参数" :visible.sync="temDialogTableVisible" @close="temDialogTableVisible=false" >
-                    <el-table :data="gridData">
-                        <el-table-column property="date" label="日期" width="150"></el-table-column>
-                        <el-table-column property="name" label="姓名" width="200"></el-table-column>
-                        <el-table-column property="address" label="地址"></el-table-column>
-                    </el-table>
+                <el-dialog title="模板参数" :visible.sync="temDialogTableVisible" @close="closeTemDialogTableVisible">
+                    <el-form :model="softData">
+                        <el-form-item label="软件编号">
+                            <span style="color: #58595b;" class="cancel">{{softData.softId}}</span>
+                        </el-form-item>
+                        <el-form-item label="软件名称">
+                            <span style="color: #58595b;" class="cancel">{{softData.softName}}</span>
+                        </el-form-item>
+                        <el-form-item label="软件厂家">
+                            <span style="color: #58595b;" class="cancel">{{softData.softFac}}</span>
+                        </el-form-item>
+                        <el-form-item label="软件版本号">
+                            <span style="color: #58595b;" class="cancel">{{softData.softVer}}</span>
+                        </el-form-item>
+                    </el-form>
                 </el-dialog>
-                <el-dialog title="故障信息" :visible.sync="faultDialogTableVisible" @close="faultDialogTableVisible=false" >
-                    <el-table :data="gridData">
-                        <el-table-column property="date" label="日期" width="150"></el-table-column>
-                        <el-table-column property="name" label="姓名" width="200"></el-table-column>
-                        <el-table-column property="address" label="地址"></el-table-column>
-                    </el-table>
+                <el-dialog title="故障信息"  :visible.sync="faultDialogTableVisible" @close="closeFaultDialogTableVisible">
+                    <el-form :model="faultData">
+                        <el-form-item label="故障描述">
+                            <span style="color: #58595b;" class="cancel">{{faultData.faultDesc}}</span>
+                        </el-form-item>
+                        <el-form-item label="上传时间">
+                            <span style="color: #58595b;" class="cancel">{{faultData.upTime}}</span>
+                        </el-form-item>
+                        <el-form-item label="上传用户">
+                            <span style="color: #58595b;" class="cancel">{{faultData.name}}</span>
+                        </el-form-item>
+                        <el-form-item label="上传用户联系方式">
+                            <span style="color: #58595b;" class="cancel">{{faultData.phoneNum}}</span>
+                        </el-form-item>
+                    </el-form>
                 </el-dialog>
 
                 <el-main v-if="faultManage">

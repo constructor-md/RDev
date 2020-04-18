@@ -7,11 +7,11 @@
         <id column="id" property="id"></id>
         <result column="dev_id" property="devId"></result>
         <result column="dev_name" property="devName"></result>
-        <result column="RDev_type" property="RDevType"></result>
+        <result column="rDev_type" property="rDevType"></result>
         <result column="pro_name" property="proName"></result>
         <result column="switch_id" property="switchId"></result>
         <result column="location" property="location"></result>
-        <result column="dev_fav" property="devFac"></result>
+        <result column="dev_fac" property="devFac"></result>
         <result column="tem_id" property="temId"></result>
         <result column="soft_id" property="softId"></result>
         <result column="fault_id" property="faultId"></result>
@@ -37,5 +37,29 @@
               <if test="location != null"> location like concat('%',#{location},'%')</if>
     </select>
 
+    <insert id="addDevice" parameterType="com.protectdev.manage.pojo.Device">
+        insert into device(dev_id, dev_name, rDev_type, pro_name, switch_id, location, dev_fac,deadline)
+        VALUES (#{devId},#{devName},IFNULL(#{rDevType},null),IFNULL(#{proName},null),IFNULL(#{switchId},null),#{location},IFNULL(#{devFac},null),#{deadline})
+
+    </insert>
+
+    <update id="updateDevice" parameterType="com.protectdev.manage.pojo.Device">
+        update device
+        set
+            <if test="devId != null">dev_id = #{devId}</if>
+             <if test="devName != null">,dev_name = #{devName}</if>
+        <if test="devFac != null">,dev_fac = #{devFac}</if>
+           <if test="rDevType != null">,rDev_type = #{rDevType}</if>
+        <if test="switchId != null">,switch_id = #{switchId} </if>
+           <if test="proName != null">,pro_name = #{proName}</if>
+          <if test="location != null">,location = #{location} </if>
+        <if test="deadline != null">,deadline = #{deadline} </if>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceById" parameterType="int">
+        delete from device
+        where id = #{id}
+    </delete>
 
 </mapper>

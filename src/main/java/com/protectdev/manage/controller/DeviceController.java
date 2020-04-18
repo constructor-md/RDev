@@ -51,22 +51,21 @@ public class DeviceController {
     @PermissionCheck("devicePost")
     public String devicePost(@RequestBody Device device){
 
+        System.out.println(device.toString());
+
+        //为了保证数据库更新语句正确执行，设备编号不能为空
+        if (device.getDevId() == null){
+            return "{\"status\":\"devIdNull\"}";
+        }
+
         int updateDevice = deviceMapper.updateDevice(device);
 
         if (updateDevice != 0){
 
-            Device devicePost = deviceMapper.getDeviceById(device.getId());
-
-            String deviceJson = JSONObject.toJSON(devicePost).toString();
-
-            return "信息修改成功:"+deviceJson;
-
+            return "{\"status\":\"ok\"}";
         }
-        Device devicePost = deviceMapper.getDeviceById(device.getId());
 
-        String deviceJson = JSONObject.toJSON(devicePost).toString();
-        return "信息修改失败:" + deviceJson;
-
+        return "{\"status\":\"err\"}";
     }
 
     @RequestMapping("device/add")
@@ -75,28 +74,28 @@ public class DeviceController {
     public String deviceAdd(@RequestBody Device device){
 
         if (device.getDevId() == null || device.getDevId().equals("")){
-            return "设备编号不可为空";
+            return "{\"status\":\"devIdNull\"}";
         }
         if (device.getDevName() == null || device.getDevName().equals("")){
-            return "设备名不可为空";
+            return "{\"status\":\"devNameNull\"}";
         }
         if (device.getLocation() == null || device.getLocation().equals("")){
-            return "设备地址描述不可为空";
+            return "{\"status\":\"locationNull\"}";
         }
         if (device.getDeadline() == null){
-            return "设备使用期限不可为空";
+            return "{\"status\":\"deadlineNull\"}";
         }
 
 
         int addDevice = deviceMapper.addDevice(device);
 
-        if (addDevice == 0){
+        if (addDevice != 0){
 
-            return "设备信息添加成功";
+            return "{\"status\":\"ok\"}";
         }
 
 
-        return "设备信息新增失败";
+        return "{\"status\":\"err\"}";
     }
 
     @RequestMapping("device/delete")
@@ -112,11 +111,10 @@ public class DeviceController {
 
         if (deviceDelete != 0){
 
-
-            return "设备信息删除成功";
+            return "{\"status\":\"ok\"}";
         }
 
-        return "设备信息删除成功";
+        return "{\"status\":\"err\"}";
 
     }
 

@@ -13,11 +13,9 @@ import org.aspectj.lang.annotation.Pointcut;
 
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
 
 @Aspect
 @Component

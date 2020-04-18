@@ -20,6 +20,8 @@ public interface UserMapper {
     //根据工号、姓名、用户名查找
     List<User> getUser(User user);
 
+    User userGetById(int id);
+
 
     //根据工号和名字检查用户是否有注册权限
     User idNameCheck(String jobId,String name);

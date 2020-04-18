@@ -15,6 +15,11 @@
             <result column="ps_modify_time" property="psModifyTime"></result>
         </resultMap>
 
+        <select id="userGetById" parameterType="int" resultMap="User">
+            select `name`, phoneNum
+            from user
+            where user_id = #{id}
+        </select>
 
         <select id="idNameCheck" parameterType="String" resultType="com.protectdev.manage.pojo.User" resultMap="User">
             select *
