@@ -18,5 +18,23 @@
         where id = #{id}
     </select>
 
+    <update id="updateSoft">
+
+        update software
+        set soft_id = #{softId},soft_fac = #{softFac},soft_name = #{softName},soft_ver = #{softVer}
+        where id = #{id}
+
+    </update>
+
+
+    <insert id="addSoft" parameterType="com.protectdev.manage.pojo.Software"  useGeneratedKeys="true" keyProperty="id">
+        insert into software(soft_id, soft_name, soft_fac, soft_ver, dev_id)
+        values (IFNULL(#{softId},null),#{softName},#{softFac},#{softVer},#{devId})
+    </insert>
+
+    <delete id="deleteSoft">
+        delete from software
+        where id = #{softId}
+    </delete>
 
 </mapper>

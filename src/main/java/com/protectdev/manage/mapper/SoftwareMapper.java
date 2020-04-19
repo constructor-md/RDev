@@ -6,5 +6,11 @@ public interface SoftwareMapper {
 
     Software getSoftById(int id);
 
+    int updateSoft(Software software);
+
+    int addSoft(Software software);
+
+    int deleteSoft(int softId);
+
 
 }

@@ -14,6 +14,8 @@ var vm = new Vue({
         userAddInfoShow: false,
         permissionAddInfoShow: false,
         deviceAddInfoShow:false,
+        softAddInfoShow:false,
+        faultAddInfoShow:false,
         softDialogTableVisible: false,
         temDialogTableVisible: false,
         faultDialogTableVisible: false,
@@ -143,6 +145,18 @@ var vm = new Vue({
                 faultId: 0,
                 edit:false,
                 visible:false,
+            },
+            {
+                devId: 'csdn',
+                devName: '继电器',
+                RDevType:'线路保护',
+                proName:'线路',
+                devFac:'南瑞继保',
+                softId: 1,
+                temId: null,
+                faultId: 1,
+                edit:false,
+                visible:false,
             }
         ],
         deviceAddInfo:{
@@ -166,14 +180,34 @@ var vm = new Vue({
             upTime: 'ddd',
             name: 'www',
             phoneNum: 'rrr',
+            visible:false,
+            add:true,
+        },
+        faultAddInfo:{
+            devId:null,
+            faultId:null,
+            faultDesc:null,
+            name:null,
+            phoneNum:null,
         },
         softData: {
             id: null,
-            softId: 'scc',
-            softName: 'sss',
-            softFac: 'ddd',
-            softVer: 'ddd',
+            softId: null,
+            softName: null,
+            softFac: null,
+            softVer: null,
+            devId:null,
+            visible:false,
+            add:true,
+            
         },
+        softAddInfo:{
+            devId:null,
+            softId:null,
+            softName:null,
+            softFac:null,
+            softVer:null,
+        }
         // temData:[
         //     {
 
@@ -599,7 +633,6 @@ var vm = new Vue({
 
                         that.faultInfoNotNull = true;
 
-
                         that.deviceSearchInfo.devId = null;
                         that.deviceSearchInfo.devName = null;
                         that.deviceSearchInfo.devFac = null;
@@ -753,19 +786,31 @@ var vm = new Vue({
 
         getSoftById: function (row) {
 
-            
-
             let that = this;
 
             this.softDialogTableVisible = true;
 
             if (row.softId != 0) {
-                this.softData = null;
+
+                this.softData.id= null,
+                this.softData.softId= null,
+                this.softData.softName= null,
+                this.softData.softFac= null,
+                this.softData.softVer= null,
+                this.softData.devId=null,
+                this.softData.visible = false;
+                this.softData.add = false;
+
+
                 axios.post("http://localhost:8081/soft/get", "softId=" + row.softId)
                     .then(
                         function (res) {
                             console.log(res);
                             that.softData = res.data;
+                            console.log(that.softData);
+                            that.softData.edit = false;
+                            that.softData.visible = false;
+                            that.softData.add = false;
 
                         },
                         function (err) {
@@ -773,12 +818,160 @@ var vm = new Vue({
                         }
                     )
             } else {
+                
+                //将设备id记录在softAddInfo中保证设备新增的时候可以使用该数据
+                //设备修改和删除的时候设备Id已经存在于搜索到设备返回的devId中。
+                that.softAddInfo.devId = row.id;
+                that.softData.edit = false;
+                that.softData.visible = false;
+                that.softData.add = true;
                 that.$message({
                     message: '暂无数据',
                     type: 'warning',
                 })
             }
+            console.log(this.softData);
 
+        },
+        updateSoft:function(){
+
+            let that = this;
+
+            axios.post("http://localhost:8081/soft/post",this.softData)
+            .then(
+                function(res){
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'修改软件信息成功',
+                            type:'success'
+                        })
+                        that.softDialogTableVisible=false;
+                        that.softAddInfo = null;
+                    }
+                    if(res.data.status == "err"){
+                        that.$message({
+                            message:'修改软件信息失败',
+                            type:'error'
+                        })
+                    }
+                    if(res.data.status == "softFacEmpty"){
+                        that.$message({
+                            message:'软件厂家不可为空',
+                            type:'error'
+                        })
+                    }
+                    if(res.data.status == "softNameNull"){
+                        that.$message({
+                            message:'软件名称不可为空',
+                            type:'error'
+                        })
+                    }
+                    if(res.data.status == "softVerNull"){
+                        that.$message({
+                            message:'软件版本不可为空',
+                            type:'error'
+                        })
+                    }
+
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+        },
+
+        addSoft:function(){
+
+            let that = this;
+
+            axios.post("http://localhost:8081/soft/add",this.softAddInfo)
+            .then(
+                function(res){
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'新增软件信息成功',
+                            type:'success'
+                        })
+                        that.softDialogTableVisible=false;
+                        that.softAddInfo = null;
+                    }
+                    if(res.data.status == "err"){
+                        that.$message({
+                            message:'新增软件信息失败',
+                            type:'error'
+                        })
+                    }
+                    if(res.data.status == "softFacEmpty"){
+                        that.$message({
+                            message:'软件厂家不可为空',
+                            type:'error'
+                        })
+                    }
+                    if(res.data.status == "softNameNull"){
+                        that.$message({
+                            message:'软件名称不可为空',
+                            type:'error'
+                        })
+                    }
+                    if(res.data.status == "softVerNull"){
+                        that.$message({
+                            message:'软件版本不可为空',
+                            type:'error'
+                        })
+                    }
+
+
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+        },
+
+        deleteSoft:function(){
+
+            let that = this;
+
+            axios.post("http://localhost:8081/soft/delete",this.softData)
+            .then(
+                function(res){
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'成功删除',
+                            type:'success'
+                        })
+                        that.softDialogTableVisible = false;
+                        that.softData.visible = false;
+                    }
+                    if(res.data.status == "err"){
+                        that.$message({
+                            message:'删除失败',
+                            type:'error'
+                        })
+                    }
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+
+        },
+
+
+
+
+
+        closeSoftAdd:function(){
+
+            this.softAddInfo.softId="";
+            this.softAddInfo.softName="";
+            this.softAddInfo.softFac="";
+            this.softAddInfo.softVer="";
+            this.softAddInfoShow = false;
 
         },
 
@@ -812,9 +1005,24 @@ var vm = new Vue({
 
         },
 
+        updateFault:function(){
+
+        },
+
+
+
         closeSoftDialogTableVisible: function () {
 
             this.softDialogTableVisible = false;
+            this.softAddInfoShow = false;
+            this.softData.id= "";
+            this.softData.softId= "";
+            this.softData.softName= "";
+            this.softData.softFac= "";
+            this.softData.softVer= "";
+
+            //devId:null,
+
 
         },
         closeTemDialogTableVisible: function () {

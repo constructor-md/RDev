@@ -57,6 +57,16 @@
         where id = #{id}
     </update>
 
+    <update id="updateDeviceSoftId">
+        update device
+        set soft_id = #{softId}
+        where id = #{devId}
+    </update>
+
+
+
+
+
     <delete id="deleteDeviceById" parameterType="int">
         delete from device
         where id = #{id}

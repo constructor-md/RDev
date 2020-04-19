@@ -26,6 +26,12 @@ public interface DeviceMapper {
      */
     int updateDevice(Device device);
 
+    //提供给软件、故障、模板信息新增时更新表中外键的接口
+    int updateDeviceSoftId(int devId,int softId);
+    int updateDeviceFaultId(int devId,int faultId);
+    int updateDeviceTemId(int devId,int temId);
+
+
     /*
      * 前端将完整的设备对象传回，空值数据库中默认修改和程序中默认修改
      *
