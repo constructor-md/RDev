@@ -26,7 +26,7 @@ public interface DeviceMapper {
      */
     int updateDevice(Device device);
 
-    //提供给软件、故障、模板信息新增时更新表中外键的接口
+    //提供给软件、故障、模板信息新增时更新表中外键的接口 devId在数据库中是主键id
     int updateDeviceSoftId(int devId,int softId);
     int updateDeviceFaultId(int devId,int faultId);
     int updateDeviceTemId(int devId,int temId);

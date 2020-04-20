@@ -62,12 +62,58 @@ var vm = new Vue({
             }
         ],
 
+
+
         deviceSearchInfo: {
             devId: null,
             devName: null,
             devFac: null,
             location: null
         },
+
+        deviceData: [
+            {
+                devId: 'csdn',
+                devName: '继电器',
+                RDevType:'线路保护',
+                proName:'线路',
+                devFac:'南瑞继保',
+                softId: 0,
+                temId: null,
+                faultId: 0,
+                edit:false,
+                visible:false,
+            },
+            {
+                devId: 'csdn',
+                devName: '继电器',
+                RDevType:'线路保护',
+                proName:'线路',
+                devFac:'南瑞继保',
+                softId: 1,
+                temId: null,
+                faultId: 1,
+                edit:false,
+                visible:false,
+            }
+        ],
+        deviceAddInfo:{
+            devId:null,
+            devName:null,
+            rDevType:null,
+            proName:null,
+            switchId:null,
+            devFac:null,
+            location:null,
+            deadline:null,
+        },
+
+
+        deadlineDeviceData: [
+            {
+
+            }
+        ],
 
         permissionData: [
             {
@@ -133,63 +179,26 @@ var vm = new Vue({
             faultDelete: null,
             examine: null,
         },
-        deviceData: [
-            {
-                devId: 'csdn',
-                devName: '继电器',
-                RDevType:'线路保护',
-                proName:'线路',
-                devFac:'南瑞继保',
-                softId: 0,
-                temId: null,
-                faultId: 0,
-                edit:false,
-                visible:false,
-            },
-            {
-                devId: 'csdn',
-                devName: '继电器',
-                RDevType:'线路保护',
-                proName:'线路',
-                devFac:'南瑞继保',
-                softId: 1,
-                temId: null,
-                faultId: 1,
-                edit:false,
-                visible:false,
-            }
-        ],
-        deviceAddInfo:{
-            devId:null,
-            devName:null,
-            rDevType:null,
-            proName:null,
-            switchId:null,
-            devFac:null,
-            location:null,
-            deadline:null,
-        },
-        deadlineDeviceData: [
-            {
 
-            }
-        ],
+
         faultData: {
             faultId: null,
             faultDesc: 'sss',
             upTime: 'ddd',
             name: 'www',
             phoneNum: 'rrr',
+            devId:null,
             visible:false,
             add:true,
         },
         faultAddInfo:{
             devId:null,
-            faultId:null,
             faultDesc:null,
             name:null,
             phoneNum:null,
         },
+
+
         softData: {
             id: null,
             softId: null,
@@ -240,6 +249,7 @@ var vm = new Vue({
     },
 
     methods: {
+
 
         doUserManage: function () {
             this.userManage = true,
@@ -302,6 +312,7 @@ var vm = new Vue({
                 this.deadlineManage = true
         },
 
+        //用户管理模块
         getUserInfo: function () {
 
             let that = this;
@@ -485,6 +496,8 @@ var vm = new Vue({
 
         },
 
+
+        //权限管理模块
         importPermissionInfo: function () {
 
             let that = this;
@@ -618,6 +631,8 @@ var vm = new Vue({
 
         },
 
+
+        //设备管理模块
         searchDevice: function () {
 
             let that = this;
@@ -784,6 +799,8 @@ var vm = new Vue({
 
         },
 
+
+        //软件管理模块
         getSoftById: function (row) {
 
             let that = this;
@@ -808,7 +825,6 @@ var vm = new Vue({
                             console.log(res);
                             that.softData = res.data;
                             console.log(that.softData);
-                            that.softData.edit = false;
                             that.softData.visible = false;
                             that.softData.add = false;
 
@@ -961,10 +977,6 @@ var vm = new Vue({
 
         },
 
-
-
-
-
         closeSoftAdd:function(){
 
             this.softAddInfo.softId="";
@@ -975,6 +987,8 @@ var vm = new Vue({
 
         },
 
+
+        //故障管理模块
         getFaultById: function (row) {
             
 
@@ -983,12 +997,23 @@ var vm = new Vue({
             console.log(row.faultId);
 
             if (row.faultId != 0) {
-                this.faultData = null;
+
+                this.faultData.faultId= null,
+                this.faultData.faultDesc= null,
+                this.faultData.upTime= null,
+                this.faultData.name= null,
+                this.faultData.phoneNum= null,
+                this.faultData.devId=null,
+                this.faultData.visible = false;
+                this.faultData.add = false;
+
                 axios.post("http://localhost:8081/fault/get", "faultId=" + row.faultId)
                     .then(
                         function (res) {
                             console.log(res);
                             that.faultData = res.data;
+                            that.faultData.visible = false;
+                            that.faultData.add = false;
 
                         },
                         function (err) {
@@ -996,6 +1021,10 @@ var vm = new Vue({
                         }
                     )
             } else {
+                //devId赋给增加参数，用于增加的时候使用
+                that.faultAddInfo.devId = row.id;
+                that.faultData.visible = false;
+                that.faultData.add = true;
                 that.$message({
                     message: '暂无数据',
                     type: 'warning',
@@ -1007,9 +1036,138 @@ var vm = new Vue({
 
         updateFault:function(){
 
+            let that = this;
+
+            axios.post("http://localhost:8081/fault/post","faultDesc="+this.faultData.faultDesc+
+                                                            "&faultId="+this.faultData.faultId+
+                                                            "&username="+this.userInfo.username)
+            .then(
+                function(res){
+
+                    if(res.data.status == "faultDescNull"){
+                        that.$message({
+                            message:'故障描述不可为空',
+                            type:'error'
+                        })
+                    }
+                    if(res.data.status == "err"){
+                        that.$message({
+                            message:'故障信息修改失败',
+                            type:'error'
+                        })
+                    }
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'故障信息修改成功',
+                            type:'success'
+                        })
+                        that.closeFaultDialogTableVisible();
+                        
+                    }
+
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+
+        },
+
+        addFault:function(){
+
+            let that = this;
+
+            axios.post("http://localhost:8081/fault/add",
+            "faultDesc="+this.faultAddInfo.faultDesc+
+            "&username="+this.userInfo.username+
+            "&devId="+this.faultAddInfo.devId)
+            .then(
+                function(res){
+                    
+                    if(res.data.status == "ok"){
+
+                        that.$message({
+                            message:'故障上报成功',
+                            type:'success'
+                        })
+                        that.closeFaultDialogTableVisible();
+                    }
+                    if(res.data.status == "err"){
+
+                        that.$message({
+                            message:'故障上报失败',
+                            type:'error'
+                        })
+
+                    }
+                    if(res.data.status == "faultDesc"){
+
+                        that.$message({
+                            message:'故障描述不可为空',
+                            type:'error'
+                        })
+
+                    }
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+
+        },
+
+        deleteFault:function(){
+
+            let that = this;
+
+            axios.post("http://localhost:8081/fault/delete","faultId="+this.faultData.faultId+"&devId="+this.faultData.devId)
+            .then(
+                function(res){
+
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'删除故障信息成功',
+                            type:'success'
+                        })
+                        that.closeFaultDialogTableVisible();
+                        that.faultData.visible = false;
+                    }
+                    if(res.data.status == "err"){
+                        that.$message({
+                            message:'删除故障信息失败',
+                            type:'error'
+                        })
+                    }
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+
         },
 
 
+        closeFaultAdd:function(){
+
+
+            this.faultAddInfo.devId="";
+            this.faultAddInfo.faultId="";
+            this.faultAddInfo.faultDesc="";
+            this.faultAddInfo.name="";
+            this.faultAddInfo.phoneNum="";
+            this.faultAddInfoShow = false;
+
+        },
+
+
+
+        //弹出框关闭
 
         closeSoftDialogTableVisible: function () {
 
@@ -1032,8 +1190,14 @@ var vm = new Vue({
 
         },
         closeFaultDialogTableVisible: function () {
-
+            
             this.faultDialogTableVisible = false;
+            this.faultAddInfoShow = false;
+            this.faultData.faultId= "";
+            this.faultData.faultDesc= "";
+            this.faultData.upTime= "";
+            this.faultData.name= "";
+            this.faultData.phoneNum= "";
 
         },
 
@@ -1041,6 +1205,10 @@ var vm = new Vue({
         getTemById: function (id) {
 
         },
+
+
+        
+        //登出
 
         logout: function () {
 

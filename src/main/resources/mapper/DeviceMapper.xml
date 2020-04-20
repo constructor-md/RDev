@@ -63,6 +63,12 @@
         where id = #{devId}
     </update>
 
+    <update id="updateDeviceFaultId">
+        update device
+        set fault_id = #{faultId}
+        where id = #{devId}
+    </update>
+
 
 
 

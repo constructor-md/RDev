@@ -21,4 +21,24 @@
         select *
         from fault
     </select>
+
+    <update id="updateFault">
+        update fault
+        set fault_desc = #{faultDesc},up_user_id=#{upUserId},up_time = now()
+        where fault_id = #{faultId}
+    </update>
+
+
+    <insert id="addFault" parameterType="com.protectdev.manage.pojo.Fault" useGeneratedKeys="true" keyProperty="faultId">
+
+        insert into fault(fault_desc, up_user_id, up_time, dev_id)
+        VALUES (#{faultDesc},#{upUserId},now(),#{devId})
+
+    </insert>
+    
+    <delete id="deleteFault">
+        delete from fault
+        where fault_id = #{faultId}
+    </delete>
+
 </mapper>

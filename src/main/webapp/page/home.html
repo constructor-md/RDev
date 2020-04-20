@@ -458,8 +458,9 @@
                                                 <span style="color: #58595b;" v-if="!props.row.faultDelete">无</span>
                                             </span>
                                         </el-form-item>
+                                    </el-form>
                                 </template>
-                                </el-form>
+
                             </el-table-column>
 
                             <el-table-column prop="permission" label="权限角色" align="center">
@@ -1004,7 +1005,7 @@
                             <el-table-column prop="deadline" label="使用期限" align="center">
                                 <template slot-scope="{row}">
                                     <el-date-picker value-format="yyyy-MM-dd" type="datetime" v-if="row.edit"
-                                        v-model="row.deadline" type="date" placeholder='请输入时间' style="width: 140px;">
+                                        v-model="row.deadline" placeholder='请输入时间' style="width: 140px;">
                                     </el-date-picker>
                                     <span class="table-cell" v-if="!row.edit">{{row.deadline}}</span>
                                 </template>
@@ -1162,23 +1163,27 @@
                     </el-form>
                 </el-dialog>
                 <el-dialog title="故障信息" :visible.sync="faultDialogTableVisible" @close="closeFaultDialogTableVisible">
-                    <el-form :model="faultData">
+                    <el-form :model="faultData" v-if="!faultData.add">
                         <el-form-item label="故障描述">
-                            <el-input  v-model="faultData.faultDesc" v-if="!faultData.add" placeholder="故障描述" style="width: 130px;"></el-input>
-                            <el-input v-if="faultAddInfoShow" v-model="faultAddInfo.softId" placeholder="故障描述" style="width: 130px;"></el-input>
+                            <el-input  v-model="faultData.faultDesc" autosizetype="textarea" maxlength="200" show-word-limit placeholder="故障描述" style="width: 600px;"></el-input>
                         </el-form-item>
-                        <el-form-item label="上传时间">
-                            <el-input  v-model="faultData.upTime" v-if="!faultData.add" placeholder="上传时间" style="width: 130px;" ></el-input>
-                            <el-input v-if="faultAddInfoShow" v-model="faultAddInfo.upTime" placeholder="上传时间" style="width: 130px;"></el-input>                        </el-form-item>
-                        <el-form-item label="上传用户">
-                            <el-input  v-model="faultData.name" v-if="!faultData.add" placeholder="上传用户" style="width: 130px;" ></el-input>
-                            <el-input v-if="faultAddInfoShow" v-model="faultAddInfo.name" placeholder="上传用户" style="width: 130px;" ></el-input>                        </el-form-item>
-                        <el-form-item label="上传用户联系方式">
-                            <el-input  v-model="faultData.phoneNum" v-if="!faultData.add" placeholder="上传用户联系方式" style="width: 130px;" ></el-input>
-                            <el-input v-if="faultAddInfoShow" v-model="faultAddInfo.phoneNum" placeholder="上传用户联系方式" style="width: 130px;"></el-input>                        </el-form-item>
+                        <el-form-item label="上传时间" style="margin-top: 10px;">
+                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" type="datetime"
+                            v-model="faultData.upTime" placeholder='上传时间' style="width: 200px;">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="上传用户" style="margin-top: 10px;">
+                            <el-input  v-model="faultData.name" placeholder="上传用户" style="width: 130px;" ></el-input>
+                        </el-form-item>
+                        <el-form-item label="上传用户联系方式" style="margin-top: 10px;">
+                            <el-input  v-model="faultData.phoneNum"placeholder="上传用户联系方式" style="width: 150px;" ></el-input>
+                        </el-form-item>
+
                     </el-form>
 
-                     <!-- 新增 -->
+                    <el-input v-if="faultAddInfoShow" v-model="faultAddInfo.faultDesc" autosize type="textarea" maxlength="200" show-word-limit placeholder="故障描述" style="width: 600px;"></el-input>
+                    
+                    <!-- 新增 -->
                      <div style="display: flex;justify-content: center;">
 
                         <el-button type="primary" icon="el-icon-finished" size="small" style="margin-top: 10px;"
