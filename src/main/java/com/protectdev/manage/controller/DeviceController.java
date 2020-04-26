@@ -45,6 +45,17 @@ public class DeviceController {
         return deviceJson;
     }
 
+    @RequestMapping("deadlineDevice/get")
+    @ResponseBody
+    @PermissionCheck(value = "deviceGet")
+    public String deadlineDeviceGet(){
+
+        List<Device> devices = deviceMapper.getDeadlineDevice();
+
+
+        return JSONObject.toJSONString(devices);
+    }
+
 
     @RequestMapping("device/post")
     @ResponseBody

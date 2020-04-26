@@ -18,10 +18,16 @@
         <result column="deadline" property="deadline"></result>
     </resultMap>
 
-    <select id="getDeviceById" parameterType="String" resultType="com.protectdev.manage.pojo.Device" resultMap="Device">
+    <select id="getDeviceById"  resultType="com.protectdev.manage.pojo.Device" resultMap="Device">
         select *
         from device
-        where dev_id = #{devId}
+        where id = #{Id}
+    </select>
+
+    <select id="getDeadlineDevice" resultMap="Device">
+        select *
+        from device
+        where date_add(now(),INTERVAL 2 MONTH ) > deadline;
     </select>
 
     <select id="getDevice" resultType="com.protectdev.manage.pojo.Device" resultMap="Device">

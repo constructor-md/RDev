@@ -130,3 +130,7 @@ A:hover {
     margin-bottom: 0;
     width: 25%;
   }
+  .el-tooltip__popper {
+    max-width: 400px;
+    line-height: 180%;
+  }

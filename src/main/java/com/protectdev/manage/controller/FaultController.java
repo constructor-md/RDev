@@ -5,6 +5,7 @@ import com.protectdev.manage.annotation.PermissionCheck;
 import com.protectdev.manage.mapper.DeviceMapper;
 import com.protectdev.manage.mapper.FaultMapper;
 import com.protectdev.manage.mapper.UserMapper;
+import com.protectdev.manage.pojo.Device;
 import com.protectdev.manage.pojo.Fault;
 import com.protectdev.manage.pojo.User;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class FaultController {
@@ -47,6 +49,52 @@ public class FaultController {
         return stringBuilder;
 
     }
+
+    @RequestMapping("faultList/get")
+    @ResponseBody
+    @PermissionCheck("faultGet")
+    public StringBuilder faultListGet(){
+
+        List<Fault> faultList = faultMapper.getFaultList();
+
+        StringBuilder stringBuilder = new StringBuilder("[");
+
+        for (int i = 0 ; i < faultList.size() ; i++){
+
+            Fault fault = faultList.get(i);
+
+            Device device = deviceMapper.getDeviceById(fault.getDevId());
+
+
+            User user = userMapper.userGetById(fault.getUpUserId());
+
+            if (i+1 == faultList.size()){
+
+                stringBuilder.append(JSONObject.toJSONString(fault).replace("}",","))
+                        .append(JSONObject.toJSONString(device).replace("{","")
+                                                                .replace("}",","))
+                        .append(JSONObject.toJSONString(user).replace("{",""));
+
+
+                stringBuilder.append("]");
+
+                return stringBuilder;
+
+            }
+
+            stringBuilder.append(JSONObject.toJSONString(fault).replace("}",","))
+                    .append(JSONObject.toJSONString(device).replace("{","")
+                                                            .replace("}",","))
+                        .append(JSONObject.toJSONString(user).replace("{",""))
+                        .append(",");
+
+        }
+
+        return null;
+
+
+    }
+
 
     @RequestMapping("fault/post")
     @ResponseBody

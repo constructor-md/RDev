@@ -216,12 +216,18 @@ var vm = new Vue({
             softName:null,
             softFac:null,
             softVer:null,
-        }
-        // temData:[
-        //     {
+        },
 
-        //     }
-        // ],
+        faultListData:null,
+
+        deadlineDeviceData:null,
+
+        temData:[
+            {
+
+            }
+        ],
+        
         // deviceExamData:[
         //     {
 
@@ -1207,6 +1213,81 @@ var vm = new Vue({
         },
 
 
+
+        getFaultList:function(){
+
+            let that = this;
+
+            axios.get("http://localhost:8081/faultList/get")
+            .then(
+                function(res){
+
+                    that.faultListData = res.data;
+                    that.faultListData.visible = false;
+                    that.faultListData.edit = false;
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+
+
+        },
+
+        deleteFaultInList:function(row,index){
+
+            let that = this;
+
+            axios.post("http://localhost:8081/fault/delete","faultId="+row.faultId+"&devId="+row.id)
+            .then(
+                function(res){
+
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'删除故障信息成功',
+                            type:'success'
+                        })
+                        //删除当前行
+                        that.faultListData.splice(index, 1);
+                        that.faultData.visible = false;
+                    }
+                    if(res.data.status == "err"){
+                        that.$message({
+                            message:'删除故障信息失败',
+                            type:'error'
+                        })
+                    }
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+
+        },
+
+        getDeadlineDevice:function(){
+
+            let that = this;
+
+            axios.get("http://localhost:8081/deadlineDevice/get")
+            .then(
+                function(res){
+
+                    that.deadlineDeviceData = res.data;
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+
+
+        },
         
         //登出
 

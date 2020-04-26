@@ -48,7 +48,7 @@ public class Fault {
         return devId;
     }
 
-    public void setDevId(int devId) {
+    public void setDevId(Integer devId) {
         this.devId = devId;
     }
 

@@ -1088,23 +1088,31 @@
                 <el-dialog title="软件信息" :visible.sync="softDialogTableVisible" @close="closeSoftDialogTableVisible">
                     <el-form :model="softData">
                         <el-form-item label="软件编号">
-                            <el-input  v-model="softData.softId" v-if="!softData.add" placeholder="软件编号" style="width: 130px;" key="softIdEdit"></el-input>
-                            <el-input v-if="softAddInfoShow" v-model="softAddInfo.softId" placeholder="软件编号" style="width: 130px;" key="softIdAdd"></el-input>
+                            <el-input v-model="softData.softId" v-if="!softData.add" placeholder="软件编号"
+                                style="width: 130px;" key="softIdEdit"></el-input>
+                            <el-input v-if="softAddInfoShow" v-model="softAddInfo.softId" placeholder="软件编号"
+                                style="width: 130px;" key="softIdAdd"></el-input>
 
                         </el-form-item>
                         <el-form-item label="软件名称">
-                            <el-input  v-model="softData.softName" v-if="!softData.add" placeholder="软件名称" style="width: 130px;" key="softNameEdit"></el-input>
-                            <el-input v-if="softAddInfoShow" v-model="softAddInfo.softName" placeholder="软件名称" style="width: 130px;" key="softNameAdd"></el-input>
+                            <el-input v-model="softData.softName" v-if="!softData.add" placeholder="软件名称"
+                                style="width: 130px;" key="softNameEdit"></el-input>
+                            <el-input v-if="softAddInfoShow" v-model="softAddInfo.softName" placeholder="软件名称"
+                                style="width: 130px;" key="softNameAdd"></el-input>
 
                         </el-form-item>
                         <el-form-item label="软件厂家">
-                            <el-input  v-model="softData.softFac" v-if="!softData.add" placeholder="软件厂家" style="width: 130px;" key="softFacEdit"></el-input>
-                            <el-input v-if="softAddInfoShow" v-model="softAddInfo.softFac" placeholder="软件厂家" style="width: 130px;" key="softFacAdd"></el-input>
+                            <el-input v-model="softData.softFac" v-if="!softData.add" placeholder="软件厂家"
+                                style="width: 130px;" key="softFacEdit"></el-input>
+                            <el-input v-if="softAddInfoShow" v-model="softAddInfo.softFac" placeholder="软件厂家"
+                                style="width: 130px;" key="softFacAdd"></el-input>
 
                         </el-form-item>
                         <el-form-item label="软件版本号">
-                            <el-input  v-model="softData.softVer" v-if="!softData.add" placeholder="软件版本号" style="width: 130px;" key="softVerEdit"></el-input>
-                            <el-input v-if="softAddInfoShow" v-model="softAddInfo.softVer" placeholder="软件版本号" style="width: 130px;" key="softVerAdd"></el-input>
+                            <el-input v-model="softData.softVer" v-if="!softData.add" placeholder="软件版本号"
+                                style="width: 130px;" key="softVerEdit"></el-input>
+                            <el-input v-if="softAddInfoShow" v-model="softAddInfo.softVer" placeholder="软件版本号"
+                                style="width: 130px;" key="softVerAdd"></el-input>
 
                         </el-form-item>
                     </el-form>
@@ -1125,8 +1133,8 @@
                     <div>
                         <!-- 删除和修改 -->
                         <div v-if="!softData.add">
-                            <el-button @click.native="updateSoft" type="text" icon="el-icon-finished"
-                            circle></el-button>
+                            <el-button @click.native="updateSoft" type="text" icon="el-icon-finished" circle>
+                            </el-button>
                             <el-popover width="160" v-model="softData.visible" v-if="!softData.edit">
                                 <p style="font-size: 15px;">确定删除吗？</p>
                                 <div style="text-align: right; margin: 0" style="font-size: 15px;">
@@ -1135,13 +1143,13 @@
                                     <el-button type="danger" size="mini" @click="deleteSoft">
                                         确定</el-button>
                                 </div>
-                                <el-button type="text" slot="reference" icon="el-icon-delete" circle >
+                                <el-button type="text" slot="reference" icon="el-icon-delete" circle>
                                 </el-button>
                             </el-popover>
                         </div>
                         <!-- 编辑 -->
 
-                           
+
 
                     </div>
 
@@ -1165,26 +1173,29 @@
                 <el-dialog title="故障信息" :visible.sync="faultDialogTableVisible" @close="closeFaultDialogTableVisible">
                     <el-form :model="faultData" v-if="!faultData.add">
                         <el-form-item label="故障描述">
-                            <el-input  v-model="faultData.faultDesc" autosizetype="textarea" maxlength="200" show-word-limit placeholder="故障描述" style="width: 600px;"></el-input>
+                            <el-input v-model="faultData.faultDesc" autosizetype="textarea" maxlength="200"
+                                show-word-limit placeholder="故障描述" style="width: 600px;"></el-input>
                         </el-form-item>
                         <el-form-item label="上传时间" style="margin-top: 10px;">
                             <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" type="datetime"
-                            v-model="faultData.upTime" placeholder='上传时间' style="width: 200px;">
+                                v-model="faultData.upTime" placeholder='上传时间' style="width: 200px;">
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item label="上传用户" style="margin-top: 10px;">
-                            <el-input  v-model="faultData.name" placeholder="上传用户" style="width: 130px;" ></el-input>
+                            <el-input v-model="faultData.name" placeholder="上传用户" style="width: 130px;"></el-input>
                         </el-form-item>
                         <el-form-item label="上传用户联系方式" style="margin-top: 10px;">
-                            <el-input  v-model="faultData.phoneNum"placeholder="上传用户联系方式" style="width: 150px;" ></el-input>
+                            <el-input v-model="faultData.phoneNum" placeholder="上传用户联系方式" style="width: 150px;">
+                            </el-input>
                         </el-form-item>
 
                     </el-form>
 
-                    <el-input v-if="faultAddInfoShow" v-model="faultAddInfo.faultDesc" autosize type="textarea" maxlength="200" show-word-limit placeholder="故障描述" style="width: 600px;"></el-input>
-                    
+                    <el-input v-if="faultAddInfoShow" v-model="faultAddInfo.faultDesc" autosize type="textarea"
+                        maxlength="200" show-word-limit placeholder="故障描述" style="width: 600px;"></el-input>
+
                     <!-- 新增 -->
-                     <div style="display: flex;justify-content: center;">
+                    <div style="display: flex;justify-content: center;">
 
                         <el-button type="primary" icon="el-icon-finished" size="small" style="margin-top: 10px;"
                             v-if="faultAddInfoShow" @click="addFault">提交</el-button>
@@ -1200,8 +1211,8 @@
                     <div>
                         <!-- 删除和修改 -->
                         <div v-if="!faultData.add">
-                            <el-button @click.native="updateFault" type="text" icon="el-icon-finished"
-                            circle></el-button>
+                            <el-button @click.native="updateFault" type="text" icon="el-icon-finished" circle>
+                            </el-button>
                             <el-popover width="160" v-model="faultData.visible" v-if="!faultData.edit">
                                 <p style="font-size: 15px;">确定删除吗？</p>
                                 <div style="text-align: right; margin: 0" style="font-size: 15px;">
@@ -1210,12 +1221,12 @@
                                     <el-button type="danger" size="mini" @click="deleteFault">
                                         确定</el-button>
                                 </div>
-                                <el-button type="text" slot="reference" icon="el-icon-delete" circle >
+                                <el-button type="text" slot="reference" icon="el-icon-delete" circle>
                                 </el-button>
                             </el-popover>
                         </div>
 
-                           
+
 
                     </div>
                 </el-dialog>
@@ -1223,29 +1234,60 @@
                 <el-main v-if="faultManage">
                     <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
                         <p style="margin-top: 10px;">故障信息</p>
-                        <el-button type="primary" icon="el-icon-refresh" id="import">导入</el-button>
+                        <el-button type="primary" icon="el-icon-refresh" id="import" @click.native="getFaultList">导入
+                        </el-button>
 
                     </div>
                     <template id="resultTable">
-                        <el-table :data="faultData" style="width: 100%;" key="faultManage">
-                            <el-table-column prop="deviceId" label="设备编号" align="center">
+                        <el-table :data="faultListData" style="width: 100%;" key="faultManage">
+                            <el-table-column prop="devId" label="设备编号" align="center">
                             </el-table-column>
-                            <el-table-column prop="deviceName" label="设备名称" align="center">
+                            <el-table-column prop="devName" label="设备名称" align="center">
                             </el-table-column>
                             <el-table-column prop="faultDesc" label="故障描述" align="center">
+                                <div slot-scope="scope">
+                                    <el-tooltip :content="scope.row.faultDesc" placement="top">
+                                        <el-button size="mini" type="text">
+                                            <span style="color: #58595b;" class="cancel">查看详情</span></el-button>
+                                    </el-tooltip>
+                                </div>
+                            </el-table-column>
+                            <el-table-column prop="location" label="地址描述" align="center">
                             </el-table-column>
                             <el-table-column prop="devFac" label="制造厂家" align="center">
                             </el-table-column>
-                            <el-table-column prop="upUser" label="上传用户" align="center">
+                            <el-table-column prop="name" label="上传用户" align="center">
                             </el-table-column>
                             <el-table-column prop="upTime" label="上传时间" align="center">
                             </el-table-column>
-                            <el-table-column align="center">
-                                <i class="el-icon-edit"></i>
-                                <a href="#">修改</a>
-                                <i class="el-icon-delete"></i>
-                                <a href="#">删除</a>
-                            </el-table-column>
+                            <!-- <el-table-column align="center" width="200px" label="操作">
+                                <div slot-scope="scope">
+                                    
+                                    <div v-if="!scope.row.edit">
+                                        <el-button @click.native="scope.row.edit = true" type="text" slot="reference"
+                                            icon="el-icon-edit" circle></el-button>
+                                        <el-popover width="160" v-model="scope.row.visible">
+                                            <p style="font-size: 15px;">确定删除吗？</p>
+                                            <div style="text-align: right; margin: 0" style="font-size: 15px;">
+                                                <el-button size="mini" type="text" @click="scope.row.visible = false">
+                                                    <span style="color: #58595b;" class="cancel">取消</span></el-button>
+                                                <el-button type="danger" size="mini"
+                                                    @click="deleteFaultInList(scope.row,scope.$index)">确定</el-button>
+                                            </div>
+                                            <el-button type="text" slot="reference" icon="el-icon-delete" circle>
+                                            </el-button>
+                                        </el-popover>
+                                    </div>
+                                   
+                                    <div v-if="scope.row.edit">
+                                        <el-button @click.native="updateFaultInList(scope.row)" type="text"
+                                            icon="el-icon-finished" circle></el-button>
+                                        <el-button @click.native="scope.row.edit = false" type="text"
+                                            icon="el-icon-close" circle></el-button>
+                                    </div>
+                                </div>
+                            </el-table-column> -->
+
 
                         </el-table>
                     </template>
@@ -1258,16 +1300,16 @@
 
                     <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
                         <p style="margin-top: 10px;">临近到期设备信息</p>
-                        <el-button type="primary" icon="el-icon-refresh" id="import">获取</el-button>
+                        <el-button type="primary" icon="el-icon-refresh" id="import" @click.native="getDeadlineDevice">获取</el-button>
 
                     </div>
                     <template id="resultTable">
                         <el-table :data="deadlineDeviceData" style="width: 100%;" key="deadlineManage">
-                            <el-table-column prop="deviceId" label="设备编号" align="center">
+                            <el-table-column prop="devId" label="设备编号" align="center">
                             </el-table-column>
-                            <el-table-column prop="deviceName" label="设备名" align="center">
+                            <el-table-column prop="devName" label="设备名" align="center">
                             </el-table-column>
-                            <el-table-column prop="RDevtype" label="保护类型" align="center">
+                            <el-table-column prop="rDevType" label="保护类型" align="center">
                             </el-table-column>
                             <el-table-column prop="proName" label="被保护设备" align="center">
                             </el-table-column>
@@ -1275,20 +1317,12 @@
                             </el-table-column>
                             <el-table-column prop="devFac" label="制造厂家" align="center">
                             </el-table-column>
-                            <el-table-column prop="temId" label="模板参数" align="center">
-                            </el-table-column>
-                            <el-table-column prop="softId" label="软件信息" align="center">
-                            </el-table-column>
-                            <el-table-column prop="faultId" label="故障" align="center">
-                            </el-table-column>
                             <el-table-column prop="deadline" label="使用期限" align="center">
+                                <div slot-scope="{row}">
+                                    <span style="color: red;" class="cancel">{{row.deadline}}</span>
+                                </div>
                             </el-table-column>
-                            <el-table-column align="center">
-                                <i class="el-icon-edit"></i>
-                                <a href="#">修改</a>
-                                <i class="el-icon-delete"></i>
-                                <a href="#">删除</a>
-                            </el-table-column>
+                            
 
                         </el-table>
                     </template>

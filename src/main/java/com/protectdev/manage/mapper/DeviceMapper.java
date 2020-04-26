@@ -20,6 +20,8 @@ public interface DeviceMapper {
 
     List<Device> getDevice(Device device);
 
+    List<Device> getDeadlineDevice();
+
     /* 前端将修改过后的完整设备对象传回，包含设备主键ID
      * 根据该ID唯一定位一个设备，赋值修改
      *
