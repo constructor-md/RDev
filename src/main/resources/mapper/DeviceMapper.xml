@@ -34,18 +34,24 @@
         select *
         from device
         where
+              <if test="id != 0"> id = #{id}</if>
+        <if test="id != 0 and devId != null">and</if>
+
               <if test="devId != null"> dev_id = #{devId}</if>
-        <if test="devName != null and devId != null">and</if>
+        <if test="(id != 0 or devId != null) and devName != null ">and</if>
+
               <if test="devName != null"> dev_name = #{devName} </if>
-        <if test="(devId != null or devName != null) and devFac != null "> and </if>
+        <if test="(id != 0 or devId != null or devName != null) and devFac != null "> and </if>
+
               <if test="devFac != null"> dev_fac = #{devFac} </if>
-        <if test="(devId != null or devName != null or devFac != null) and location != null"> and </if>
+        <if test="(id != 0 or devId != null or devName != null or devFac != null) and location != null"> and </if>
+
               <if test="location != null"> location like concat('%',#{location},'%')</if>
     </select>
 
     <insert id="addDevice" parameterType="com.protectdev.manage.pojo.Device">
-        insert into device(dev_id, dev_name, rDev_type, pro_name, switch_id, location, dev_fac,deadline)
-        VALUES (#{devId},#{devName},IFNULL(#{rDevType},null),IFNULL(#{proName},null),IFNULL(#{switchId},null),#{location},IFNULL(#{devFac},null),#{deadline})
+        insert into device(id,dev_id, dev_name, rDev_type, pro_name, switch_id, location, dev_fac,deadline)
+        VALUES (#{id},#{devId},#{devName},IFNULL(#{rDevType},null),IFNULL(#{proName},null),IFNULL(#{switchId},null),#{location},IFNULL(#{devFac},null),#{deadline})
 
     </insert>
 

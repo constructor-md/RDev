@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.protectdev.manage.mapper.TemplateMapper">
+    <resultMap id="Template" type="com.protectdev.manage.pojo.Template">
+        <id column="id" property="id"></id>
+        <result column="tem_name" property="temName"></result>
+        <result column="dev_id" property="devId"></result>
+    </resultMap>
+
+
+
+
+
+</mapper>

@@ -65,6 +65,7 @@ var vm = new Vue({
 
 
         deviceSearchInfo: {
+            id:null,
             devId: null,
             devName: null,
             devFac: null,
@@ -654,6 +655,7 @@ var vm = new Vue({
 
                         that.faultInfoNotNull = true;
 
+                        that.deviceSearchInfo.id = null;
                         that.deviceSearchInfo.devId = null;
                         that.deviceSearchInfo.devName = null;
                         that.deviceSearchInfo.devFac = null;
@@ -683,6 +685,18 @@ var vm = new Vue({
                             type:'success'
                         })
                         row.edit = false;
+                    }
+                    if(res.data.status == "idExist"){
+                        that.$message({
+                            message:'设备ID已存在',
+                            type:'error'
+                        })
+                    }
+                    if(res.data.status == "idNull"){
+                        that.$message({
+                            message:'设备ID不可为空',
+                            type:'error'
+                        })
                     }
                     if(res.data.status == "err"){
                         that.$message({
@@ -719,6 +733,18 @@ var vm = new Vue({
                             type:"success"
                         })
                         that.addDeviceClose();
+                    }
+                    if(res.data.status == "idExist"){
+                        that.$message({
+                            message:'设备ID已存在',
+                            type:'error'
+                        })
+                    }
+                    if(res.data.status == "idNull"){
+                        that.$message({
+                            message:'设备ID不可为空',
+                            type:'error'
+                        })
                     }
                     if(res.data.status == "devIdNull"){
                         that.$message({

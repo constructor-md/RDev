@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.protectdev.manage.mapper.SZoneMapper">
+    <resultMap id="SZone" type="com.protectdev.manage.pojo.SZone">
+        <id column="id" property="id"></id>
+        <result column="sZone_name" property="sZoneName"></result>
+        <result column="tem_id" property="temId"></result>
+    </resultMap>
+</mapper>

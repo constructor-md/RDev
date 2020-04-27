@@ -921,6 +921,9 @@
                     <table id="search">
                         <tr>
                             <td>
+                                <el-input placeholder="设备ID" v-model="deviceSearchInfo.id"></el-input>
+                            </td>
+                            <td>
                                 <el-input placeholder="设备编号" v-model="deviceSearchInfo.devId"></el-input>
                             </td>
                             <td>
@@ -941,6 +944,11 @@
 
                     <template id="resultTable">
                         <el-table :data="deviceData" style="width: 100%;" key="deviceManage">
+                            <el-table-column prop="id" label="设备ID" align="center">
+                                <template slot-scope="{row}">
+                                    <span class="table-cell">{{row.id}}</span>
+                                </template>
+                            </el-table-column>
                             <el-table-column prop="devId" label="设备编号" align="center">
                                 <template slot-scope="{row}">
                                     <input class="edit-cell" v-model="row.devId" v-if="row.edit">
@@ -983,10 +991,10 @@
                                     <span class="table-cell" v-if="!row.edit">{{row.location}}</span>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="模板参数" align="center">
+                            <el-table-column label="模板" align="center" type="expand">
 
                             </el-table-column>
-                            <el-table-column label="软件信息" align="center">
+                            <el-table-column label="软件" align="center">
 
                                 <div slot-scope="scope">
                                     <el-button type="text" @click="getSoftById(scope.row)" v-if="softInfoNotNull">
@@ -995,7 +1003,7 @@
 
                                 </div>
                             </el-table-column>
-                            <el-table-column label="故障信息" align="center">
+                            <el-table-column label="故障" align="center">
                                 <div slot-scope="scope">
                                     <el-button type="text" @click="getFaultById(scope.row)" v-if="faultInfoNotNull">
                                         <span style="color: #58595b;" class="cancel">获取</span>
@@ -1039,7 +1047,10 @@
                             </el-table-column>
 
                         </el-table>
-
+                        <div style="display: flex;justify-content: center;margin-top: 10px;" v-if="deviceAddInfoShow">
+                            <span style="color: #58595b; margin-top: 10px;">设备ID：</span>
+                            <el-input v-model="deviceAddInfo.id" placeholder="设备ID" style="width: 130px;"></el-input>
+                        </div>
                         <div style="display: flex;justify-content: space-between;margin-top: 10px;"
                             v-if="deviceAddInfoShow">
                             <span style="color: #58595b; margin-top: 10px;">设备编号：</span>
@@ -1154,22 +1165,6 @@
                     </div>
 
                 </el-dialog>
-                <el-dialog title="模板参数" :visible.sync="temDialogTableVisible" @close="closeTemDialogTableVisible">
-                    <el-form :model="softData">
-                        <el-form-item label="软件编号">
-                            <span style="color: #58595b;" class="cancel">{{softData.softId}}</span>
-                        </el-form-item>
-                        <el-form-item label="软件名称">
-                            <span style="color: #58595b;" class="cancel">{{softData.softName}}</span>
-                        </el-form-item>
-                        <el-form-item label="软件厂家">
-                            <span style="color: #58595b;" class="cancel">{{softData.softFac}}</span>
-                        </el-form-item>
-                        <el-form-item label="软件版本号">
-                            <span style="color: #58595b;" class="cancel">{{softData.softVer}}</span>
-                        </el-form-item>
-                    </el-form>
-                </el-dialog>
                 <el-dialog title="故障信息" :visible.sync="faultDialogTableVisible" @close="closeFaultDialogTableVisible">
                     <el-form :model="faultData" v-if="!faultData.add">
                         <el-form-item label="故障描述">
@@ -1177,16 +1172,13 @@
                                 show-word-limit placeholder="故障描述" style="width: 600px;"></el-input>
                         </el-form-item>
                         <el-form-item label="上传时间" style="margin-top: 10px;">
-                            <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" type="datetime"
-                                v-model="faultData.upTime" placeholder='上传时间' style="width: 200px;">
-                            </el-date-picker>
+                            <span class="table-cell">{{faultData.upTime}}</span>
                         </el-form-item>
                         <el-form-item label="上传用户" style="margin-top: 10px;">
-                            <el-input v-model="faultData.name" placeholder="上传用户" style="width: 130px;"></el-input>
+                            <span class="table-cell">{{faultData.name}}</span>
                         </el-form-item>
                         <el-form-item label="上传用户联系方式" style="margin-top: 10px;">
-                            <el-input v-model="faultData.phoneNum" placeholder="上传用户联系方式" style="width: 150px;">
-                            </el-input>
+                            <span class="table-cell">{{faultData.phoneNum}}</span>
                         </el-form-item>
 
                     </el-form>
@@ -1240,6 +1232,8 @@
                     </div>
                     <template id="resultTable">
                         <el-table :data="faultListData" style="width: 100%;" key="faultManage">
+                            <el-table-column prop="id" label="设备ID" align="center">
+                            </el-table-column>
                             <el-table-column prop="devId" label="设备编号" align="center">
                             </el-table-column>
                             <el-table-column prop="devName" label="设备名称" align="center">
@@ -1300,11 +1294,14 @@
 
                     <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">
                         <p style="margin-top: 10px;">临近到期设备信息</p>
-                        <el-button type="primary" icon="el-icon-refresh" id="import" @click.native="getDeadlineDevice">获取</el-button>
+                        <el-button type="primary" icon="el-icon-refresh" id="import" @click.native="getDeadlineDevice">
+                            获取</el-button>
 
                     </div>
                     <template id="resultTable">
                         <el-table :data="deadlineDeviceData" style="width: 100%;" key="deadlineManage">
+                            <el-table-column prop="id" label="设备ID" align="center">
+                            </el-table-column>
                             <el-table-column prop="devId" label="设备编号" align="center">
                             </el-table-column>
                             <el-table-column prop="devName" label="设备名" align="center">
@@ -1322,7 +1319,7 @@
                                     <span style="color: red;" class="cancel">{{row.deadline}}</span>
                                 </div>
                             </el-table-column>
-                            
+
 
                         </el-table>
                     </template>
