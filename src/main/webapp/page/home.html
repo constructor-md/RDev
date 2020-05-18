@@ -991,7 +991,14 @@
                                     <span class="table-cell" v-if="!row.edit">{{row.location}}</span>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="模板" align="center" type="expand">
+                            <el-table-column label="模板" align="center">
+
+                                <div slot-scope="scope">
+                                    <el-button type="text" @click.native="getTemById(scope.row)">
+                                        <span style="color: #58595b;" class="cancel">获取</span>
+                                    </el-button>
+                                </div>
+
 
                             </el-table-column>
                             <el-table-column label="软件" align="center">
@@ -1222,6 +1229,50 @@
 
                     </div>
                 </el-dialog>
+                <el-dialog title="模板信息" :visible.sync="temDialogTableVisible" @close="closeTemDialogTableVisible">
+
+                    <el-table :data="temData">
+                        <el-table-column label="模板名称" prop="temName" align="center"></el-table-column>
+                        <el-table-column label="定值块名称" prop="sZoneName" align="center"></el-table-column>
+                        <el-table-column label="定值字段名称" prop="fieldName" align="center"></el-table-column>
+                        <el-table-column label="操作" align="center">
+                            <!-- 删除 -->
+                            <div slot-scope="scope">
+                                <el-popover width="160" v-model="scope.row.visible">
+                                    <p style="font-size: 15px;">确定删除吗？</p>
+                                    <div style="text-align: right; margin: 0" style="font-size: 15px;">
+                                        <el-button size="mini" type="text" @click.native="scope.row.visible = false">
+                                            <span style="color: #58595b;" class="cancel">取消</span></el-button>
+                                        <el-button type="danger" size="mini"
+                                            @click="deleteField(scope.row,scope.$index)">
+                                            确定</el-button>
+                                    </div>
+                                    <el-button type="text" slot="reference" icon="el-icon-delete" circle>
+                                    </el-button>
+                                </el-popover>
+                            </div>
+                        </el-table-column>
+                    </el-table>
+                    <!-- 新增 -->
+                    <div v-if="temAddInfoShow" style="display: flex;justify-content: space-around; margin-top: 10px;">
+                        <el-input v-model="temAddInfo.temName" placeholder="模板名称" v-if="!temInfoNotNull"></el-input>
+                        <el-input v-model="temAddInfo.sZoneName" placeholder="定值块名称"></el-input>
+                        <el-input v-model="temAddInfo.fieldName" placeholder="定值字段名称"></el-input>
+                    </div>
+                    <div style="display: flex;justify-content: center;">
+
+                        <el-button type="primary" icon="el-icon-finished" size="small" style="margin-top: 10px;"
+                            v-if="temAddInfoShow" @click="addField">提交</el-button>
+                        <el-button type="text" icon="el-icon-close" size="small" style="margin-top: 10px;"
+                            v-if="temAddInfoShow" @click="closeFieldAdd"><span style="color: #58595b;"
+                                class="cancel">取消</span></el-button>
+                        <el-button type="primary" icon="el-icon-plus" size="small" style="margin-top: 10px;"
+                            v-if="!temAddInfoShow" @click="temAddInfoShow=true">Add</el-button>
+                    </div>
+                </el-dialog>
+
+
+
 
                 <el-main v-if="faultManage">
                     <div style="display: flex;justify-content: space-between;height: 50px;margin-bottom: 20px;">

@@ -9,4 +9,41 @@
         <result column="tem_id" property="temId"></result>
         <result column="sZone_id" property="sZoneId"></result>
     </resultMap>
+
+    <insert id="addField" parameterType="com.protectdev.manage.pojo.Field">
+        insert into field
+        set field_name = #{fieldName} , sZone_id = #{sZoneId} , tem_id = #{temId}
+    </insert>
+
+    <delete id="deleteFieldByFieldId">
+        delete from field
+        where id = #{fieldId}
+    </delete>
+
+    <delete id="deleteFieldBysZoneId">
+        delete from field
+        where sZone_id = #{sZoneId}
+    </delete>
+
+    <delete id="deleteFieldByTemId">
+        delete from field
+        where tem_id = #{temId}
+    </delete>
+
+
+    <select id="getField" resultMap="Field">
+        select *
+        from field
+        where sZone_id = #{sZoneId}
+    </select>
+
+    <update id="postField">
+        update field
+        set field_name = #{fieldName}
+        where id = #{id}
+    </update>
+
+
+
+
 </mapper>

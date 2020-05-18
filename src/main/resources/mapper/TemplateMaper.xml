@@ -9,7 +9,29 @@
         <result column="dev_id" property="devId"></result>
     </resultMap>
 
+    <insert id="addTemplate" parameterType="com.protectdev.manage.pojo.Template">
+        insert into template
+        set id = #{id} , tem_name = #{temName} , dev_id = #{devId}
+    </insert>
 
+    <delete id="deleteTemplate">
+        delete from template
+        where id = #{temId}
+    </delete>
+
+
+
+    <select id="getTemplate">
+        select *
+        from template
+        where id = #{id}
+    </select>
+
+    <update id="postTemplate">
+        update template
+        set tem_name = #{temName}
+        where id = #{id}
+    </update>
 
 
 

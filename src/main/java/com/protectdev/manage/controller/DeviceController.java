@@ -6,6 +6,7 @@ import com.protectdev.manage.annotation.PermissionCheck;
 import com.protectdev.manage.mapper.DeviceMapper;
 import com.protectdev.manage.mapper.FaultMapper;
 import com.protectdev.manage.mapper.SoftwareMapper;
+import com.protectdev.manage.mapper.TemplateMapper;
 import com.protectdev.manage.pojo.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,9 @@ public class DeviceController {
 
     @Resource
     private FaultMapper faultMapper;
+
+    @Resource
+    private TemplateMapper templateMapper;
 
 
     /**
@@ -148,6 +152,7 @@ public class DeviceController {
 
         int deviceFaultDelete = 0;
         int deviceSoftDelete = 0;
+        int deviceTemDelete = 0;
 
         if (device.getSoftId() != 0){
             deviceSoftDelete = softwareMapper.deleteSoft(device.getSoftId());
@@ -155,6 +160,9 @@ public class DeviceController {
 
         if (device.getFaultId() != 0){
             deviceFaultDelete = faultMapper.deleteFault(device.getFaultId());
+        }
+        if (device.getTemId() != 0){
+            deviceTemDelete = templateMapper.deleteTemplate(device.getTemId());
         }
 
 

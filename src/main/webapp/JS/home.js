@@ -11,16 +11,21 @@ var vm = new Vue({
         softManage: false,
         faultManage: false,
         deadlineManage: false,
+
         userAddInfoShow: false,
         permissionAddInfoShow: false,
         deviceAddInfoShow:false,
         softAddInfoShow:false,
         faultAddInfoShow:false,
+        temAddInfoShow:false,
+
         softDialogTableVisible: false,
         temDialogTableVisible: false,
         faultDialogTableVisible: false,
+
         faultInfoNotNull: true,
         softInfoNotNull: true,
+        temInfoNotNull:true,
 
 
         userInfo: {
@@ -80,7 +85,7 @@ var vm = new Vue({
                 proName:'线路',
                 devFac:'南瑞继保',
                 softId: 0,
-                temId: null,
+                temId: 0,
                 faultId: 0,
                 edit:false,
                 visible:false,
@@ -92,7 +97,7 @@ var vm = new Vue({
                 proName:'线路',
                 devFac:'南瑞继保',
                 softId: 1,
-                temId: null,
+                temId: 1,
                 faultId: 1,
                 edit:false,
                 visible:false,
@@ -225,9 +230,20 @@ var vm = new Vue({
 
         temData:[
             {
-
+                temName:'模板',
+                sZoneName:'定值块1',
+                fieldName:'字段',
+                visible:false,
+                add:true,
             }
         ],
+        temAddInfo:{
+            devId:null,
+            temName:null,
+            sZoneName:null,
+            fieldName:null,
+
+        }
         
         // deviceExamData:[
         //     {
@@ -1197,7 +1213,121 @@ var vm = new Vue({
 
         },
 
+        //模板管理模块
 
+        getTemById:function(row){
+
+            let that = this;
+            this.temDialogTableVisible = true;
+
+            if (row.temId != 0) {
+
+                this.temData.temName= null,
+                this.temData.sZoneName= null,
+                this.temData.fieldName= null,
+                this.temInfoNotNull = true,
+
+                this.temData.visible = false;
+
+                axios.post("http://localhost:8081/tem/get", "temId=" + row.temId)
+                    .then(
+                        function (res) {
+                            console.log(res);
+                            that.temData = res.data;
+                            that.temData.visible = false;
+
+                        },
+                        function (err) {
+                            console.log(err);
+                        }
+                    )
+            } else {
+
+                //devId赋给增加参数，用于增加的时候使用
+
+                that.temInfoNotNull = false;
+
+                that.temAddInfo.devId = row.id;
+
+                that.temData.visible = false;
+
+                that.$message({
+                    message: '暂无数据',
+                    type: 'warning',
+                })
+            }
+
+
+
+        },
+
+        addField:function(){
+
+            let that = this;
+
+            axios.post("http://localhost:8081/tem/add","devId="+this.temAddInfo.devId+
+                                                        "&temName="+this.temAddInfo.temName+
+                                                        "&sZoneName="+this.temAddInfo.sZoneName+
+                                                        "&fieldName="+this.temAddInfo.fieldName,+
+                                                        "&temId="+this.temAddInfo.temId)
+            .then(
+                function(res){
+
+
+
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+
+        },
+
+        deleteField:function(row){
+
+
+            let that = this;
+
+            axios.post("http://localhost:8081/tem/delete","fieldId="+row.fieldId)
+            .then(
+                function(res){
+
+                    if(res.data.status == "ok"){
+                        that.$message({
+                            message:'删除定值字段信息成功',
+                            type:'success'
+                        })
+                        that.temData.splice(index,1);
+                        that.row.visible = false;
+                    }
+                    if(res.data.status == "err"){
+                        that.$message({
+                            message:'删除定值字段信息失败',
+                            type:'error'
+                        })
+                    }
+                    
+
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
+
+
+        },
+
+        closeFieldAdd:function(){
+
+
+            this.temAddInfo.temName = "",
+            this.temAddInfo.sZoneName = "",
+            this.temAddInfo.temName = "",
+            this.temAddInfoShow = false;
+
+        },
 
         //弹出框关闭
 
@@ -1233,10 +1363,6 @@ var vm = new Vue({
 
         },
 
-
-        getTemById: function (id) {
-
-        },
 
 
 

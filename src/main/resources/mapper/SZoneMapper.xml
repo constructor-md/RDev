@@ -8,4 +8,38 @@
         <result column="sZone_name" property="sZoneName"></result>
         <result column="tem_id" property="temId"></result>
     </resultMap>
+
+    <insert id="addSZone" parameterType="com.protectdev.manage.pojo.SZone">
+        insert into szone
+        set id = #{id} , sZone_name = #{sZoneName} , tem_id = #{temId}
+    </insert>
+
+    <delete id="deleteSZoneBysZoneId">
+        delete from szone
+        where id = #{sZoneId}
+    </delete>
+
+    <delete id="deleteSZoneByTemId">
+        delete from szone
+        where tem_id = #{temId}
+    </delete>
+
+
+
+    <select id="getSZone" resultMap="SZone">
+        select *
+        from szone
+        where id = #{temId}
+    </select>
+
+    <update id="postSZone">
+        update szone
+        set sZone_name = #{sZoneName}
+        where id = #{id}
+    </update>
+
+
+
+
+
 </mapper>
